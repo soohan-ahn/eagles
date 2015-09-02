@@ -1,11 +1,3 @@
-yer
-
-Player_pitcher_record
-
-Player_batter_record
-
-Player_field_record
-
 Game
 Hometeam:
 Awayteam:
@@ -18,6 +10,13 @@ inning:
 top_bottom:
 score:
 
+Player
+
+Player_pitcher_record
+
+Player_batter_record
+
+Player_field_record
 
 Game_batter_record
 game_id:
