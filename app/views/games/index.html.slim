@@ -1,0 +1,24 @@
+h1 = "Listing Games"
+
+table
+  thead
+    tr
+      th = "Home team"
+      th
+      th
+      th = "Away team"
+      th colspan="3"
+  tbody
+    - @games.each do |game|
+      tr
+        th  = game.home_team
+        th  = game.home_score
+        th  = game.away_score
+        th  = game.away_team
+        th  = link_to 'Game_Records', game
+        th  = link_to 'Edit', edit_game_path(game)
+        th  = link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' }
+
+br
+
+= link_to 'New Game', new_game_path
