@@ -1,0 +1,35 @@
+div
+  = "Home team:"
+  strong
+  	= @game.home_team
+  	= @game.home_score
+  = " VS "
+  strong
+  	= @game.away_score
+  	= @game.away_team
+  = ":Away team"
+
+div
+  - if @score_boxes
+    table
+      tbody
+        - for i in 0..2
+          tr
+            - if i == 1
+              td = @game.away_team
+            - elsif i == 2
+              td = @game.home_team
+            - else
+              td
+
+            - for j in 1..9
+              td width="5%"
+                - if i == 0
+                  = j
+                - else
+                  = @score_boxes[(i - 1) * 9 + (j - 1)]
+
+  = link_to 'Edit', edit_game_path(@game)
+
+br
+= link_to 'Back', games_path
