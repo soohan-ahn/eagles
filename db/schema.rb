@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20150903134656) do
     t.string   "pitched_order",     limit: 255,               null: false
     t.boolean  "win",               limit: 1
     t.boolean  "lose",              limit: 1
-    t.boolean  "save",              limit: 1
+    t.boolean  "save_point",        limit: 1
     t.boolean  "hold",              limit: 1
     t.float    "innings_pitched",   limit: 24,  default: 0.0, null: false
     t.integer  "plate_appearance",  limit: 4,   default: 0,   null: false

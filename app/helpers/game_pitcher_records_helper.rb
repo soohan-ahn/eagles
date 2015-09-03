@@ -1,0 +1,29 @@
+module GamePitcherRecordsHelper
+  def index_of_game_pitcher_records
+    [
+      "player_id",
+      "game_id",
+      "pitched_order",
+      "win",
+      "lose",
+      "save_point",
+      "hold",
+      "innings_pitched",
+      "plate_appearance",
+      "at_bat",
+      "hit",
+      "homerun",
+      "sacrifice_bunt",
+      "sacrifice_fly",
+      "run",
+      "earned_run",
+      "strike_out",
+      "walk",
+      "intentional_walk",
+      "hit_by_pitch",
+      "wild_pitch",
+      "balk",
+      "number_of_pitches",
+    ]
+  end
+end

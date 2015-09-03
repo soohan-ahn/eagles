@@ -6,7 +6,7 @@ class CreateGamePitcherRecords < ActiveRecord::Migration
       t.string :pitched_order, null:false
       t.boolean :win
       t.boolean :lose
-      t.boolean :save
+      t.boolean :save_point
       t.boolean :hold
       t.float :innings_pitched, null:false, default: 0
       t.integer :plate_appearance, null:false, default: 0
