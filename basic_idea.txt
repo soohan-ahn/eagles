@@ -3,16 +3,42 @@ Hometeam:
 Awayteam:
 home_score:
 away_score:
-
-Score_box
-game_id:
-inning:
-top_bottom:
-score:
+Score_box:
 
 Player
+name:
+birth:
+team:
+back_number:
+bats:
+throws:
+
 
 Player_pitcher_record
+player_id:
+game_id:
+pitched_order:
+win: boolean
+lose: boolean
+save:
+hold:
+innings_pitched:
+plate_appearance: 타석
+at_bat: 타수
+hit:
+homerun:
+sacrifice_bunt: (희생번트)
+sacrifice_fly: (희생플라이)
+run: (실점)
+earned_run: (자책점)
+strike_out:
+walk:
+intentional_walk:
+hit_by_pitch:
+wild_pitch:
+balk:
+number_of_pitches:
+
 
 Player_batter_record
 
