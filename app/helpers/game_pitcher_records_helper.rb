@@ -1,9 +1,9 @@
 module GamePitcherRecordsHelper
   def index_of_game_pitcher_records
     [
+      "pitched_order",
       "player_id",
       "game_id",
-      "pitched_order",
       "win",
       "lose",
       "save_point",

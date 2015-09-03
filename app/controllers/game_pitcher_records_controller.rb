@@ -28,19 +28,22 @@ class GamePitcherRecordsController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    game_params_with_score_box_appended = game_params
-    Game.game_params_with_score_box(game_params_with_score_box_appended, params[:scores])
-    @game = Game.new(game_params_with_score_box_appended)
+    i = 0
 
-    respond_to do |format|
-      if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
-        format.json { render :show, status: :created, location: @game }
-      else
-        format.html { render :new }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
+    params[:player_id].each do |pitcher_info|
+      (@pitching_order, @pitcher_name) = pitcher_info
+      if @pitcher_name.present?
+        i = i + 1
+        Player.new(name: @pitcher_name).save unless Player.where(name: @pitcher_name).exists?
+        @params_for_save = GamePitcherRecord.params_for_save(params, i)
+        @game_pitcher_record = GamePitcherRecord.new(@params_for_save)
+        unless @game_pitcher_record.save
+          format.html { render :new }
+        end
       end
     end
+
+    redirect_to games_path
   end
 
   # PATCH/PUT /games/1

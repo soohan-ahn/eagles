@@ -30,14 +30,13 @@ div
                   = @score_boxes[(i - 1) * 9 + (j - 1)]
 
 div
-  = form_for(@game) do |f|
+  = form_for(@game_pitcher_record) do |f|
     table
       - for @pitching_order in 0..5
         tr
         - if @pitching_order == 0
-            td= "player_id"
-            td= "game_id"
             td= "pitched_order"
+            td= "player_name"
             td= "win"
             td= "lose"
             td= "save_point"
@@ -61,8 +60,18 @@ div
         - else
           - @indexes = index_of_game_pitcher_records
           - @indexes.each do |index|
-            td width="5%"
-              = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
+            - if index == "game_id"
+              = hidden_field_tag "#{index}[#{@pitching_order}]", @game.id, max_length: 5
+            - elsif index == "pitched_order"
+              td width="5%"
+                = @pitching_order
+                = hidden_field_tag "#{index}[#{@pitching_order}]", @pitching_order, max_length: 5
+            - elsif index == "player_id"
+              td width="5%"
+                = text_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5  
+            -else 
+              td width="5%"
+                = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5  
 
     div class="actions"
       = f.submit
