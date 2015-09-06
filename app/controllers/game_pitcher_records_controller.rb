@@ -28,22 +28,11 @@ class GamePitcherRecordsController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    i = 0
-
-    params[:player_id].each do |pitcher_info|
-      (@pitching_order, @pitcher_name) = pitcher_info
-      if @pitcher_name.present?
-        i = i + 1
-        Player.new(name: @pitcher_name).save unless Player.where(name: @pitcher_name).exists?
-        @params_for_save = GamePitcherRecord.params_for_save(params, i)
-        @game_pitcher_record = GamePitcherRecord.new(@params_for_save)
-        unless @game_pitcher_record.save
-          format.html { render :new }
-        end
-      end
+    if GamePitcherRecord.new_game_record(params)
+      redirect_to games_path
+    else
+      format.html { render :new }
     end
-
-    redirect_to games_path
   end
 
   # PATCH/PUT /games/1
