@@ -44,6 +44,7 @@ class GamePitcherRecordsController < ApplicationController
       redirect_to games_path
     else
       format.html { render :edit }
+    end
   end
 
   # DELETE /games/1
