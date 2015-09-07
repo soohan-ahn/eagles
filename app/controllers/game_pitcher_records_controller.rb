@@ -23,6 +23,9 @@ class GamePitcherRecordsController < ApplicationController
 
   # GET /games/1/edit
   def edit
+    @game = Game.find(params[:game_id])
+    @score_boxes = @game.score_box.split "\t"
+    @game_pitcher_record = GamePitcherRecord.new
   end
 
   # POST /games
@@ -38,25 +41,22 @@ class GamePitcherRecordsController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
-    respond_to do |format|
-      if @game.update(game_params)
-        format.html { redirect_to @game, notice: 'Game was successfully updated.' }
-        format.json { render :show, status: :ok, location: @game }
-      else
-        format.html { render :edit }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
-    end
+    if GamePitcherRecord.new_game_record(params)
+      redirect_to games_path
+    else
+      format.html { render :edit }
   end
 
   # DELETE /games/1
   # DELETE /games/1.json
   def destroy
+=begin
     @game.destroy
     respond_to do |format|
       format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
     end
+=end
   end
 
   private
