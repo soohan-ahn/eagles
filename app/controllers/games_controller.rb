@@ -26,44 +26,33 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    game_params_with_score_box_appended = game_params
-    Game.game_params_with_score_box(game_params_with_score_box_appended, params[:scores])
-    @game = Game.new(game_params_with_score_box_appended)
-
-    respond_to do |format|
-      if @game.save
-        format.html { redirect_to new_game_pitcher_record_path(game_id: @game.id), notice: 'Game was successfully created.' }
-        format.json { render :show, status: :created, location: @game }
-      else
-        format.html { render :new }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
+    if Game.new_game_record(params, game_params)
+      redirect_to new_game_pitcher_record_path(game_id: @game.id), notice: 'Game was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
-    game_params_with_score_box_appended = game_params
-    Game.game_params_with_score_box(game_params_with_score_box_appended, params[:scores])
-
-    respond_to do |format|
-      if @game.update(game_params_with_score_box_appended)
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
-      else
-        format.html { render :edit }
-      end
+    if @game.update_game_record(params, game_params)
+      redirect_to @game
+    else
+      format.html { render :edit }
     end
   end
 
   # DELETE /games/1
   # DELETE /games/1.json
   def destroy
+=begin
     @game.destroy
     respond_to do |format|
       format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
     end
+=end
   end
 
   private

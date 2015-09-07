@@ -1,4 +1,21 @@
 class Game < ActiveRecord::Base
+  def self.new_game_record (params, game_params)
+    game_params_with_score_box_appended = game_params
+    Game.game_params_with_score_box(game_params_with_score_box_appended, params[:scores])
+    @game = Game.new(game_params_with_score_box_appended)
+
+    return false unless @game.save
+    true
+  end
+
+  def update_game_record (params, game_params)
+    game_params_with_score_box_appended = game_params
+    Game.game_params_with_score_box(game_params_with_score_box_appended, params[:scores])
+
+    return false unless self.update(game_params_with_score_box_appended)
+    true
+  end
+
   def self.game_params_with_score_box(game_params, inning_scores)
     score_box_string = ""
 

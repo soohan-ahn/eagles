@@ -40,10 +40,13 @@ class GamePitcherRecordsController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
+=begin
     if GamePitcherRecord.new_game_record(params)
       redirect_to games_path
     else
       format.html { render :edit }
+    end
+=end
   end
 
   # DELETE /games/1
