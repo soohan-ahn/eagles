@@ -29,8 +29,8 @@ div
                 - else
                   = @score_boxes[(i - 1) * 9 + (j - 1)]
 
-div
-  = form_for(@game_pitcher_record) do |f|
+= form_for(@game_pitcher_record) do |f|
+  div
     table
       - for @pitching_order in 0..5
         tr
@@ -68,15 +68,42 @@ div
                 = hidden_field_tag "#{index}[#{@pitching_order}]", @pitching_order, max_length: 5
             - elsif index == "player_id"
               td width="5%"
-                = text_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5  
-            -else 
+                = text_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
+            -else
               td width="5%"
-                = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5  
+                = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
 
-    div class="actions"
-      = f.submit
+  div
+    table
+      - for @batting_order in 0..15
+        tr
+        - if @batting_order == 0
+            td= "Batting_order"
+            td= "Player_name"
+            td= "Position"
+            - for @inning in 1..10
+              td= @inning
 
-  = link_to 'Edit', edit_game_path(@game)
+        - else
+          td width="5%"
+            = @batting_order
+            = hidden_field_tag "batting_game_id[#{@batting_order}]", @game.id, max_length: 5
+            = hidden_field_tag "batting_order[#{@batting_order}]", @batting_order, max_length: 5
+
+          td width="5%"
+            = text_field_tag "batting_player_name[#{@batting_order}]", nil, max_length: 5
+
+          td width="5%"
+            = text_field_tag "batting_position[#{@pitching_order}]", nil, max_length: 5
+
+          - for @inning in 1..10
+            td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", nil, max_length: 5
+
+
+  div class="actions"
+    = f.submit
+
+= link_to 'Edit', edit_game_path(@game)
 
 br
 = link_to 'Back', games_path
