@@ -20,6 +20,7 @@ class GamesController < ApplicationController
 
   # GET /games/1/edit
   def edit
+    @score_boxes = @game.score_box.split "\t"
   end
 
   # POST /games
@@ -31,7 +32,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
+        format.html { redirect_to new_game_pitcher_record_path(game_id: @game.id), notice: 'Game was successfully created.' }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new }
@@ -43,13 +44,14 @@ class GamesController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
+    game_params_with_score_box_appended = game_params
+    Game.game_params_with_score_box(game_params_with_score_box_appended, params[:scores])
+
     respond_to do |format|
-      if @game.update(game_params)
-        format.html { redirect_to @game, notice: 'Game was successfully updated.' }
-        format.json { render :show, status: :ok, location: @game }
+      if @game.update(game_params_with_score_box_appended)
+        format.html { redirect_to @game, notice: 'Game was successfully created.' }
       else
         format.html { render :edit }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
       end
     end
   end

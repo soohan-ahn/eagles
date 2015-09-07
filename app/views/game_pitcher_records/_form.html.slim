@@ -1,0 +1,82 @@
+div
+  = "Home team:"
+  strong
+  	= @game.home_team
+  	= @game.home_score
+  = " VS "
+  strong
+  	= @game.away_score
+  	= @game.away_team
+  = ":Away team"
+
+div
+  - if @score_boxes
+    table
+      tbody
+        - for i in 0..2
+          tr
+            - if i == 1
+              td = @game.away_team
+            - elsif i == 2
+              td = @game.home_team
+            - else
+              td
+
+            - for j in 1..9
+              td width="5%"
+                - if i == 0
+                  = j
+                - else
+                  = @score_boxes[(i - 1) * 9 + (j - 1)]
+
+div
+  = form_for(@game_pitcher_record) do |f|
+    table
+      - for @pitching_order in 0..5
+        tr
+        - if @pitching_order == 0
+            td= "pitched_order"
+            td= "player_name"
+            td= "win"
+            td= "lose"
+            td= "save_point"
+            td= "hold"
+            td= "innings_pitched"
+            td= "plate_appearance"
+            td= "at_bat"
+            td= "hit"
+            td= "homerun"
+            td= "sacrifice_bunt"
+            td= "sacrifice_fly"
+            td= "run"
+            td= "earned_run"
+            td= "strike_out"
+            td= "walk"
+            td= "intentional_walk"
+            td= "hit_by_pitch"
+            td= "wild_pitch"
+            td= "balk"
+            td= "number_of_pitches"
+        - else
+          - @indexes = index_of_game_pitcher_records
+          - @indexes.each do |index|
+            - if index == "game_id"
+              = hidden_field_tag "#{index}[#{@pitching_order}]", @game.id, max_length: 5
+            - elsif index == "pitched_order"
+              td width="5%"
+                = @pitching_order
+                = hidden_field_tag "#{index}[#{@pitching_order}]", @pitching_order, max_length: 5
+            - elsif index == "player_id"
+              td width="5%"
+                = text_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5  
+            -else 
+              td width="5%"
+                = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5  
+
+    div class="actions"
+      = f.submit
+
+  = link_to 'Edit', edit_game_path(@game)
+
+br
+= link_to 'Back', games_path

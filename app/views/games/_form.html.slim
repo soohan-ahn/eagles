@@ -52,6 +52,8 @@
             td width="5%"
               - if i == 0
                 = j
+              - elsif @score_boxes
+                = number_field_tag "scores[#{score_box_inning_id(i, j)}]", @score_boxes[(i - 1) * 9 + (j - 1)], max_length: 5
               - else
                 = number_field_tag "scores[#{score_box_inning_id(i, j)}]", nil, max_length: 5
 
