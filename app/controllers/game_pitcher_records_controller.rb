@@ -25,7 +25,6 @@ class GamePitcherRecordsController < ApplicationController
   def edit
     @game = Game.find(params[:game_id])
     @score_boxes = @game.score_box.split "\t"
-    @game_pitcher_record = GamePitcherRecord.new
   end
 
   # POST /games
