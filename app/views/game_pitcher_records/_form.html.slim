@@ -94,7 +94,7 @@ div
             = text_field_tag "batting_player_name[#{@batting_order}]", nil, max_length: 5
 
           td width="5%"
-            = text_field_tag "batting_position[#{@pitching_order}]", nil, max_length: 5
+            = text_field_tag "batting_position[#{@batting_order}]", nil, max_length: 5
 
           - for @inning in 1..10
             td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", nil, max_length: 5
