@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903134656) do
+ActiveRecord::Schema.define(version: 20150907145756) do
+
+  create_table "game_batter_records", force: :cascade do |t|
+    t.integer  "player_id",      limit: 4,                 null: false
+    t.integer  "game_id",        limit: 4,                 null: false
+    t.integer  "batting_order",  limit: 4,                 null: false
+    t.string   "position",       limit: 255, default: "D", null: false
+    t.integer  "inning",         limit: 4,                 null: false
+    t.integer  "at_plate_order", limit: 4,                 null: false
+    t.integer  "result_code",    limit: 4
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
 
   create_table "game_pitcher_records", force: :cascade do |t|
     t.integer  "player_id",         limit: 4,                 null: false

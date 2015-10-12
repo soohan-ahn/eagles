@@ -26,7 +26,8 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    if Game.new_game_record(params, game_params)
+    @game = Game.new_game_record(params, game_params)
+    if @game
       redirect_to new_game_pitcher_record_path(game_id: @game.id), notice: 'Game was successfully created.'
     else
       render :new

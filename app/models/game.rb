@@ -5,7 +5,7 @@ class Game < ActiveRecord::Base
     @game = Game.new(game_params_with_score_box_appended)
 
     return false unless @game.save
-    true
+    return @game
   end
 
   def update_game_record (params, game_params)
