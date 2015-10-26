@@ -45,4 +45,47 @@ table
 
 br
 
+table
+  thead
+    tr
+      th="Name"
+      th="Team"
+      th="Back number"
+      th="G"
+      th="W"
+      th="L"
+      th="ERA"
+      th="IP"
+      th="H"
+      th="R"
+      th="ER"
+      th="HR"
+      th="BB"
+      th="SO"
+      th="HBP"
+      th="WHIP"
+      th colspan="3"
+
+  tbody
+    - @players.each do |player|
+      tr
+        td= link_to player.name, player
+        td= player.team
+        td= player.back_number
+        td= player.retrieve_game_pitcher_records("pitcher_games")
+        td= player.retrieve_game_pitcher_records("win")
+        td= player.retrieve_game_pitcher_records("lose")
+        td= player.era
+        td= player.inning_pitched
+        td= player.retrieve_game_pitcher_records("hit")
+        td= player.retrieve_game_pitcher_records("run")
+        td= player.retrieve_game_pitcher_records("earned_run")
+        td= player.retrieve_game_pitcher_records("homerun")
+        td= player.retrieve_game_pitcher_records("walk")
+        td= player.retrieve_game_pitcher_records("strike_out")
+        td= player.retrieve_game_pitcher_records("hit_by_pitch")
+        td= player.pitcher_whip
+        td= link_to 'Edit', edit_player_path(player)
+        td= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' }
+
 = link_to 'New Player', new_player_path

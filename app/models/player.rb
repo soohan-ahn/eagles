@@ -58,4 +58,48 @@ class Player < ActiveRecord::Base
     result_codes = Settings.on_base_codes[result.to_sym]
     self.game_batter_records.where(result_code: result_codes).count
   end
+
+  def era
+    value = (inning_pitched == 0) ? 0 : ( retrieve_game_pitcher_records("earned_run") / (inning_pitched * 7))
+    "%.2f" % value
+  end
+
+  def inning_pitched
+    innings = self.game_pitcher_records.pluck(:innings_pitched)
+    inning_total_count = 0.0
+    inning_fraction_count = 0.0
+    innings.each do |inning|
+      fraction = inning.to_f.modulo(1)
+      decimal = inning - fraction
+      inning_total_count += decimal
+
+      current_fraction = inning_fraction_count.modulo(1)
+      if current_fraction == 0.00
+        inning_fraction_count += fraction
+      elsif current_fraction == 0.33
+        inning_fraction_count += ( (fraction == 0.33) ? 0.33 : 1 )
+      elsif current_fraction == 0.66
+        inning_fraction_count -= 0.66
+        inning_fraction_count += ( (fraction == 0.33) ? 1 : 1.33 )
+      end
+    end
+
+    inning_total_count + inning_fraction_count
+  end
+
+  def pitcher_whip
+    value = (inning_pitched == 0) ? 0 : (retrieve_game_pitcher_records("walk") + retrieve_game_pitcher_records("hit")) / inning_pitched
+    "%.2f" % value
+  end
+
+  def retrieve_game_pitcher_records(result)
+    result = result.to_sym
+    if result == :pitcher_games
+      return self.game_pitcher_records.count
+    elsif result == :win or result == :lose
+      return self.game_pitcher_records.where(result => true).count
+    else
+      return self.game_pitcher_records.pluck(result).sum
+    end
+  end
 end
