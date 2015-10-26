@@ -11,6 +11,8 @@ class GamesController < ApplicationController
   # GET /games/1.json
   def show
     @score_boxes = @game.score_box.split "\t"
+    @game_batter_record = GameBatterRecord.where(game_id: @game.id)
+    @game_pitcher_record = GamePitcherRecord.where(game_id: @game.id)
   end
 
   # GET /games/new
