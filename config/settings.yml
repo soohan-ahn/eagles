@@ -1,8 +1,15 @@
 #config/settings.yml
 test_message: "OK"
 
+on_base_codes:
+  one_base_hit: [151,251,351,451,551,651,751,871,851,891,951,1b]
+  two_base_hit:  [772,722,782,872,822,882,892,922,982,992,2a]
+  three_base_hit: [773,723,783,873,823,883,893,923,983,993]
+  home_run: [774,784,874,884,894,984,994,4g]
+  base_on_ball: [31,41]
+  hit_by_pitched_ball: 21
+
 result_code:
-  test: "OK"
   10: 삼진
   20: "낫아웃"
   30: "쓰리번트"
