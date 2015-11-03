@@ -13,14 +13,14 @@ div
 
 div
   - if @score_boxes
-    table
+    table class="table table-condensed table-striped"
       tbody
         - for i in 0..2
           tr
             - if i == 1
-              td = @game.away_team
+              td width="10%"= @game.away_team
             - elsif i == 2
-              td = @game.home_team
+              td width="10%" = @game.home_team
             - else
               td
 
@@ -32,7 +32,7 @@ div
                   = @score_boxes[(i - 1) * 9 + (j - 1)]
 
 div
-  table style="table-layout:fixed;" border="1px"
+  table class="table table-condensed table-striped"
     - for @batting_order in 0..15
       tr
       - if @batting_order == 0
@@ -61,7 +61,7 @@ div
             = batting_result_code(@game_batter_record, @batting_order, @inning)
 
 div
-  table style="table-layout:fixed;" border="1px"
+  table class="table table-condensed table-striped"
     - for @pitching_order in 0..5
       tr
       - if @pitching_order == 0
