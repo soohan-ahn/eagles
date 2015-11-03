@@ -30,7 +30,7 @@ class GamePitcherRecordsController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    if GamePitcherRecord.new_game_record(params) and GameBatterRecord.new_game_record(params)
+    if GamePitcherRecord.new_game_record(params) and AtBatBatterRecord.new_game_record(params)
       redirect_to games_path
     else
       format.html { render :new }
