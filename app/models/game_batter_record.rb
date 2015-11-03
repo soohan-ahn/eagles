@@ -24,13 +24,12 @@ class GameBatterRecord < ActiveRecord::Base
 
   def self.params_for_save(params, inning, batting_order)
     @new_params = { }
-    @new_params[:batting_order] = batting_order
     @new_params[:player_id] = Player.where(name: params[:batting_player_name][batting_order.to_s]).first.id
     @new_params[:game_id] = params[:batting_game_id][batting_order.to_s]
-    @new_params[:position] = params[:batting_position][batting_order.to_s]
-    @new_params[:inning] = inning
-    @new_params[:at_plate_order] = 1
-    @new_params[:result_code] = params[:result_code][inning.to_s][batting_order.to_s]
+    @new_params[:rbi] = (!params[:batting_rbi][batting_order.to_s].empty?) ? params[:batting_rbi][batting_order.to_s] : 0
+    @new_params[:run] = (!params[:batting_run][batting_order.to_s].empty?) ? params[:batting_run][batting_order.to_s] : 0
+    @new_params[:steal] = (!params[:batting_steal][batting_order.to_s].empty?) ? params[:batting_steal][batting_order.to_s] : 0
+    @new_params[:steal_caught] = (!params[:batting_steal_caught][batting_order.to_s].empty?) ? params[:batting_steal_caught][batting_order.to_s] : 0
 
     @new_params
   end

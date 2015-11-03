@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151103101925) do
+ActiveRecord::Schema.define(version: 20151103115418) do
 
   create_table "at_bat_batter_records", force: :cascade do |t|
     t.integer  "player_id",      limit: 4,                 null: false
@@ -26,15 +26,14 @@ ActiveRecord::Schema.define(version: 20151103101925) do
   end
 
   create_table "game_batter_records", force: :cascade do |t|
-    t.integer  "player_id",      limit: 4,                 null: false
-    t.integer  "game_id",        limit: 4,                 null: false
-    t.integer  "batting_order",  limit: 4,                 null: false
-    t.string   "position",       limit: 255, default: "D", null: false
-    t.integer  "inning",         limit: 4,                 null: false
-    t.integer  "at_plate_order", limit: 4,                 null: false
-    t.integer  "result_code",    limit: 4
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.integer  "player_id",    limit: 4,             null: false
+    t.integer  "game_id",      limit: 4,             null: false
+    t.integer  "rbi",          limit: 4, default: 0, null: false
+    t.integer  "run",          limit: 4, default: 0, null: false
+    t.integer  "steal",        limit: 4, default: 0, null: false
+    t.integer  "steal_caught", limit: 4, default: 0, null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   create_table "game_pitcher_records", force: :cascade do |t|

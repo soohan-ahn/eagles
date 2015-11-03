@@ -1,19 +1,20 @@
 class Player < ActiveRecord::Base
   has_many :game_pitcher_records
   has_many :game_batter_records
+  has_many :at_bat_batter_records
 
   def plate_appearence
-    game_batter_records.count
+    at_bat_batter_records.count
   end
 
   def at_bat
-    plate_appearence - retrieve_game_batter_records("base_on_ball") - retrieve_game_batter_records("hit_by_pitched_ball")
+    plate_appearence - retrieve_at_bat_batter_records("base_on_ball") - retrieve_at_bat_batter_records("hit_by_pitched_ball")
   end
 
   def total_hits
     total_hits_count = 0
     [:one_base_hit, :two_base_hit, :three_base_hit, :home_run].each do |result|
-      total_hits_count += retrieve_game_batter_records(result)
+      total_hits_count += retrieve_at_bat_batter_records(result)
     end
 
     total_hits_count
@@ -23,7 +24,7 @@ class Player < ActiveRecord::Base
     total_hits_count = 0
     base = 1
     [:one_base_hit, :two_base_hit, :three_base_hit, :home_run].each do |result|
-      total_hits_count += (retrieve_game_batter_records(result) * base)
+      total_hits_count += (retrieve_at_bat_batter_records(result) * base)
       base += 1
     end
 
@@ -41,7 +42,7 @@ class Player < ActiveRecord::Base
   end
 
   def total_on_base
-    total_hits + retrieve_game_batter_records("base_on_ball") + retrieve_game_batter_records("hit_by_pitched_ball")
+    total_hits + retrieve_at_bat_batter_records("base_on_ball") + retrieve_at_bat_batter_records("hit_by_pitched_ball")
   end
 
   def slugging_percentage
@@ -54,9 +55,14 @@ class Player < ActiveRecord::Base
     "%.3f" % value
   end
 
-  def retrieve_game_batter_records(result)
+  def retrieve_at_bat_batter_records(result)
     result_codes = Settings.on_base_codes[result.to_sym]
-    self.game_batter_records.where(result_code: result_codes).count
+    self.at_bat_batter_records.where(result_code: result_codes).count
+  end
+
+  def retrieve_game_batter_records(result)
+    result_symbol = result.to_sym
+    self.game_batter_records.pluck(result_symbol).sum
   end
 
   def era

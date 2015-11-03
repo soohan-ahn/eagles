@@ -12,8 +12,8 @@ module GamesHelper
     end
   end
 
-  def batting_player_name(game_batter_record, batting_order)
-    @player = game_batter_record.where(batting_order: batting_order)
+  def batting_player_name(at_bat_batter_record, batting_order)
+    @player = at_bat_batter_record.where(batting_order: batting_order)
     if @player.count > 0
       Player.find(@player.first.player_id).name
     else
@@ -21,8 +21,8 @@ module GamesHelper
     end
   end
 
-  def batting_player_position(game_batter_record, batting_order)
-    @player = @game_batter_record.where(batting_order: batting_order)
+  def batting_player_position(at_bat_batter_record, batting_order)
+    @player = at_bat_batter_record.where(batting_order: batting_order)
     if @player.count > 0
       @player.first.position
     else
@@ -30,11 +30,22 @@ module GamesHelper
     end
   end
 
-  def batting_result_code(game_batter_record, batting_order, inning)
-    if game_batter_record.where(batting_order: batting_order, inning: inning).first
-      Settings.result_code[game_batter_record.where(batting_order: batting_order, inning: inning).first.result_code]
+  def batting_result_code(at_bat_batter_record, batting_order, inning)
+    if at_bat_batter_record.where(batting_order: batting_order, inning: inning).first
+      Settings.result_code[at_bat_batter_record.where(batting_order: batting_order, inning: inning).first.result_code]
     else
       return " "
+    end
+  end
+
+  def batting_player_game_record(at_bat_batter_record, game_batter_record, batting_order, feature)
+    feature_symbol = feature.to_sym
+    return "" unless at_bat_batter_record.where(batting_order: batting_order).first
+    @player_id = at_bat_batter_record.where(batting_order: batting_order).first.player_id
+    if game_batter_record.where(player_id: @player_id).first
+      return game_batter_record.where(player_id: @player_id).first[feature_symbol]
+    else
+      return 0
     end
   end
 
