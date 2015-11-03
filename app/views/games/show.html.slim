@@ -42,6 +42,14 @@ div
             = "Player_name"
           td width="50px"
             = "Position"
+          td width="50px"
+            = "RBI"
+          td width="50px"
+            = "Run"
+          td width="50px"
+            = "Steal"
+          td width="50px"
+            = "Steal Caught"
           - for @inning in 1..10
             td width="60px" 
               = @inning
@@ -51,14 +59,26 @@ div
           = @batting_order
 
         td width="50px"
-          = batting_player_name(@game_batter_record, @batting_order)
+          = batting_player_name(@at_bat_batter_record, @batting_order)
 
         td width="50px"
-          = batting_player_position(@game_batter_record, @batting_order)
+          = batting_player_position(@at_bat_batter_record, @batting_order)
+
+        td width="50px"
+          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "rbi")
+
+        td width="50px"
+          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "run")
+
+        td width="50px"
+          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal")
+
+        td width="50px"
+          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught")
 
         - for @inning in 1..10
           td width="60px"
-            = batting_result_code(@game_batter_record, @batting_order, @inning)
+            = batting_result_code(@at_bat_batter_record, @batting_order, @inning)
 
 div
   table class="table table-condensed table-striped"

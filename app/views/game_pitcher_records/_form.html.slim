@@ -11,7 +11,7 @@ div
 
 div
   - if @score_boxes
-    table
+    table class="table table-condensed table-striped"
       tbody
         - for i in 0..2
           tr
@@ -31,7 +31,7 @@ div
 
 = form_for(@game_pitcher_record) do |f|
   div
-    table
+    table class="table table-condensed table-striped"
       - for @pitching_order in 0..5
         tr
         - if @pitching_order == 0
@@ -74,13 +74,17 @@ div
                 = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
 
   div
-    table
+    table class="table table-condensed table-striped"
       - for @batting_order in 0..15
         tr
         - if @batting_order == 0
             td= "Batting_order"
             td= "Player_name"
             td= "Position"
+            td= "RBI"
+            td= "Run"
+            td= "Steal"
+            td= "Steal Caught"
             - for @inning in 1..10
               td= @inning
 
@@ -95,6 +99,18 @@ div
 
           td width="5%"
             = text_field_tag "batting_position[#{@batting_order}]", nil, max_length: 5
+
+          td width="5%"
+            = text_field_tag "batting_rbi[#{@batting_order}]", nil, max_length: 5
+
+          td width="5%"
+            = text_field_tag "batting_run[#{@batting_order}]", nil, max_length: 5
+
+          td width="5%"
+            = text_field_tag "batting_steal[#{@batting_order}]", nil, max_length: 5
+
+          td width="5%"
+            = text_field_tag "batting_steal_caught[#{@batting_order}]", nil, max_length: 5
 
           - for @inning in 1..10
             td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", nil, max_length: 5

@@ -1,4 +1,4 @@
-class GameBatterRecord < ActiveRecord::Base
+class AtBatBatterRecord < ActiveRecord::Base
   def self.new_game_record(params)
     i = 0
 
@@ -9,9 +9,9 @@ class GameBatterRecord < ActiveRecord::Base
 
       for @inning in 1..9
         if params[:result_code][@inning.to_s][@batting_order.to_s].present?
-          @params_for_save = GameBatterRecord.params_for_save(params, @inning, @batting_order)
+          @params_for_save = AtBatBatterRecord.params_for_save(params, @inning, @batting_order)
 
-          @game_batter_record = GameBatterRecord.new(@params_for_save)
+          @game_batter_record = AtBatBatterRecord.new(@params_for_save)
           unless @game_batter_record.save
             return false
           end
@@ -24,12 +24,13 @@ class GameBatterRecord < ActiveRecord::Base
 
   def self.params_for_save(params, inning, batting_order)
     @new_params = { }
+    @new_params[:batting_order] = batting_order
     @new_params[:player_id] = Player.where(name: params[:batting_player_name][batting_order.to_s]).first.id
     @new_params[:game_id] = params[:batting_game_id][batting_order.to_s]
-    @new_params[:rbi] = (!params[:batting_rbi][batting_order.to_s].empty?) ? params[:batting_rbi][batting_order.to_s] : 0
-    @new_params[:run] = (!params[:batting_run][batting_order.to_s].empty?) ? params[:batting_run][batting_order.to_s] : 0
-    @new_params[:steal] = (!params[:batting_steal][batting_order.to_s].empty?) ? params[:batting_steal][batting_order.to_s] : 0
-    @new_params[:steal_caught] = (!params[:batting_steal_caught][batting_order.to_s].empty?) ? params[:batting_steal_caught][batting_order.to_s] : 0
+    @new_params[:position] = params[:batting_position][batting_order.to_s]
+    @new_params[:inning] = inning
+    @new_params[:at_plate_order] = 1
+    @new_params[:result_code] = params[:result_code][inning.to_s][batting_order.to_s]
 
     @new_params
   end
