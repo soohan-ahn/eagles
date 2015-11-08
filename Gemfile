@@ -21,6 +21,9 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 
+gem "net-ssh"
+gem "unicorn"
+
 # Use ActiveModel has_secure_password
 # gem "bcrypt", "~> 3.1.7"
 
@@ -34,5 +37,10 @@ group :development, :test do
   gem "byebug"
   gem "web-console", "~> 2.0"
   gem "spring"
+  gem 'capistrano'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rvm'
 end
 
