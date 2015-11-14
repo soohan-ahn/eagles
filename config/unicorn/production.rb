@@ -16,7 +16,7 @@ listen "#{app_path}/tmp/sockets/unicorn.sock"
 #user 'apps', 'apps'
 
 # Fill path to your app
-working_directory app_path
+working_directory "#{app_path}/current"
 
 # Should be 'production' by default, otherwise use other env
 rails_env = ENV['RAILS_ENV'] || 'production'
