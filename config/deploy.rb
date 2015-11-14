@@ -13,6 +13,7 @@ set :scm_password, :password
 set :repo_url, "git@github.com:soohanboys/eagles.git"
 set :deploy_to, "/home/deploy/eagles"
 set :branch, "9-capistrano"
+set :rvm_type, :system
 
 
 # Default branch is :master
