@@ -10,13 +10,14 @@ set :keep_releases, 10
 set :scm, "git"
 set :scm_username, :user
 set :scm_password, :password
-set :repo_url, "git@github.com:soohanboys/eagles.git"
+set :repo_url, "git://github.com/soohanboys/eagles.git"
 set :deploy_to, "/home/deploy/eagles"
 set :branch, "9-capistrano"
 
 set :default_shell, :bash
 set :rvm_type, :system
-
+set :use_sudo, true
+set :pty, true
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
