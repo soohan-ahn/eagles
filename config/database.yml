@@ -49,6 +49,7 @@ test:
 #
 production:
   <<: *default
+  host: localhost
   database: eagles_production
   username: eagles
   password: <%= ENV['EAGLES_DATABASE_PASSWORD'] %>
