@@ -52,3 +52,4 @@ production:
   database: eagles_production
   username: eagles
   password: <%= ENV['EAGLES_DATABASE_PASSWORD'] %>
+  socket: /var/lib/mysql/mysql.sock
