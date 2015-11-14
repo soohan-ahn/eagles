@@ -1,5 +1,26 @@
 #pidをフルパスで指定する
-pid "/home/deploy/eagles/shared/tmp/pids/unicorn.pid"
+# pid "/home/deploy/eagles/shared/tmp/pids/unicorn.pid"
+# coding: utf-8
+
+app_path = '/home/deploy/eagles'
+app_shared_path = "#{app_path}/shared"
+
+worker_processes 5
+
+# 実態は symlink。
+# SIGUSR2 を送った時にこの symlink に対して
+# Unicorn のインスタンスが立ち上がる
+working_directory "#{app_path}/current/"
+
+listen "#{app_shared_path}/tmp/sockets/unicorn.sock"
+
+stdout_path "#{app_shared_path}/log/unicorn.stdout.log"
+stderr_path "#{app_shared_path}/log/unicorn.stderr.log"
+
+pid "#{app_shared_path}/tmp/pids/unicorn.pid"
+
+# ダウンタイムをなくす
+preload_app true
 
 before_fork do |server, worker|
   defined?(ActiveRecord::Base) and ActiveRecord::Base.connection.disconnect!
