@@ -10,7 +10,7 @@ worker_processes 1
 preload_app true
 timeout 20
 #listen "127.0.0.1:9000"
-listen "#{app_path}/tmp/sockets/unicorn.sock"
+listen "/tmp/unicorn.sock"
 
 # Spawn unicorn master worker for user apps (group: apps)
 #user 'apps', 'apps'
