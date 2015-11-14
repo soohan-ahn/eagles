@@ -12,6 +12,7 @@ set :scm_username, :user
 set :scm_password, :password
 set :repo_url, "git@github.com:soohanboys/eagles.git"
 set :deploy_to, "/home/deploy/eagles"
+set :branch, "9-capistrano"
 
 
 # Default branch is :master
@@ -52,6 +53,10 @@ namespace :deploy do
       # within release_path do
       #   execute :rake, 'cache:clear'
       # end
+        task :restart do
+          invoke 'unicorn:restart'
+        end
+      end
     end
   end
 
