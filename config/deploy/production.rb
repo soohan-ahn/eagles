@@ -16,6 +16,7 @@ set :ssh_options, {
 	auth_methods: ["publickey"],
 	forward_agent: true
 }
+set :unicorn_pid, "/home/deploy/eagles/shared/tmp/pids/unicorn.pid"
 
 
 # role-based syntax
