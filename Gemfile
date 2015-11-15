@@ -33,7 +33,7 @@ gem "unicorn"
 # Use Capistrano for deployment
 # gem "capistrano-rails", group: :development
 
-group :development, :test do
+group :development, :test, :production do
   gem "byebug"
   gem "web-console", "~> 2.0"
   gem "spring"
@@ -42,5 +42,6 @@ group :development, :test do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rvm'
+  gem 'capistrano3-unicorn'
 end
 
