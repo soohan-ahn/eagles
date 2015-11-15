@@ -19,6 +19,10 @@ set :rvm_type, :system
 set :use_sudo, true
 set :pty, true
 
+set :nginx_domains, "localhost"
+set :nginx_sites_available_dir, "/etc/nginx/conf.d"
+set :app_server_port, 80
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
