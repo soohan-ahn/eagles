@@ -12,7 +12,7 @@ set :scm_username, :user
 set :scm_password, :password
 set :repo_url, "git://github.com/soohanboys/eagles.git"
 set :deploy_to, "/home/deploy/eagles"
-set :branch, "9-capistrano"
+set :branch, "master"
 
 set :default_shell, :bash
 set :rvm_type, :system
