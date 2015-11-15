@@ -43,5 +43,6 @@ group :development, :test, :production do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rvm'
   gem 'capistrano3-unicorn'
+  gem 'capistrano3-nginx', '~> 2.0'
 end
 
