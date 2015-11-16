@@ -11,10 +11,13 @@ class AtBatBatterRecord < ActiveRecord::Base
         if params[:result_code][@inning.to_s][@batting_order.to_s].present?
           @params_for_save = AtBatBatterRecord.params_for_save(params, @inning, @batting_order)
 
-          @game_batter_record = AtBatBatterRecord.new(@params_for_save)
-          unless @game_batter_record.save
-            return false
+          @params_for_save.each do |param_for_save|
+            @game_batter_record = AtBatBatterRecord.new(param_for_save)
+            unless @game_batter_record.save
+              return false
+            end
           end
+
         end
       end
     end
@@ -23,14 +26,21 @@ class AtBatBatterRecord < ActiveRecord::Base
   end
 
   def self.params_for_save(params, inning, batting_order)
-    @new_params = { }
-    @new_params[:batting_order] = batting_order
-    @new_params[:player_id] = Player.where(name: params[:batting_player_name][batting_order.to_s]).first.id
-    @new_params[:game_id] = params[:batting_game_id][batting_order.to_s]
-    @new_params[:position] = params[:batting_position][batting_order.to_s]
-    @new_params[:inning] = inning
-    @new_params[:at_plate_order] = 1
-    @new_params[:result_code] = params[:result_code][inning.to_s][batting_order.to_s]
+    @result_codes = params[:result_code][inning.to_s][batting_order.to_s].split " "
+    @player_id = Player.where(name: params[:batting_player_name][batting_order.to_s]).first.id
+    @new_params = [ ]
+    @result_codes.each do |result_code|
+      @new_param = { }
+      @new_param[:batting_order] = batting_order
+      @new_param[:player_id] = @player_id
+      @new_param[:game_id] = params[:batting_game_id][batting_order.to_s]
+      @new_param[:position] = params[:batting_position][batting_order.to_s]
+      @new_param[:inning] = inning
+      @new_param[:at_plate_order] = 1
+      @new_param[:result_code] = result_code
+      # @new_params[:result_code] = params[:result_code][inning.to_s][batting_order.to_s]
+      @new_params.push @new_param
+    end
 
     @new_params
   end
