@@ -78,7 +78,10 @@ div
 
         - for @inning in 1..10
           td width="60px"
-            = batting_result_code(@at_bat_batter_record, @batting_order, @inning)
+            - inning_bat_results = batting_result_code(@at_bat_batter_record, @batting_order, @inning)
+            - if inning_bat_results.present?
+              - inning_bat_results.each do |result|
+                = result
 
 div
   table class="table table-condensed table-striped"
