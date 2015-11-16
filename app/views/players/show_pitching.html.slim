@@ -1,0 +1,61 @@
+= render "basic"
+
+div
+  table class="table table-condensed table-striped"
+    tr
+      td width="50px"
+        ="pitched_order"
+      td width="50px"
+        ="player_name"
+      td width="50px"
+        ="win"
+      td width="50px"
+        ="lose"
+      td width="50px"
+        ="save_point"
+      td width="50px"
+        ="hold"
+      td width="50px"
+        ="innings_pitched"
+      td width="50px"
+        ="plate_appearance"
+      td width="50px"
+        ="at_bat"
+      td width="50px"
+        ="hit"
+      td width="50px"
+        ="homerun"
+      td width="50px"
+        ="sacrifice_bunt"
+      td width="50px"
+        ="sacrifice_fly"
+      td width="50px"
+        ="run"
+      td width="50px"
+        ="earned_run"
+      td width="50px"
+        ="strike_out"
+      td width="50px"
+        ="walk"
+      td width="50px"
+        ="intentional_walk"
+      td width="50px"
+        ="hit_by_pitch"
+      td width="50px"
+        ="wild_pitch"
+      td width="50px"
+        ="balk"
+      td width="50px"
+        ="number_of_pitches"
+
+    - @game_pitcher_records.each do |game_pitcher_record|
+        tr
+          - @indexes = index_of_game_pitcher_records
+          - @indexes.each do |index|
+            - if index == "game_id"
+            - else
+              td width="50px"
+                = game_pitcher_record[index.to_sym]
+
+br
+= link_to 'Back to player profile', @player
