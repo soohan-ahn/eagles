@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: [:show, :edit, :update, :destroy]
+  before_action :set_player, only: [:show, :edit, :update, :destroy, :show_batting, :show_pitching]
 
   # GET /players
   # GET /players.json
@@ -10,6 +10,32 @@ class PlayersController < ApplicationController
   # GET /players/1
   # GET /players/1.json
   def show
+  end
+
+  def show_batting
+    @at_bat_batter_records = AtBatBatterRecord.where(player_id: params[:id])
+    @game_batter_records = GameBatterRecord.where(player_id: params[:id])
+    @batter_records = { }
+    @at_bat_batter_records.each do |at_bat_batter_record|
+      unless @batter_records[at_bat_batter_record.game_id]
+        @new_at_batter_record_hash = { at_bat_batter_records: [ ] }
+        @batter_records[at_bat_batter_record.game_id] = @new_at_batter_record_hash
+        @batter_records[at_bat_batter_record.game_id][:at_bat_batter_records].push at_bat_batter_record
+        # @batter_records[at_bat_batter_record.game_id] = @new_at_batter_record_hash
+      else
+        @batter_records[at_bat_batter_record.game_id][:at_bat_batter_records].push at_bat_batter_record
+      end
+    end
+
+    @game_batter_records.each do |game_batter_record|
+      @batter_records[game_batter_record.game_id][:game_batter_records] =  game_batter_record
+    end
+
+    @game_ids = @at_bat_batter_records.pluck(:game_id).uniq
+  end
+
+  def show_pitching
+    @game_pitcher_records = GamePitcherRecord.where(player_id: params[:id])
   end
 
   # GET /players/new

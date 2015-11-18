@@ -1,0 +1,57 @@
+= render "basic"
+
+div
+  table class="table table-condensed table-striped"
+    tr
+      td width="50px"
+        = "Batting_order"
+      td width="50px"
+        = "Player_name"
+      td width="50px"
+        = "Position"
+      td width="50px"
+        = "RBI"
+      td width="50px"
+        = "Run"
+      td width="50px"
+        = "Steal"
+      td width="50px"
+        = "Steal Caught"
+      - for @inning in 1..10
+        td width="60px" 
+          = @inning
+
+    - @game_ids.each do |game_id|
+      - @at_bat_batter_record = @batter_records[game_id][:at_bat_batter_records]
+      - @game_batter_record = @batter_records[game_id][:game_batter_records]
+      tr
+        td width="50px"
+          = @batting_order
+
+        td width="50px"
+          = @player.name
+
+        td width="50px"
+          = @at_bat_batter_record.first.position
+
+        td width="50px"
+          = @game_batter_record.rbi if @game_batter_record
+
+        td width="50px"
+          = @game_batter_record.run if @game_batter_record
+
+        td width="50px"
+          = @game_batter_record.steal if @game_batter_record
+
+        td width="50px"
+          = @game_batter_record.steal_caught if @game_batter_record
+
+        - for @inning in 1..10
+          td width="60px"
+            - @inning_batter_records = @at_bat_batter_record.select{ |a| a.inning == @inning }.map { |a| a }
+            - if @inning_batter_records
+                - @inning_batter_records.each do |inning_batter_record|
+                  = Settings.result_code[inning_batter_record.result_code]
+
+br
+= link_to 'Back to player profile', @player
