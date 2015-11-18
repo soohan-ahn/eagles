@@ -50,13 +50,19 @@ class GamesController < ApplicationController
   # DELETE /games/1
   # DELETE /games/1.json
   def destroy
-=begin
+    ActiveRecord::Base.transaction do
+      unless GamePitcherRecord.destroy_game_record(@game.id) and
+        AtBatBatterRecord.destroy_game_record(@game.id) and
+        GameBatterRecord.destroy_game_record(@game.id)
+        format.html { render :new }
+      end
+    end
+
     @game.destroy
     respond_to do |format|
       format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
     end
-=end
   end
 
   private
