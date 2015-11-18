@@ -29,7 +29,7 @@ div
                 - else
                   = @score_boxes[(i - 1) * 9 + (j - 1)]
 
-= form_for(@game_pitcher_record) do |f|
+= form_tag(controller: "game_detail_records", action: "create") do |f|
   div
     table class="table table-condensed table-striped"
       - for @pitching_order in 0..5
@@ -117,7 +117,7 @@ div
 
 
   div class="actions"
-    = f.submit
+    = submit_tag "Submit"
 
 = link_to 'Edit', edit_game_path(@game)
 

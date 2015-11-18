@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :players
   resources :games
-  resources :game_pitcher_records
+  resources :game_detail_records
 
   get "players/:id/batting" => "players#show_batting", as: :show_batting
   get "players/:id/pitching" => "players#show_pitching", as: :show_pitching

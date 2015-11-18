@@ -31,7 +31,7 @@ class GamesController < ApplicationController
   def create
     @game = Game.new_game_record(params, game_params)
     if @game
-      redirect_to new_game_pitcher_record_path(game_id: @game.id), notice: 'Game was successfully created.'
+      redirect_to new_game_detail_record_path(game_id: @game.id), notice: 'Game was successfully created.'
     else
       render :new
     end

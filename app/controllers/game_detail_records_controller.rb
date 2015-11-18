@@ -1,4 +1,4 @@
-class GamePitcherRecordsController < ApplicationController
+class GameDetailRecordsController < ApplicationController
   before_action :set_game_pircher_record, only: [:show, :edit, :update, :destroy]
 
   # GET /games
