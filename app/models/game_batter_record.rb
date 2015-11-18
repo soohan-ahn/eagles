@@ -3,18 +3,15 @@ class GameBatterRecord < ActiveRecord::Base
     i = 0
 
     for @batting_order in 1..15
-      if params[:batting_player_name][@batting_order.to_s] and !Player.where(name: params[:batting_player_name][@batting_order.to_s]).exists?
-        Player.new(name: params[:batting_player_name][@batting_order.to_s]).save
-      end
+      unless params[:batting_player_name][@batting_order.to_s].empty?
+        if !Player.where(name: params[:batting_player_name][@batting_order.to_s]).exists?
+          Player.new(name: params[:batting_player_name][@batting_order.to_s]).save
+        end
 
-      for @inning in 1..9
-        if params[:result_code][@inning.to_s][@batting_order.to_s].present?
-          @params_for_save = GameBatterRecord.params_for_save(params, @inning, @batting_order)
-
-          @game_batter_record = GameBatterRecord.new(@params_for_save)
-          unless @game_batter_record.save
-            return false
-          end
+        @params_for_save = GameBatterRecord.params_for_save(params, @batting_order)
+        @game_batter_record = GameBatterRecord.new(@params_for_save)
+        unless @game_batter_record.save
+          return false
         end
       end
     end
@@ -22,7 +19,37 @@ class GameBatterRecord < ActiveRecord::Base
     true
   end
 
-  def self.params_for_save(params, inning, batting_order)
+  def self.update_game_record(params)
+    i = 0
+
+    for @batting_order in 1..15
+      unless params[:batting_player_name][@batting_order.to_s].empty?
+        if !Player.where(name: params[:batting_player_name][@batting_order.to_s]).exists?
+          Player.new(name: params[:batting_player_name][@batting_order.to_s]).save
+        end
+
+        @params_for_save = GameBatterRecord.params_for_save(params, @batting_order)
+        @game_batter_record = GameBatterRecord.where(
+          game_id: @params_for_save[:game_id],
+          player_id: @params_for_save[:player_id]).first
+
+        unless @game_batter_record.update(@params_for_save)
+          return false
+        end
+      end
+    end
+    true
+  end
+
+  def self.destroy_game_record(game_id)
+    @game_batter_record = GameBatterRecord.where(game_id: game_id)
+    unless @game_batter_record.destroy_all
+      return false
+    end
+    true
+  end
+
+  def self.params_for_save(params, batting_order)
     @new_params = { }
     @new_params[:player_id] = Player.where(name: params[:batting_player_name][batting_order.to_s]).first.id
     @new_params[:game_id] = params[:batting_game_id][batting_order.to_s]

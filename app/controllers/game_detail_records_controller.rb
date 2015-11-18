@@ -1,17 +1,8 @@
 class GameDetailRecordsController < ApplicationController
-  before_action :set_game_pircher_record, only: [:show, :edit, :update, :destroy]
-
   # GET /games
   # GET /games.json
   def index
     @game_pircher_records = GamePitcherRecord.all
-  end
-
-  # GET /games/1
-  # GET /games/1.json
-  def show
-    @game = Game.find(game_id)
-    @score_boxes = @game.score_box.split "\t"
   end
 
   # GET /games/new
@@ -19,12 +10,17 @@ class GameDetailRecordsController < ApplicationController
     @game = Game.find(params[:game_id])
     @score_boxes = @game.score_box.split "\t"
     @game_pitcher_record = GamePitcherRecord.new
+    @action = "create"
   end
 
   # GET /games/1/edit
   def edit
     @game = Game.find(params[:game_id])
     @score_boxes = @game.score_box.split "\t"
+    @game_pitcher_record = GamePitcherRecord.where(game_id: params[:game_id])
+    @game_batter_record = GameBatterRecord.where(game_id: params[:game_id])
+    @at_bat_batter_record = AtBatBatterRecord.where(game_id: params[:game_id])
+    @action = "update"
   end
 
   # POST /games
@@ -36,7 +32,7 @@ class GameDetailRecordsController < ApplicationController
         GameBatterRecord.new_game_record(params)
         redirect_to games_path
       else
-        format.html { render :new }
+        format.html { redirect_to games_url, notice: 'Game record create failed.' }
       end
     end
   end
@@ -44,33 +40,18 @@ class GameDetailRecordsController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
-=begin
-    if GamePitcherRecord.new_game_record(params)
-      redirect_to games_path
-    else
-      format.html { render :edit }
+    ActiveRecord::Base.transaction do
+      if GamePitcherRecord.update_game_record(params) and
+         AtBatBatterRecord.update_game_record(params) and
+         GameBatterRecord.update_game_record(params)
+        redirect_to games_path
+      else
+        format.html { redirect_to games_url, notice: 'Game update failed.' }
+      end
     end
-=end
-  end
-
-  # DELETE /games/1
-  # DELETE /games/1.json
-  def destroy
-=begin
-    @game.destroy
-    respond_to do |format|
-      format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-=end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game_pircher_record
-      @game_pitcher_record = GamePitcherRecord.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
       params.require(:game).permit(

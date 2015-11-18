@@ -1,4 +1,4 @@
-module GamePitcherRecordsHelper
+module GameDetailRecordsHelper
   def index_of_game_pitcher_records
     [
       "pitched_order",
@@ -25,5 +25,13 @@ module GamePitcherRecordsHelper
       "balk",
       "number_of_pitches",
     ]
+  end
+
+  def pitcher_name_result(game_pitcher_record, pitched_order, index)
+    @pitcher = game_pitcher_record.where(pitched_order: pitched_order.to_s)
+    if @pitcher.count > 0
+      return Player.find(@pitcher.first[index.to_sym]).name
+    end
+    return " "
   end
 end
