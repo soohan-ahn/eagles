@@ -18,6 +18,10 @@ stdout_path "log/unicorn.log"
 # Unicorn socket
 listen "/tmp/unicorn.sock"
 
+before_exec do |server|
+  ENV['BUNDLE_GEMFILE'] = "#{working_directory}/Gemfile"
+end
+
 # Number of processes
 # worker_processes 4
 worker_processes 2
