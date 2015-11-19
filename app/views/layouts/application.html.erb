@@ -50,6 +50,13 @@
           <ul class="nav navbar-nav">
             <li><%= link_to "Players", players_path  %></li>
             <li><%= link_to "Game Results", games_path  %></li>
+            <li>
+              <% if current_user %>
+                <%= link_to "Logout", logout_path %>
+              <% else %>
+                <%= link_to "Admin Login", login_path %>
+              <% end %>
+            </li>
           </ul>
         </div>
       </div>

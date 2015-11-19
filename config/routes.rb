@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+  # get 'sessions/new'
+
   resources :players
   resources :games
   resources :game_detail_records, only: [:new, :create]
+  resources :users, only: [:new, :create]
 
 
   get "game_detail_records/edit" => "game_detail_records#edit"
@@ -11,6 +14,10 @@ Rails.application.routes.draw do
   get "players/:id/pitching" => "players#show_pitching", as: :show_pitching
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+
+  get    "login"   => "sessions#new"
+  post   "login"   => "sessions#create"
+  delete "logout"  => "sessions#destroy"
 
   # You can have the root of your site routed with "root"
   root "players#index"
