@@ -16,10 +16,11 @@ table class="table table-condensed table-striped"
         th  = game.away_score
         th  = game.away_team
         th  = link_to 'Game_Records', game
-        th  = link_to "Edit Game detail records", game_detail_records_edit_path(game_id: game.id)
-        th  = link_to 'Edit', edit_game_path(game)
-        th  = link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' }
+        - if current_user
+          th  = link_to "Edit Game detail records", game_detail_records_edit_path(game_id: game.id)
+          th  = link_to 'Edit', edit_game_path(game)
+          th  = link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' }
 
 br
-
-= link_to 'New Game', new_game_path
+- if current_user
+  = link_to 'New Game', new_game_path
