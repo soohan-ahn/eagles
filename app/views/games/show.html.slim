@@ -139,6 +139,9 @@ div
           - elsif index == "pitched_order"
             td width="50px"
               = @pitching_order
+          - elsif index == "player_id"
+            td width="50px"
+              = pitcher_name_result(@game_pitcher_record, @pitching_order, index)
           - else
             td width="50px"
               = pitcher_result_info(@game_pitcher_record, @pitching_order, index)
