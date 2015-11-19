@@ -73,6 +73,8 @@ div
               td width="5%"
                 = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
 
+  = render "result_codes"
+
   div
     table class="table table-condensed table-striped"
       - for @batting_order in 0..15
