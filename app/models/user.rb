@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   end
 
   def authenticate(password_str)
-    binding.pry
     return true if Password.new(password) == password_str
     false
   end
