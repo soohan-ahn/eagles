@@ -1,4 +1,8 @@
 class Game < ActiveRecord::Base
+  has_many :game_pitcher_records
+  has_many :game_batter_records
+  has_many :at_bat_batter_records
+
   def self.new_game_record (params, game_params)
     game_params_with_score_box_appended = game_params
     Game.game_params_with_score_box(game_params_with_score_box_appended, params[:scores])

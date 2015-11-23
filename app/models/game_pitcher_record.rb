@@ -1,4 +1,6 @@
 class GamePitcherRecord < ActiveRecord::Base
+  belongs_to :player
+  belongs_to :game 
   def self.new_game_record(params)
     i = 0
 

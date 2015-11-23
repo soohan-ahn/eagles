@@ -55,33 +55,42 @@ div
               = @inning
 
       - else
+        - @at_bat_batter_record = @at_bat_batter_records.where(batting_order: @batting_order)
+        - if @at_bat_batter_record.present?
+          - @at_bat_batter_record = @at_bat_batter_record.first
+          - @game_batter_record = @game_batter_records.where(player_id: @at_bat_batter_record.player.id)
+          - @game_batter_record = @game_batter_record.first if @game_batter_record
+        - else
+          - @game_batter_record = nil
+
         td width="50px"
           = @batting_order
 
         td width="50px"
-          = batting_player_name(@at_bat_batter_record, @batting_order)
+          = (@game_batter_record) ? @at_bat_batter_record.player.name : ""
 
         td width="50px"
-          = batting_player_position(@at_bat_batter_record, @batting_order)
+          = (@game_batter_record) ? @at_bat_batter_record.position : ""
 
         td width="50px"
-          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "rbi")
+          = (@game_batter_record) ? @game_batter_record.rbi : ""
 
         td width="50px"
-          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "run")
+          = (@game_batter_record) ? @game_batter_record.run : ""
 
         td width="50px"
-          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal")
+          = (@game_batter_record) ? @game_batter_record.steal : ""
 
         td width="50px"
-          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught")
+          = (@game_batter_record) ? @game_batter_record.steal_caught : ""
 
         - for @inning in 1..10
           td width="60px"
-            - inning_bat_results = batting_result_code(@at_bat_batter_record, @batting_order, @inning)
-            - if inning_bat_results.present?
-              - inning_bat_results.each do |result|
-                = result
+            - if @game_batter_record
+              - inning_bat_results = batting_result_code(@at_bat_batter_records, @batting_order, @inning)
+              - if inning_bat_results.present?
+                - inning_bat_results.each do |result|
+                  = result
 
 div
   table class="table table-condensed table-striped"
@@ -93,13 +102,7 @@ div
           td width="50px"
             ="player_name"
           td width="50px"
-            ="win"
-          td width="50px"
-            ="lose"
-          td width="50px"
-            ="save_point"
-          td width="50px"
-            ="hold"
+            ="result"
           td width="50px"
             ="innings_pitched"
           td width="50px"
@@ -134,17 +137,21 @@ div
             ="number_of_pitches"
       - else
         - @indexes = index_of_game_pitcher_records
+        - @pitcher = @game_pitcher_records.where(pitched_order: @pitching_order.to_s)
+        - @pitcher = @pitcher.first if @pitcher.present?
+
         - @indexes.each do |index|
           - if index == "game_id"
-          - elsif index == "pitched_order"
-            td width="50px"
-              = @pitching_order
-          - elsif index == "player_id"
-            td width="50px"
-              = pitcher_name_result(@game_pitcher_record, @pitching_order, index)
           - else
             td width="50px"
-              = pitcher_result_info(@game_pitcher_record, @pitching_order, index)
+              - if index == "pitched_order"
+                = @pitching_order
+              - elsif index == "player_id"
+                = @pitcher.player.name if @pitcher.present?
+              - elsif index == "result"
+                = pitcher_result_code(@pitcher) if @pitcher.present?
+              - else
+                = @pitcher[index.to_sym] if @pitcher.present?
 
 br
 = link_to 'Back', games_path
