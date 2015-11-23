@@ -66,7 +66,7 @@ class Player < ActiveRecord::Base
   end
 
   def era
-    value = (inning_pitched == 0) ? 0 : ( (retrieve_game_pitcher_records("earned_run") / inning_pitched) * 7))
+    value = (inning_pitched == 0) ? 0 : ( (retrieve_game_pitcher_records("earned_run") * 7) / inning_pitched)
     "%.2f" % value
   end
 
