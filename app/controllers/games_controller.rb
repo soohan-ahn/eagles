@@ -40,6 +40,8 @@ class GamesController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
+    game_params[:home_team].force_encoding("utf-8")
+    game_params[:away_team].force_encoding("utf-8")
     if @game.update_game_record(params, game_params)
       redirect_to @game
     else
