@@ -29,6 +29,8 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
+    game_params[:home_team].encode("UTF-8")
+    game_params[:away_team].encode("UTF-8")
     @game = Game.new_game_record(params, game_params)
     if @game
       redirect_to new_game_detail_record_path(game_id: @game.id), notice: 'Game was successfully created.'
@@ -40,8 +42,8 @@ class GamesController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
-    game_params[:home_team].force_encoding("utf-8")
-    game_params[:away_team].force_encoding("utf-8")
+    game_params[:home_team].encode("UTF-8")
+    game_params[:away_team].encode("UTF-8")
     if @game.update_game_record(params, game_params)
       redirect_to @game
     else
