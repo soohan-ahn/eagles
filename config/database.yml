@@ -50,6 +50,7 @@ test:
 production:
   <<: *default
   host: localhost
+  encoding: utf8
   database: eagles_production
   username: root
   password: <%= ENV['EAGLES_DATABASE_PASSWORD'] %>
