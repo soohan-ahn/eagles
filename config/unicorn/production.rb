@@ -29,7 +29,6 @@ stdout_path "log/unicorn.log"
 pid "#{app_shared_path}/tmp/pids/unicorn.pid"
 
 before_fork do |server, worker|
-  ENV["LOG_LEVEL"] = "debug"
   ActiveRecord::Base.connection.disconnect!
 
   old_pid = "#{server.config[:pid]}.oldbin"
@@ -44,4 +43,5 @@ end
 #
 after_fork do |server, worker|
   ActiveRecord::Base.establish_connection
+  ENV["LOG_LEVEL"] = "debug"
 end
