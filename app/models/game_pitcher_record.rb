@@ -59,6 +59,7 @@ class GamePitcherRecord < ActiveRecord::Base
         @new_params[@index_symbol] = @player.id
       elsif params[@index_symbol][pitched_order.to_s].present?
         @new_params[@index_symbol] = params[@index_symbol][pitched_order.to_s]
+        @new_params[@index_symbol] = "%.2f" % @new_params[@index_symbol] if index == "innings_pitched"
       end
     end
     @new_params
