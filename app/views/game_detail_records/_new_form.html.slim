@@ -71,7 +71,7 @@ div
                 = text_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
             -else
               td width="5%"
-                = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
+                = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5, step: 0.01
 
   = render "result_codes"
 

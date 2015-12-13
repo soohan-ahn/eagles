@@ -71,7 +71,7 @@ div
                 = text_field_tag "#{index}[#{@pitching_order}]", pitcher_name_result(@game_pitcher_record, @pitching_order, index), max_length: 5
             -else
               td style="width:10%"
-                = number_field_tag "#{index}[#{@pitching_order}]", pitcher_result_info(@game_pitcher_record, @pitching_order, index), max_length: 5
+                = number_field_tag "#{index}[#{@pitching_order}]", pitcher_result_info(@game_pitcher_record, @pitching_order, index), max_length: 5, step: 0.01
 
   = render "result_codes_bar"
 
