@@ -6,10 +6,10 @@ Rails.application.routes.draw do
   resources :game_detail_records, only: [:new, :create]
   resources :users, only: [:new, :create]
 
-
   get "game_detail_records/edit" => "game_detail_records#edit"
   post "game_detail_records/update" => "game_detail_records#update"
 
+  get "players/:year/records" => "players#index"
   get "players/:id/batting" => "players#show_batting", as: :show_batting
   get "players/:id/pitching" => "players#show_pitching", as: :show_pitching
   # The priority is based upon order of creation: first created -> highest priority.
