@@ -1,4 +1,8 @@
 class Game < ActiveRecord::Base
+  def self.by_year(year)
+    where('extract(year from game_start_time) = ?', year)
+  end
+
   def self.new_game_record (params, game_params)
     game_params_with_score_box_appended = game_params
     Game.game_params_with_score_box(game_params_with_score_box_appended, params[:scores])
