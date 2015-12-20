@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   resources :game_detail_records, only: [:new, :create]
   resources :users, only: [:new, :create]
 
-
   get "game_detail_records/edit" => "game_detail_records#edit"
   post "game_detail_records/update" => "game_detail_records#update"
 
