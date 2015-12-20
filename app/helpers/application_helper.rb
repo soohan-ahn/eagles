@@ -42,6 +42,12 @@ module ApplicationHelper
   def pitcher_result_info(game_pitcher_record, pitched_order, index)
     @pitcher = game_pitcher_record.where(pitched_order: pitched_order.to_s)
     if @pitcher.count > 0
+      if index == "pitched_result"
+        return "W" if @pitcher.first[:win]
+        return "L" if @pitcher.first[:lose]
+        return "SV" if @pitcher.first[:save_point]
+        return " "
+      end
       return @pitcher.first[index.to_sym]
     end
     return " "
