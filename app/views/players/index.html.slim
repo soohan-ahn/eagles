@@ -87,7 +87,7 @@ table class="table table-condensed table-striped"
 
   tbody
     - @players.each do |player|
-      - if player.retrieve_game_pitcher_records("pitcher_games", year) > 0
+      - if player.retrieve_game_pitcher_records("pitcher_games", params[:year]) > 0
         tr
           td= link_to player.name, player
           td= player.team
