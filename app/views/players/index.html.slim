@@ -1,5 +1,13 @@
 h1= "Listing Players"
 
+h2= "Season"
+table class="table table-condensed table-striped"
+  tbody
+    tr
+      - (2014..current_year).to_a.each do |year|
+        th= link_to year, players_path(year: year)
+
+
 h2= "Batting Records"
 table class="table table-condensed table-striped"
   thead
