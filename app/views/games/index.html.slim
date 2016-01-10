@@ -1,5 +1,12 @@
 h1 = "Listing Games"
 
+h2= "Season"
+table class="table table-condensed table-striped"
+  tbody
+    tr
+      - (2014..current_year).to_a.each do |year|
+        th= link_to year, games_path(year: year)
+
 table class="table table-condensed table-striped"
   thead
     tr
@@ -11,6 +18,7 @@ table class="table table-condensed table-striped"
   tbody
     - @games.each do |game|
       tr
+        th  = game.game_start_time
         th  = game.home_team
         th  = game.home_score
         th  = game.away_score
