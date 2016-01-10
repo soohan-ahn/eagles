@@ -4,7 +4,7 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = Game.all
+    @games = (params[:year]) ? Game.by_year(params[:year]) : Game.all
   end
 
   # GET /games/1
