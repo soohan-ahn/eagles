@@ -4,7 +4,8 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = (params[:year]) ? Game.by_year(params[:year]) : Game.all
+    @games_by_year = (params[:year]) ? Game.by_year(params[:year]) : Game.all
+    @games = (params[:game_type]) ? @games_by_year.where(game_type: params[:game_type]) : @games_by_year
   end
 
   # GET /games/1
@@ -73,6 +74,6 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:home_team, :away_team, :home_score, :away_score, :stadium, :game_start_time, :score_box)
+      params.require(:game).permit(:home_team, :away_team, :home_score, :away_score, :stadium, :game_start_time, :game_type, :score_box)
     end
 end
