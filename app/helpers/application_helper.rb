@@ -8,6 +8,15 @@ module ApplicationHelper
     end
   end
 
+  def player_of_at_bat(at_bat_batter_record, batting_order)
+    @player = at_bat_batter_record.where(batting_order: batting_order)
+    if @player.count > 0
+      Player.find(@player.first.player_id)
+    else
+      return nil
+    end
+  end
+
   def batting_player_position(at_bat_batter_record, batting_order)
     @player = at_bat_batter_record.where(batting_order: batting_order)
     if @player.count > 0

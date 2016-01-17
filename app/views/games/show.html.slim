@@ -43,6 +43,12 @@ div
           td width="50px"
             = "Position"
           td width="50px"
+            = "타석"
+          td width="50px"
+            = "타수"
+          td width="50px"
+            = "안타"
+          td width="50px"
             = "RBI"
           td width="50px"
             = "Run"
@@ -53,16 +59,25 @@ div
           - for @inning in 1..10
             td width="60px" 
               = @inning
-
       - else
         td width="50px"
           = @batting_order
 
+        - @current_player = player_of_at_bat(@at_bat_batter_record, @batting_order)
         td width="50px"
-          = batting_player_name(@at_bat_batter_record, @batting_order)
+          = link_to batting_player_name(@at_bat_batter_record, @batting_order), @current_player
 
         td width="50px"
           = batting_player_position(@at_bat_batter_record, @batting_order)
+
+        td width="50px"
+          = @game.plate_appearence(@current_player.id) if @current_player
+
+        td width="50px"
+          = @game.at_bat(@current_player.id) if @current_player
+
+        td width="50px"
+          = @game.total_hits(@current_player.id) if @current_player
 
         td width="50px"
           = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "rbi")
