@@ -118,12 +118,12 @@ div
             = text_field_tag "batting_steal_caught[#{@batting_order}]", batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught"), max_length: 5
 
           - for @inning in 1..10
-            - inning_bat_results = batting_result_code(@at_bat_batter_record, @batting_order, @inning)
+            - inning_bat_results = batting_result_code_numbers(@at_bat_batter_record, @batting_order, @inning)
             - results = ""
             - if inning_bat_results.present?
               - inning_bat_results.each do |result|
                 - results = results + "#{result} "
-            td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", inning_bat_results
+            td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", results
 
 
   div class="actions"
