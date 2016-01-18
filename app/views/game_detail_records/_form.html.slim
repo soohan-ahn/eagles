@@ -123,7 +123,7 @@ div
             - if inning_bat_results.present?
               - inning_bat_results.each do |result|
                 - results = results + "#{result} "
-            td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", results, max_length: 5
+            td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", inning_bat_results
 
 
   div class="actions"

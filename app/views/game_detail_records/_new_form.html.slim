@@ -58,7 +58,7 @@ div
             td= "balk"
             td= "number_of_pitches"
         - else
-          - @indexes = index_of_game_pitcher_records
+          - @indexes = GamePitcherRecord.index_of_game_pitcher_records
           - @indexes.each do |index|
             - if index == "game_id"
               = hidden_field_tag "#{index}[#{@pitching_order}]", @game.id, max_length: 5
