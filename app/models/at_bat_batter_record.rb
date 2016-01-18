@@ -38,7 +38,8 @@ class AtBatBatterRecord < ActiveRecord::Base
           @at_bat_batter_records = AtBatBatterRecord.where(
             inning: @inning,
             batting_order: @batting_order,
-            player_id: Player.where(name: params[:batting_player_name][@batting_order.to_s]).first.id
+            player_id: Player.where(name: params[:batting_player_name][@batting_order.to_s]).first.id,
+            game_id: params[:batting_game_id][@batting_order.to_s]
           )
           unless @at_bat_batter_records.destroy_all
             return false
