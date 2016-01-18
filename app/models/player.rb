@@ -99,11 +99,11 @@ class Player < ActiveRecord::Base
       inning_total_count += decimal
 
       current_fraction = inning_fraction_count.modulo(1)
-      if current_fraction == 0.00
+      if current_fraction >= 0.00 and current_fraction < 0.3
         inning_fraction_count += fraction
-      elsif current_fraction == 0.33
+      elsif current_fraction >= 0.33 and current_fraction < 0.6
         inning_fraction_count += ( (fraction == 0.33) ? 0.33 : 1 )
-      elsif current_fraction == 0.66
+      elsif current_fraction >= 0.6
         inning_fraction_count -= 0.66
         inning_fraction_count += ( (fraction == 0.33) ? 1 : 1.33 )
       end
