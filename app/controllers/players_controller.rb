@@ -28,7 +28,7 @@ class PlayersController < ApplicationController
     end
 
     @game_batter_records.each do |game_batter_record|
-      @batter_records[game_batter_record.game_id][:game_batter_records] =  game_batter_record
+      @batter_records[game_batter_record.game_id][:game_batter_records] =  game_batter_record if @batter_records[game_batter_record.game_id]
     end
 
     @game_ids = @at_bat_batter_records.pluck(:game_id).uniq

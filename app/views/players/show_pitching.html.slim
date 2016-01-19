@@ -4,15 +4,11 @@ div
   table class="table table-condensed table-striped"
     tr
       td width="50px"
+        ="Game"
+      td width="50px"
         ="pitched_order"
       td width="50px"
-        ="player_name"
-      td width="50px"
-        ="win"
-      td width="50px"
-        ="lose"
-      td width="50px"
-        ="save_point"
+        ="pitched_result"
       td width="50px"
         ="hold"
       td width="50px"
@@ -53,6 +49,19 @@ div
           - @indexes = index_of_game_pitcher_records
           - @indexes.each do |index|
             - if index == "game_id"
+              td
+                = year_month_date_of_game(game_pitcher_record[index.to_sym])
+            - elsif index == "player_id"
+            - elsif index == "pitched_result"
+              td
+                - if game_pitcher_record[:win]
+                  = "W"
+                - elsif game_pitcher_record[:lose]
+                  = "L"
+                - elsif game_pitcher_record[:save_point]
+                  = "SV"
+                - else
+                  =  " "
             - else
               td width="50px"
                 = game_pitcher_record[index.to_sym]
