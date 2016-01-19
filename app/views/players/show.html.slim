@@ -98,4 +98,5 @@ table class="table table-condensed table-striped"
 
 = link_to "Game pitching records", show_pitching_path
 br
-= link_to "Edit Player Info", edit_player_path
+- if current_user
+      = link_to "Edit Player Info", edit_player_path

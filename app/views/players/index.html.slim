@@ -58,8 +58,9 @@ table class="table table-condensed table-striped"
           td= player.on_base_percentage(params[:year])
           td= player.slugging_percentage(params[:year])
           td= player.ops(params[:year])
-          td= link_to 'Edit', edit_player_path(player)
-          td= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' }
+          - if current_user
+            td= link_to 'Edit', edit_player_path(player)
+            td= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' }
 
 br
 
@@ -105,7 +106,8 @@ table class="table table-condensed table-striped"
           td= player.retrieve_game_pitcher_records("strike_out", params[:year])
           td= player.retrieve_game_pitcher_records("hit_by_pitch", params[:year])
           td= player.pitcher_whip(params[:year])
-          td= link_to 'Edit', edit_player_path(player)
-          td= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' }
+          - if current_user
+            td= link_to 'Edit', edit_player_path(player)
+            td= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' }
 
 = link_to 'New Player', new_player_path
