@@ -1,7 +1,7 @@
 lock '3.4.0'
 
 set :application, "eagles"
-role :web, "52.25.171.132"
+role :web, "54.200.233.6"
 
 set :user, 'ec2-user'
 set :ssh_options, :port=>22, :forward_agent=>false, :keys=>"~/.ssh/id_rsa", :passphrase=>:password

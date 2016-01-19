@@ -10,7 +10,7 @@ set :stage, :production
 set :rails_env, "production"
 set :rvm_type, :user
 set :rvm_ruby_version, "ruby-2.2.1"
-server '52.25.171.132', user: 'ec2-user', roles: %w{web app db}
+server '54.200.233.6', user: 'ec2-user', roles: %w{web app db}
 set :ssh_options, {
 	keys: ["~/.ssh/Ash861011.pem"],
 	auth_methods: ["publickey"],
