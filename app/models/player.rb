@@ -52,37 +52,39 @@ class Player < ActiveRecord::Base
       game_batter_records_this_year(params[:year]).count
     elsif params[:batter_sort] == "PA"
       plate_appearence(params[:year])
-    elsif params[:batter_sort] =="AB"
+    elsif params[:batter_sort] == "AB"
       at_bat(params[:year])
-    elsif params[:batter_sort] =="H"
+    elsif params[:batter_sort] == "H"
       total_hits(params[:year])
-    elsif params[:batter_sort] =="1b"
+    elsif params[:batter_sort] == "1b"
       retrieve_at_bat_batter_records("one_base_hit", params[:year])
-    elsif params[:batter_sort] =="2b"
+    elsif params[:batter_sort] == "2b"
       retrieve_at_bat_batter_records("two_base_hit", params[:year])
-    elsif params[:batter_sort] =="3b"
+    elsif params[:batter_sort] == "3b"
       retrieve_at_bat_batter_records("three_base_hit", params[:year])
-    elsif params[:batter_sort] =="HR"
+    elsif params[:batter_sort] == "HR"
       retrieve_at_bat_batter_records("home_run", params[:year])
-    elsif params[:batter_sort] =="BB"
+    elsif params[:batter_sort] == "SO"
+      retrieve_at_bat_batter_records("strike_out", params[:year])
+    elsif params[:batter_sort] == "BB"
       retrieve_at_bat_batter_records("base_on_ball", params[:year])
-    elsif params[:batter_sort] =="HBP"
+    elsif params[:batter_sort] == "HBP"
       retrieve_at_bat_batter_records("hit_by_pitched_ball", params[:year])
-    elsif params[:batter_sort] =="RBI"
+    elsif params[:batter_sort] == "RBI"
       retrieve_game_batter_records("rbi", params[:year])
-    elsif params[:batter_sort] =="Run"
+    elsif params[:batter_sort] == "Run"
       retrieve_game_batter_records("run", params[:year])
-    elsif params[:batter_sort] =="Steal"
+    elsif params[:batter_sort] == "Steal"
       retrieve_game_batter_records("steal", params[:year])
-    elsif params[:batter_sort] =="Steal Caught"
+    elsif params[:batter_sort] == "Steal Caught"
       retrieve_game_batter_records("steal_caught", params[:year])
-    elsif params[:batter_sort] =="BA"
+    elsif params[:batter_sort] == "BA"
       batting_average(params[:year])
-    elsif params[:batter_sort] =="OBP"
+    elsif params[:batter_sort] == "OBP"
       on_base_percentage(params[:year])
-    elsif params[:batter_sort] =="SLG"
+    elsif params[:batter_sort] == "SLG"
       slugging_percentage(params[:year])
-    elsif params[:batter_sort] =="OPS"
+    elsif params[:batter_sort] == "OPS"
       ops(params[:year])
     else return nil
     end
