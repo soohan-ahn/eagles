@@ -15,28 +15,29 @@ table class="table table-condensed table-striped"
       th="Name"
       th="Team"
       th="Back number"
-      th="G"
-      th="PA"
-      th="AB"
-      th="H"
-      th="1b"
-      th="2b"
-      th="3b"
-      th="HR"
-      th="BB"
-      th="HBP"
-      th="RBI"
-      th="Run"
-      th="Steal"
-      th="Steal Caught"
-      th="BA"
-      th="OBP"
-      th="SLG"
-      th="OPS"
+      th= link_to "G", players_path(year: params[:year], batter_sort: "G", pitcher_sort: params[:pitcher_sort])
+      th= link_to "PA", players_path(year: params[:year], batter_sort: "PA", pitcher_sort: params[:pitcher_sort])
+      th= link_to "AB", players_path(year: params[:year], batter_sort: "AB", pitcher_sort: params[:pitcher_sort])
+      th= link_to "H", players_path(year: params[:year], batter_sort: "H", pitcher_sort: params[:pitcher_sort])
+      th= link_to "1b", players_path(year: params[:year], batter_sort: "1b", pitcher_sort: params[:pitcher_sort])
+      th= link_to "2b", players_path(year: params[:year], batter_sort: "2b", pitcher_sort: params[:pitcher_sort])
+      th= link_to "3b", players_path(year: params[:year], batter_sort: "3b", pitcher_sort: params[:pitcher_sort])
+      th= link_to "HR", players_path(year: params[:year], batter_sort: "HR", pitcher_sort: params[:pitcher_sort])
+      th= link_to "SO", players_path(year: params[:year], batter_sort: "SO", pitcher_sort: params[:pitcher_sort])
+      th= link_to "BB", players_path(year: params[:year], batter_sort: "BB", pitcher_sort: params[:pitcher_sort])
+      th= link_to "HBP", players_path(year: params[:year], batter_sort: "HBP", pitcher_sort: params[:pitcher_sort])
+      th= link_to "RBI", players_path(year: params[:year], batter_sort: "RBI", pitcher_sort: params[:pitcher_sort])
+      th= link_to "Run", players_path(year: params[:year], batter_sort: "Run", pitcher_sort: params[:pitcher_sort])
+      th= link_to "Steal", players_path(year: params[:year], batter_sort: "Steal", pitcher_sort: params[:pitcher_sort])
+      th= link_to "Steal Caught", players_path(year: params[:year], batter_sort: "Steal Caught", pitcher_sort: params[:pitcher_sort])
+      th= link_to "BA", players_path(year: params[:year], batter_sort: "BA", pitcher_sort: params[:pitcher_sort])
+      th= link_to "OBP", players_path(year: params[:year], batter_sort: "OBP", pitcher_sort: params[:pitcher_sort])
+      th= link_to "SLG", players_path(year: params[:year], batter_sort: "SLG", pitcher_sort: params[:pitcher_sort])
+      th= link_to "OPS", players_path(year: params[:year], batter_sort: "OPS", pitcher_sort: params[:pitcher_sort])
       th colspan="3"
 
   tbody
-    - @players.each do |player|
+    - @batters.each do |player|
       - if player.plate_appearence(params[:year]) > 0
         tr
           td= link_to player.name, player
@@ -50,6 +51,7 @@ table class="table table-condensed table-striped"
           td= player.retrieve_at_bat_batter_records("two_base_hit", params[:year])
           td= player.retrieve_at_bat_batter_records("three_base_hit", params[:year])
           td= player.retrieve_at_bat_batter_records("home_run", params[:year])
+          td= player.retrieve_at_bat_batter_records("strike_out", params[:year])
           td= player.retrieve_at_bat_batter_records("base_on_ball", params[:year])
           td= player.retrieve_at_bat_batter_records("hit_by_pitched_ball", params[:year])
           td= player.retrieve_game_batter_records("rbi", params[:year])
@@ -73,23 +75,23 @@ table class="table table-condensed table-striped"
       th="Name"
       th="Team"
       th="Back number"
-      th="G"
-      th="W"
-      th="L"
-      th="ERA"
-      th="IP"
-      th="H"
-      th="R"
-      th="ER"
-      th="HR"
-      th="BB"
-      th="SO"
-      th="HBP"
-      th="WHIP"
+      th= link_to "G", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "G")
+      th= link_to "W", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "W")
+      th= link_to "L", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "L")
+      th= link_to "ERA", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "ERA")
+      th= link_to "IP", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "IP")
+      th= link_to "H", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "H")
+      th= link_to "R", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "R")
+      th= link_to "ER", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "ER")
+      th= link_to "HR", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "HR")
+      th= link_to "BB", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "BB")
+      th= link_to "SO", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "SO")
+      th= link_to "HBP", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "HBP")
+      th= link_to "WHIP", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "WHIP")
       th colspan="3"
 
   tbody
-    - @players.each do |player|
+    - @pitchers.each do |player|
       - if player.retrieve_game_pitcher_records("pitcher_games", params[:year]) > 0
         tr
           td= link_to player.name, player
@@ -114,3 +116,4 @@ table class="table table-condensed table-striped"
 
 - if current_user
   = link_to 'New Player', new_player_path
+

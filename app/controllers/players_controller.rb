@@ -4,7 +4,8 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.all
+    @batters = Player.sorted_list(params, "batter")
+    @pitchers = Player.sorted_list(params, "pitcher")
   end
 
   # GET /players/1
