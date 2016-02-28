@@ -8,6 +8,7 @@ on_base_codes:
   home_run: [774,784,874,884,894,984,994,4g]
   base_on_ball: [31,41]
   hit_by_pitched_ball: 21
+  strike_out: [10,20,11]
 
 result_code:
   10: 삼진
