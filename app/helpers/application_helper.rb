@@ -9,11 +9,11 @@ module ApplicationHelper
   end
 
   def player_of_at_bat(at_bat_batter_record, batting_order)
-    @player = at_bat_batter_record.where(batting_order: batting_order)
+    @player = at_bat_batter_record.where(batting_order: batting_order).pluck(:player_id)
     if @player.count > 0
-      Player.find(@player.first.player_id)
+      return Player.where(id: @player)
     else
-      return nil
+      return []
     end
   end
 
@@ -26,9 +26,9 @@ module ApplicationHelper
     end
   end
 
-  def batting_result_code(at_bat_batter_record, batting_order, inning)
+  def batting_result_code(current_player, at_bat_batter_record, batting_order, inning)
     @results = [ ]
-    @inning_bat_records = at_bat_batter_record.where(batting_order: batting_order, inning: inning)
+    @inning_bat_records = at_bat_batter_record.where(batting_order: batting_order, inning: inning, player_id: current_player.id)
     if @inning_bat_records.present?
       @inning_bat_records.each do |at_bat_record|
         @results.push Settings.result_code[at_bat_record.result_code]

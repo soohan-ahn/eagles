@@ -95,9 +95,8 @@ div
 
         - else
           td width="5%"
-            = @batting_order
             = hidden_field_tag "batting_game_id[#{@batting_order}]", @game.id, max_length: 5
-            = hidden_field_tag "batting_order[#{@batting_order}]", @batting_order, max_length: 5
+            = text_field_tag "batting_order[#{@batting_order}]", @batting_order, max_length: 5
 
           td width="5%"
             = text_field_tag "batting_player_name[#{@batting_order}]", nil, max_length: 5

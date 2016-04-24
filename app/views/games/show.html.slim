@@ -61,43 +61,45 @@ div
             td width="60px" 
               = @inning
       - else
-        td width="50px"
-          = @batting_order
+        - @current_players = player_of_at_bat(@at_bat_batter_record, @batting_order)
+        - @current_players.each do |current_player|
+          tr
+            td width="50px"
+              = @batting_order
 
-        - @current_player = player_of_at_bat(@at_bat_batter_record, @batting_order)
-        td width="50px"
-          = link_to batting_player_name(@at_bat_batter_record, @batting_order), @current_player
+            td width="50px"
+              = link_to current_player.name, current_player
 
-        td width="50px"
-          = batting_player_position(@at_bat_batter_record, @batting_order)
+            td width="50px"
+              = batting_player_position(@at_bat_batter_record, @batting_order)
 
-        td width="50px"
-          = @game.plate_appearence(@current_player.id) if @current_player
+            td width="50px"
+              = @game.plate_appearence(current_player.id) if current_player
 
-        td width="50px"
-          = @game.at_bat(@current_player.id) if @current_player
+            td width="50px"
+              = @game.at_bat(current_player.id) if current_player
 
-        td width="50px"
-          = @game.total_hits(@current_player.id) if @current_player
+            td width="50px"
+              = @game.total_hits(current_player.id) if current_player
 
-        td width="50px"
-          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "rbi")
+            td width="50px"
+              = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "rbi")
 
-        td width="50px"
-          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "run")
+            td width="50px"
+              = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "run")
 
-        td width="50px"
-          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal")
+            td width="50px"
+              = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal")
 
-        td width="50px"
-          = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught")
+            td width="50px"
+              = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught")
 
-        - for @inning in 1..10
-          td width="60px"
-            - inning_bat_results = batting_result_code(@at_bat_batter_record, @batting_order, @inning)
-            - if inning_bat_results.present?
-              - inning_bat_results.each do |result|
-                = result
+            - for @inning in 1..10
+              td width="60px"
+                - inning_bat_results = batting_result_code(current_player, @at_bat_batter_record, @batting_order, @inning)
+                - if inning_bat_results.present?
+                  - inning_bat_results.each do |result|
+                    = result
 
 div
   table class="table table-condensed table-striped"

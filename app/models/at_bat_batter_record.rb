@@ -9,7 +9,7 @@ class AtBatBatterRecord < ActiveRecord::Base
 
       for @inning in 1..9
         if params[:result_code][@inning.to_s][@batting_order.to_s].present?
-          @params_for_save = AtBatBatterRecord.params_for_save(params, @inning, @batting_order)
+          @params_for_save = AtBatBatterRecord.params_for_save(params, @inning, @batting_order, params[:batting_order][@batting_order.to_s])
 
           @params_for_save.each do |param_for_save|
             @game_batter_record = AtBatBatterRecord.new(param_for_save)
@@ -37,7 +37,7 @@ class AtBatBatterRecord < ActiveRecord::Base
         if params[:result_code][@inning.to_s][@batting_order.to_s].present? and params[:result_code][@inning.to_s][@batting_order.to_s].to_i != 0
           @at_bat_batter_records = AtBatBatterRecord.where(
             inning: @inning,
-            batting_order: @batting_order,
+            batting_order: params[:batting_order][@batting_order.to_s],
             player_id: Player.where(name: params[:batting_player_name][@batting_order.to_s]).first.id,
             game_id: params[:batting_game_id][@batting_order.to_s]
           )
@@ -45,7 +45,8 @@ class AtBatBatterRecord < ActiveRecord::Base
             return false
           end
 
-          @params_for_save = AtBatBatterRecord.params_for_save(params, @inning, @batting_order)
+          @params_for_save = AtBatBatterRecord.params_for_save(params, @inning, @batting_order, params[:batting_order][@batting_order.to_s])
+          binding.pry
           @params_for_save.each do |param_for_save|
             @game_batter_record = AtBatBatterRecord.new(param_for_save)
             unless @game_batter_record.save
@@ -68,13 +69,13 @@ class AtBatBatterRecord < ActiveRecord::Base
     true
   end
 
-  def self.params_for_save(params, inning, batting_order)
+  def self.params_for_save(params, inning, batting_order, displayed_batting_order)
     @result_codes = params[:result_code][inning.to_s][batting_order.to_s].split " "
     @player_id = Player.where(name: params[:batting_player_name][batting_order.to_s]).first.id
     @new_params = [ ]
     @result_codes.each do |result_code|
       @new_param = { }
-      @new_param[:batting_order] = batting_order
+      @new_param[:batting_order] = displayed_batting_order
       @new_param[:player_id] = @player_id
       @new_param[:game_id] = params[:batting_game_id][batting_order.to_s]
       @new_param[:position] = params[:batting_position][batting_order.to_s]
