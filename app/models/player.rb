@@ -103,7 +103,7 @@ class Player < ActiveRecord::Base
   end
 
   def at_bat(year = nil)
-    plate_appearence(year) - retrieve_at_bat_batter_records("base_on_ball", year) - retrieve_at_bat_batter_records("hit_by_pitched_ball", year)
+    plate_appearence(year) - retrieve_at_bat_batter_records("base_on_ball", year) - retrieve_at_bat_batter_records("hit_by_pitched_ball", year) - retrieve_at_bat_batter_records("sacrifies", year)
   end
 
   def total_hits(year = nil)
