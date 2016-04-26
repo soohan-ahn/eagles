@@ -9,6 +9,7 @@ on_base_codes:
   base_on_ball: [31,41]
   hit_by_pitched_ball: 21
   strike_out: [10,20,11]
+  sacrifies: [8b,118b,218b,318b,418b,518b,618b,338,438,538,638,738,838,938]
 
 result_code:
   10: 삼진
