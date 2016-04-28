@@ -46,7 +46,6 @@ class AtBatBatterRecord < ActiveRecord::Base
           end
 
           @params_for_save = AtBatBatterRecord.params_for_save(params, @inning, @batting_order, params[:batting_order][@batting_order.to_s])
-          binding.pry
           @params_for_save.each do |param_for_save|
             @game_batter_record = AtBatBatterRecord.new(param_for_save)
             unless @game_batter_record.save

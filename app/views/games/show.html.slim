@@ -63,6 +63,7 @@ div
       - else
         - @current_players = player_of_at_bat(@at_bat_batter_record, @batting_order)
         - @current_players.each do |current_player|
+          - next if !current_player
           tr
             td width="50px"
               = @batting_order
@@ -83,16 +84,16 @@ div
               = @game.total_hits(current_player.id) if current_player
 
             td width="50px"
-              = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "rbi")
+              = batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "rbi") if current_player
 
             td width="50px"
-              = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "run")
+              = batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "run") if current_player
 
             td width="50px"
-              = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal")
+              = batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "steal") if current_player
 
             td width="50px"
-              = batting_player_game_record(@at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught")
+              = batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught") if current_player
 
             - for @inning in 1..10
               td width="60px"

@@ -13,7 +13,7 @@ module ApplicationHelper
     if @player.count > 0
       return Player.where(id: @player)
     else
-      return []
+      return [nil]
     end
   end
 
@@ -37,9 +37,9 @@ module ApplicationHelper
     return @results
   end
 
-  def batting_result_code_numbers(at_bat_batter_record, batting_order, inning)
+  def batting_result_code_numbers(current_player, at_bat_batter_record, batting_order, inning)
     @results = [ ]
-    @inning_bat_records = at_bat_batter_record.where(batting_order: batting_order, inning: inning)
+    @inning_bat_records = at_bat_batter_record.where(batting_order: batting_order, inning: inning, player_id: current_player.id)
     if @inning_bat_records.present?
       @inning_bat_records.each do |at_bat_record|
         @results.push at_bat_record.result_code
@@ -48,10 +48,10 @@ module ApplicationHelper
     return @results
   end
 
-  def batting_player_game_record(at_bat_batter_record, game_batter_record, batting_order, feature)
+  def batting_player_game_record(current_player, at_bat_batter_record, game_batter_record, batting_order, feature)
     feature_symbol = feature.to_sym
-    return "" unless at_bat_batter_record.where(batting_order: batting_order).first
-    @player_id = at_bat_batter_record.where(batting_order: batting_order).first.player_id
+    return "" unless at_bat_batter_record.where(batting_order: batting_order).first or current_player
+    @player_id = current_player.id
     if game_batter_record.where(player_id: @player_id).first
       return game_batter_record.where(player_id: @player_id).first[feature_symbol]
     else
