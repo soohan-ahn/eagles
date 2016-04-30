@@ -16,6 +16,10 @@ class Player < ActiveRecord::Base
     return @sorted_list
   end
 
+  def game_batting_record_of(game_id)
+    self.game_batter_records.find_by(game_id: game_id)
+  end
+
   def pitcher_sotring_value(params)
     if params[:pitcher_sort] == "G"
       retrieve_game_pitcher_records("pitcher_games", params[:year])

@@ -35,46 +35,32 @@ div
       - for @pitching_order in 0..5
         tr width="300"
         - if @pitching_order == 0
-            th style="width:3%" =  "pitched_order"
-            th style="width:3%" =  "player_name"
-            th style="width:3%" =  "win"
-            th style="width:3%" =  "lose"
-            th style="width:3%" =  "save_point"
-            th style="width:3%" =  "hold"
-            th style="width:3%" =  "innings_pitched"
-            th style="width:3%" =  "plate_appearance"
-            th style="width:3%" =  "at_bat"
-            th style="width:3%" =  "hit"
-            th style="width:3%" =  "homerun"
-            th style="width:3%" =  "sacrifice_bunt"
-            th style="width:3%" =  "sacrifice_fly"
-            th style="width:3%" =  "run"
-            th style="width:3%" =  "earned_run"
-            th style="width:3%" =  "strike_out"
-            th style="width:3%" =  "walk"
-            th style="width:3%" =  "intentional_walk"
-            th style="width:3%" =  "hit_by_pitch"
-            th style="width:3%" =  "wild_pitch"
-            th style="width:3%" =  "balk"
-            th style="width:3%" =  "number_of_pitches"
+            - @game_pitcher_record_columns.each do |column|
+              - next if column == "game_id"
+              - if column == "player_id"
+                td width = "50px"
+                  = "player"
+              - else
+                td width = "50px"
+                  = column
         - else
-          - @indexes = GamePitcherRecord.index_of_game_pitcher_records
-          - @indexes.each do |index|
-            - if index == "game_id"
-              = hidden_field_tag "#{index}[#{@pitching_order}]", @game.id, max_length: 5
-            - elsif index == "pitched_order"
+          - next unless @game_pitcher_records[@pitching_order]
+          - @game_pitcher_record_columns.each do |column|
+            - if column == "game_id"
+              = hidden_field_tag "#{column}[#{@pitching_order}]", @game.id, max_length: 5
+            - elsif column == "pitched_order"
               td style="width:3%"
                 = @pitching_order
-                = hidden_field_tag "#{index}[#{@pitching_order}]", @pitching_order, max_length: 5
-            - elsif index == "player_id"
+                = hidden_field_tag "#{column}[#{@pitching_order}]", @pitching_order, max_length: 5
+            - elsif column == "player_id"
               td style="width:3%"
-                = text_field_tag "#{index}[#{@pitching_order}]", pitcher_name_result(@game_pitcher_record, @pitching_order, index), max_length: 5
-            - elsif index == "innings_pitched"
+                = text_field_tag "#{column}[#{@pitching_order}]", @game_pitcher_records[@pitching_order]["pitcher_name"], max_length: 5
+            - elsif column == "innings_pitched"
               td style="width:3%"
-                = text_field_tag "#{index}[#{@pitching_order}]", pitcher_result_info(@game_pitcher_record, @pitching_order, index), max_length: 5
+                = text_field_tag "#{column}[#{@pitching_order}]", @game_pitcher_records[@pitching_order]["details"][column.to_sym], max_length: 5
             -else
               td style="width:10%"
-                = number_field_tag "#{index}[#{@pitching_order}]", pitcher_result_info(@game_pitcher_record, @pitching_order, index), max_length: 5
+                = number_field_tag "#{column}[#{@pitching_order}]", @game_pitcher_records[@pitching_order]["details"][column.to_sym], max_length: 5
 
   = render "result_codes_bar"
 
@@ -96,9 +82,10 @@ div
               td= @inning
 
         - else
-          - @current_players = player_of_at_bat(@at_bat_batter_record, @batting_order)
+          - @current_players = @game.player_of_at_bat(@batting_order)
           - @current_players.each do |current_player|
             - @registered_order += 1
+            - @player_game_record = (current_player) ? current_player.game_batting_record_of(@game.id) : nil
             tr
               td width="5%"
                 = hidden_field_tag "batting_game_id[#{@registered_order}]", @game.id, max_length: 5
@@ -108,22 +95,23 @@ div
                 = text_field_tag "batting_player_name[#{@registered_order}]", (current_player) ? current_player.name : nil, max_length: 5
 
               td width="5%"
-                = text_field_tag "batting_position[#{@registered_order}]", batting_player_position(@at_bat_batter_record, @batting_order), max_length: 5
+                = text_field_tag "batting_position[#{@registered_order}]", (current_player) ? @player_positions[current_player.name] : nil, max_length: 5
 
               td width="5%"
-                = text_field_tag "batting_rbi[#{@registered_order}]", batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "rbi"), max_length: 5
+                = text_field_tag "batting_rbi[#{@registered_order}]", (current_player) ? @player_game_record[:rbi] : nil, max_length: 5
 
               td width="5%"
-                = text_field_tag "batting_run[#{@registered_order}]", batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "run"), max_length: 5
+                = text_field_tag "batting_run[#{@registered_order}]", (current_player) ? @player_game_record[:run] : nil, max_length: 5
 
               td width="5%"
-                = text_field_tag "batting_steal[#{@registered_order}]", batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "steal"), max_length: 5
+                = text_field_tag "batting_steal[#{@registered_order}]", (current_player) ? @player_game_record[:steal] : nil, max_length: 5
 
               td width="5%"
-                = text_field_tag "batting_steal_caught[#{@registered_order}]", batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught"), max_length: 5
+                = text_field_tag "batting_steal_caught[#{@registered_order}]", (current_player) ? @player_game_record[:steal_caught] : nil, max_length: 5
 
               - for @inning in 1..10
-                - inning_bat_results = (current_player) ? batting_result_code_numbers(current_player, @at_bat_batter_record, @batting_order, @inning) : nil
+                - inning_bat_results = (current_player and @at_bat_batter_record[@inning][@batting_order][current_player.name]) ? @at_bat_batter_record[@inning][@batting_order][current_player.name]["results"] : nil
+
                 - results = ""
                 - if inning_bat_results.present?
                   - inning_bat_results.each do |result|

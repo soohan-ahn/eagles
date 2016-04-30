@@ -1,5 +1,6 @@
 class Game < ActiveRecord::Base
   has_many :at_bat_batter_records
+  has_many :game_batter_records
 
   def self.by_year(year)
     where('extract(year from game_start_time) = ?', year)
@@ -33,6 +34,15 @@ class Game < ActiveRecord::Base
     game_params[:score_box] = score_box_string
   end
 
+  def player_of_at_bat(batting_order)
+    @players = self.at_bat_batter_records.where(batting_order: batting_order).pluck(:player_id)
+    if @players.count > 0
+      return Player.where(id: @players)
+    else
+      return [nil]
+    end
+  end
+
   def at_bat_batter_records_of_player(player_id)
     self.at_bat_batter_records.where(player_id: player_id)
   end
@@ -47,11 +57,11 @@ class Game < ActiveRecord::Base
     records.where(result_code: result_codes).count
   end
 
-  def at_bat(player_id)
+  def at_bat_of_player(player_id)
     plate_appearence(player_id) - retrieve_at_bat_batter_records("base_on_ball", player_id) - retrieve_at_bat_batter_records("hit_by_pitched_ball", player_id)
   end
 
-  def total_hits(player_id)
+  def hits_of_player(player_id)
     total_hits_count = 0
     [:one_base_hit, :two_base_hit, :three_base_hit, :home_run].each do |result|
       total_hits_count += retrieve_at_bat_batter_records(result, player_id)

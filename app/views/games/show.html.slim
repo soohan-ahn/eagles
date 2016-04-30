@@ -61,9 +61,10 @@ div
             td width="60px" 
               = @inning
       - else
-        - @current_players = player_of_at_bat(@at_bat_batter_record, @batting_order)
+        - @current_players = @game.player_of_at_bat(@batting_order)
         - @current_players.each do |current_player|
           - next if !current_player
+          - @player_game_record = current_player.game_batting_record_of(@game.id)
           tr
             td width="50px"
               = @batting_order
@@ -72,94 +73,72 @@ div
               = link_to current_player.name, current_player
 
             td width="50px"
-              = batting_player_position(@at_bat_batter_record, @batting_order)
+              = @player_positions[current_player.name] if current_player
 
             td width="50px"
               = @game.plate_appearence(current_player.id) if current_player
 
             td width="50px"
-              = @game.at_bat(current_player.id) if current_player
+              = @game.at_bat_of_player(current_player.id) if current_player
 
             td width="50px"
-              = @game.total_hits(current_player.id) if current_player
+              = @game.hits_of_player(current_player.id) if current_player
 
             td width="50px"
-              = batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "rbi") if current_player
+              = @player_game_record[:rbi] if current_player
 
             td width="50px"
-              = batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "run") if current_player
+              = @player_game_record[:run] if current_player
 
             td width="50px"
-              = batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "steal") if current_player
+              = @player_game_record[:steal] if current_player
 
             td width="50px"
-              = batting_player_game_record(current_player, @at_bat_batter_record, @game_batter_record, @batting_order, "steal_caught") if current_player
+              = @player_game_record[:steal_caught] if current_player
 
             - for @inning in 1..10
               td width="60px"
-                - inning_bat_results = batting_result_code(current_player, @at_bat_batter_record, @batting_order, @inning)
+                - inning_bat_results = (@at_bat_batter_record[@inning][@batting_order][current_player.name]) ? @at_bat_batter_record[@inning][@batting_order][current_player.name]["results"] : nil
+
                 - if inning_bat_results.present?
                   - inning_bat_results.each do |result|
-                    = result
+                    = Settings.result_code[result]
 
 div
   table class="table table-condensed table-striped"
     - for @pitching_order in 0..5
       tr
       - if @pitching_order == 0
-          td width="50px"
-            ="pitched_order"
-          td width="50px"
-            ="player_name"
-          td width="50px"
-            ="pitched_result"
-          td width="50px"
-            ="hold"
-          td width="50px"
-            ="innings_pitched"
-          td width="50px"
-            ="plate_appearance"
-          td width="50px"
-            ="at_bat"
-          td width="50px"
-            ="hit"
-          td width="50px"
-            ="homerun"
-          td width="50px"
-            ="sacrifice_bunt"
-          td width="50px"
-            ="sacrifice_fly"
-          td width="50px"
-            ="run"
-          td width="50px"
-            ="earned_run"
-          td width="50px"
-            ="strike_out"
-          td width="50px"
-            ="walk"
-          td width="50px"
-            ="intentional_walk"
-          td width="50px"
-            ="hit_by_pitch"
-          td width="50px"
-            ="wild_pitch"
-          td width="50px"
-            ="balk"
-          td width="50px"
-            ="number_of_pitches"
+        - @game_pitcher_record_columns.each do |column|
+          - if column == "win"
+            td width="50px"
+              = "pitched_result"
+          - elsif column == "player_id"
+            td width = "50px"
+              = "player"
+          - elsif column == "lose" or column == "save_point" or column == "hold" or column == "game_id"
+            - next
+          - else
+            td width = "50px"
+              = column
       - else
-        - @indexes = index_of_game_pitcher_records
-        - @indexes.each do |index|
-          - if index == "game_id"
-          - elsif index == "pitched_order"
+        - next unless @game_pitcher_records[@pitching_order]
+        - @game_pitcher_record_columns.each do |column|
+          - next if column == "game_id"
+          - if column == "pitched_order"
             td width="50px"
               = @pitching_order
-          - elsif index == "player_id"
+          - elsif column == "player_id"
             td width="50px"
-              = pitcher_name_result(@game_pitcher_record, @pitching_order, index)
+              = @game_pitcher_records[@pitching_order]["pitcher_name"]
+          - elsif column == "win"
+            td width="50px"
+              = @game_pitcher_records[@pitching_order]["pitched_result"]
+          - elsif column == "lose" or column == "save_point" or column == "hold"
+            - next
           - else
             td width="50px"
-              = pitcher_result_info(@game_pitcher_record, @pitching_order, index)
+              = @game_pitcher_records[@pitching_order]["details"][column.to_sym]
 
 br
 = link_to 'Back', games_path

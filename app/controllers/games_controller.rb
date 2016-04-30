@@ -12,9 +12,11 @@ class GamesController < ApplicationController
   # GET /games/1.json
   def show
     @score_boxes = @game.score_box.split "\t"
-    @at_bat_batter_record = AtBatBatterRecord.where(game_id: @game.id)
+    @at_bat_batter_record = AtBatBatterRecord.batting_result_codes_of_games(@game.id)
+    @player_positions = AtBatBatterRecord.player_position(@game.id)
     @game_batter_record = GameBatterRecord.where(game_id: @game.id)
-    @game_pitcher_record = GamePitcherRecord.where(game_id: @game.id)
+    @game_pitcher_records = GamePitcherRecord.pitcher_results_of_game(@game.id)
+    @game_pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
   end
 
   # GET /games/new
