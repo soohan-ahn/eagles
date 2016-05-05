@@ -3,10 +3,14 @@ class Player < ActiveRecord::Base
   has_many :game_batter_records
   has_many :at_bat_batter_records
 
+  def self.batter_record_columns
+    ["Name","Team","Back number","G","PA","AB","H","1b","2b","3b","HR","SO","BB","HBP","RBI","Run","Steal","Steal Caught","BA","OBP","SLG","OPS"]
+  end
+
   def self.batter_records(params)
-    @players = params[:id] ? Player.where(id: params[:id]) : Player.all
+    players = params[:id] ? Player.where(id: params[:id]) : Player.all
     @player_batter_records = {}
-    @players.each do |player|
+    players.each do |player|
       if player.plate_appearence(params[:year]) > 0
         @player_batter_records[player.id] = {
           "Name" => player.name,
@@ -38,10 +42,14 @@ class Player < ActiveRecord::Base
     return @player_batter_records.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value }
   end
 
+  def self.pitcher_record_columns
+    ["Name","Team","Back number","G","W","L","ERA","IP","H","R","ER","HR","BB","SO","HBP","WHIP"]
+  end
+
   def self.pitcher_records(params)
-    @players = params[:id] ? Player.where(id: params[:id]) : Player.all
+    players = params[:id] ? Player.where(id: params[:id]) : Player.all
     @player_pitcher_records = {}
-    @players.each do |player|
+    players.each do |player|
       if player.retrieve_game_pitcher_records("pitcher_games", params[:year]) > 0
         @player_pitcher_records[player.id] = {
           "Name" => player.name,
@@ -67,16 +75,9 @@ class Player < ActiveRecord::Base
     return @player_pitcher_records.sort_by { |_key, value| value[params[:pitcher_sort]] }.reverse.collect { |key, value| value }
   end
 
+  # Methods for the batters.
   def game_batting_record_of(game_id)
     self.game_batter_records.find_by(game_id: game_id)
-  end
-
-  def self.batter_record_columns
-    ["Name","Team","Back number","G","PA","AB","H","1b","2b","3b","HR","SO","BB","HBP","RBI","Run","Steal","Steal Caught","BA","OBP","SLG","OPS"]
-  end
-
-  def self.pitcher_record_columns
-    ["Name","Team","Back number","G","W","L","ERA","IP","H","R","ER","HR","BB","SO","HBP","WHIP"]
   end
 
   def at_bat_batter_records_this_year(year = nil)
@@ -151,6 +152,7 @@ class Player < ActiveRecord::Base
     records.pluck(result_symbol).sum
   end
 
+  # Methods for the pitchers.
   def game_pitcher_records_this_year(year = nil)
     (year) ? self.game_pitcher_records.where(game_id: Game.by_year(year).pluck(:id)) : self.game_pitcher_records
   end
