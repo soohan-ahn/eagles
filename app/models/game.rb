@@ -51,20 +51,20 @@ class Game < ActiveRecord::Base
     at_bat_batter_records_of_player(player_id).count
   end
 
-  def retrieve_at_bat_batter_records(result, player_id)
+  def count_of_at_bat_batter_records(result, player_id)
     result_codes = Settings.on_base_codes[result.to_sym]
     records = at_bat_batter_records_of_player(player_id)
     records.where(result_code: result_codes).count
   end
 
   def at_bat_of_player(player_id)
-    plate_appearence(player_id) - retrieve_at_bat_batter_records("base_on_ball", player_id) - retrieve_at_bat_batter_records("hit_by_pitched_ball", player_id)
+    plate_appearence(player_id) - count_of_at_bat_batter_records("base_on_ball", player_id) - count_of_at_bat_batter_records("hit_by_pitched_ball", player_id)
   end
 
   def hits_of_player(player_id)
     total_hits_count = 0
     [:one_base_hit, :two_base_hit, :three_base_hit, :home_run].each do |result|
-      total_hits_count += retrieve_at_bat_batter_records(result, player_id)
+      total_hits_count += count_of_at_bat_batter_records(result, player_id)
     end
 
     total_hits_count
