@@ -4,55 +4,15 @@ h2= "Batting Records"
 table class="table table-condensed table-striped"
   thead
     tr
-      th="Name"
-      th="Team"
-      th="Back number"
-      th="G"
-      th="PA"
-      th="AB"
-      th="H"
-      th="1b"
-      th="2b"
-      th="3b"
-      th="HR"
-      th="SO"
-      th="BB"
-      th="HBP"
-      th="RBI"
-      th="Run"
-      th="Steal"
-      th="Steal Caught"
-      th="BA"
-      th="OBP"
-      th="SLG"
-      th="OPS"
+      - @batter_record_columns.each do |column|
+        th = column
       th colspan="3"
 
   tbody
     tr
-      td= @player.name
-      td= @player.team
-      td= @player.back_number
-      td= @player.game_batter_records_this_year.count
-      td= @player.plate_appearence
-      td= @player.at_bat
-      td= @player.total_hits
-      td= @player.retrieve_at_bat_batter_records("one_base_hit")
-      td= @player.retrieve_at_bat_batter_records("two_base_hit")
-      td= @player.retrieve_at_bat_batter_records("three_base_hit")
-      td= @player.retrieve_at_bat_batter_records("home_run")
-      td= @player.retrieve_at_bat_batter_records("strike_out")
-      td= @player.retrieve_at_bat_batter_records("base_on_ball")
-      td= @player.retrieve_at_bat_batter_records("hit_by_pitched_ball")
-      td= @player.retrieve_game_batter_records("rbi")
-      td= @player.retrieve_game_batter_records("run")
-      td= @player.retrieve_game_batter_records("steal")
-      td= @player.retrieve_game_batter_records("steal_caught")
-      td= @player.batting_average
-      td= @player.on_base_percentage
-      td= @player.slugging_percentage
-      td= @player.ops
-    
+      - @batters.each do |batter|
+        - @batter_record_columns.each do |column|
+          td= batter[column]
       
 = link_to "Game batting records", show_batting_path
 
@@ -62,42 +22,15 @@ h2= "Pitching Records"
 table class="table table-condensed table-striped"
   thead
     tr
-      th="Name"
-      th="Team"
-      th="Back number"
-      th="G"
-      th="W"
-      th="L"
-      th="ERA"
-      th="IP"
-      th="H"
-      th="R"
-      th="ER"
-      th="HR"
-      th="BB"
-      th="SO"
-      th="HBP"
-      th="WHIP"
+      - @pitcher_record_columns.each do |column|
+        th = column
       th colspan="3"
 
   tbody
     tr
-      td= @player.name
-      td= @player.team
-      td= @player.back_number
-      td= @player.retrieve_game_pitcher_records("pitcher_games")
-      td= @player.retrieve_game_pitcher_records("win")
-      td= @player.retrieve_game_pitcher_records("lose")
-      td= @player.era
-      td= @player.inning_pitched
-      td= @player.retrieve_game_pitcher_records("hit")
-      td= @player.retrieve_game_pitcher_records("run")
-      td= @player.retrieve_game_pitcher_records("earned_run")
-      td= @player.retrieve_game_pitcher_records("homerun")
-      td= @player.retrieve_game_pitcher_records("walk")
-      td= @player.retrieve_game_pitcher_records("strike_out")
-      td= @player.retrieve_game_pitcher_records("hit_by_pitch")
-      td= @player.pitcher_whip
+      - @pitchers.each do |pitcher|
+        - @pitcher_record_columns.each do |column|
+          td= pitcher[column]
 
 
 = link_to "Game pitching records", show_pitching_path

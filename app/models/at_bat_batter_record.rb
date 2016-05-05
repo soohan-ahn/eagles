@@ -118,7 +118,6 @@ class AtBatBatterRecord < ActiveRecord::Base
       @new_param[:inning] = inning
       @new_param[:at_plate_order] = 1
       @new_param[:result_code] = result_code
-      # @new_params[:result_code] = params[:result_code][inning.to_s][batting_order.to_s]
       @new_params.push @new_param
     end
 

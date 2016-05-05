@@ -1,11 +1,10 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy, :show_batting, :show_pitching]
+  before_action :set_records, only: [:index, :show]
 
   # GET /players
   # GET /players.json
   def index
-    @batters = Player.sorted_list(params, "batter")
-    @pitchers = Player.sorted_list(params, "pitcher")
   end
 
   # GET /players/1
@@ -22,7 +21,6 @@ class PlayersController < ApplicationController
         @new_at_batter_record_hash = { at_bat_batter_records: [ ] }
         @batter_records[at_bat_batter_record.game_id] = @new_at_batter_record_hash
         @batter_records[at_bat_batter_record.game_id][:at_bat_batter_records].push at_bat_batter_record
-        # @batter_records[at_bat_batter_record.game_id] = @new_at_batter_record_hash
       else
         @batter_records[at_bat_batter_record.game_id][:at_bat_batter_records].push at_bat_batter_record
       end
@@ -92,6 +90,13 @@ class PlayersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_player
       @player = Player.find(params[:id])
+    end
+
+    def set_records
+      @batter_record_columns = Player.batter_record_columns
+      @pitcher_record_columns = Player.pitcher_record_columns
+      @batters = Player.batter_records(params)
+      @pitchers = Player.pitcher_records(params)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -12,59 +12,21 @@ h2= "Batting Records"
 table class="table table-condensed table-striped"
   thead
     tr
-      th="Name"
-      th="Team"
-      th="Back number"
-      th= link_to "G", players_path(year: params[:year], batter_sort: "G", pitcher_sort: params[:pitcher_sort])
-      th= link_to "PA", players_path(year: params[:year], batter_sort: "PA", pitcher_sort: params[:pitcher_sort])
-      th= link_to "AB", players_path(year: params[:year], batter_sort: "AB", pitcher_sort: params[:pitcher_sort])
-      th= link_to "H", players_path(year: params[:year], batter_sort: "H", pitcher_sort: params[:pitcher_sort])
-      th= link_to "1b", players_path(year: params[:year], batter_sort: "1b", pitcher_sort: params[:pitcher_sort])
-      th= link_to "2b", players_path(year: params[:year], batter_sort: "2b", pitcher_sort: params[:pitcher_sort])
-      th= link_to "3b", players_path(year: params[:year], batter_sort: "3b", pitcher_sort: params[:pitcher_sort])
-      th= link_to "HR", players_path(year: params[:year], batter_sort: "HR", pitcher_sort: params[:pitcher_sort])
-      th= link_to "SO", players_path(year: params[:year], batter_sort: "SO", pitcher_sort: params[:pitcher_sort])
-      th= link_to "BB", players_path(year: params[:year], batter_sort: "BB", pitcher_sort: params[:pitcher_sort])
-      th= link_to "HBP", players_path(year: params[:year], batter_sort: "HBP", pitcher_sort: params[:pitcher_sort])
-      th= link_to "RBI", players_path(year: params[:year], batter_sort: "RBI", pitcher_sort: params[:pitcher_sort])
-      th= link_to "Run", players_path(year: params[:year], batter_sort: "Run", pitcher_sort: params[:pitcher_sort])
-      th= link_to "Steal", players_path(year: params[:year], batter_sort: "Steal", pitcher_sort: params[:pitcher_sort])
-      th= link_to "Steal Caught", players_path(year: params[:year], batter_sort: "Steal Caught", pitcher_sort: params[:pitcher_sort])
-      th= link_to "BA", players_path(year: params[:year], batter_sort: "BA", pitcher_sort: params[:pitcher_sort])
-      th= link_to "OBP", players_path(year: params[:year], batter_sort: "OBP", pitcher_sort: params[:pitcher_sort])
-      th= link_to "SLG", players_path(year: params[:year], batter_sort: "SLG", pitcher_sort: params[:pitcher_sort])
-      th= link_to "OPS", players_path(year: params[:year], batter_sort: "OPS", pitcher_sort: params[:pitcher_sort])
+      - @batter_record_columns.each do |column|
+        th= link_to column, players_path(year: params[:year], batter_sort: column, pitcher_sort: params[:pitcher_sort])
       th colspan="3"
 
   tbody
-    - @batters.each do |player|
-      - if player.plate_appearence(params[:year]) > 0
-        tr
-          td= link_to player.name, player
-          td= player.team
-          td= player.back_number
-          td= player.game_batter_records_this_year(params[:year]).count
-          td= player.plate_appearence(params[:year])
-          td= player.at_bat(params[:year])
-          td= player.total_hits(params[:year])
-          td= player.retrieve_at_bat_batter_records("one_base_hit", params[:year])
-          td= player.retrieve_at_bat_batter_records("two_base_hit", params[:year])
-          td= player.retrieve_at_bat_batter_records("three_base_hit", params[:year])
-          td= player.retrieve_at_bat_batter_records("home_run", params[:year])
-          td= player.retrieve_at_bat_batter_records("strike_out", params[:year])
-          td= player.retrieve_at_bat_batter_records("base_on_ball", params[:year])
-          td= player.retrieve_at_bat_batter_records("hit_by_pitched_ball", params[:year])
-          td= player.retrieve_game_batter_records("rbi", params[:year])
-          td= player.retrieve_game_batter_records("run", params[:year])
-          td= player.retrieve_game_batter_records("steal", params[:year])
-          td= player.retrieve_game_batter_records("steal_caught", params[:year])
-          td= player.batting_average(params[:year])
-          td= player.on_base_percentage(params[:year])
-          td= player.slugging_percentage(params[:year])
-          td= player.ops(params[:year])
-          - if current_user
-            td= link_to 'Edit', edit_player_path(player)
-            td= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' }
+    - @batters.each do |batter|
+      tr
+        - @batter_record_columns.each do |column|
+          - if column == "Name"
+            td= link_to batter[column], batter["player_data"]
+          - else
+            td= batter[column]
+        - if current_user
+          td= link_to 'Edit', edit_player_path(batter["player_data"])
+          td= link_to 'Destroy', batter["player_data"], method: :delete, data: { confirm: 'Are you sure?' }
 
 br
 
@@ -72,47 +34,21 @@ h2= "Pitching Records"
 table class="table table-condensed table-striped"
   thead
     tr
-      th="Name"
-      th="Team"
-      th="Back number"
-      th= link_to "G", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "G")
-      th= link_to "W", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "W")
-      th= link_to "L", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "L")
-      th= link_to "ERA", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "ERA")
-      th= link_to "IP", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "IP")
-      th= link_to "H", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "H")
-      th= link_to "R", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "R")
-      th= link_to "ER", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "ER")
-      th= link_to "HR", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "HR")
-      th= link_to "BB", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "BB")
-      th= link_to "SO", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "SO")
-      th= link_to "HBP", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "HBP")
-      th= link_to "WHIP", players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: "WHIP")
+      - @pitcher_record_columns.each do |column|
+        th= link_to column, players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: column)
       th colspan="3"
 
   tbody
-    - @pitchers.each do |player|
-      - if player.retrieve_game_pitcher_records("pitcher_games", params[:year]) > 0
+    - @pitchers.each do |pitcher|
         tr
-          td= link_to player.name, player
-          td= player.team
-          td= player.back_number
-          td= player.retrieve_game_pitcher_records("pitcher_games", params[:year])
-          td= player.retrieve_game_pitcher_records("win", params[:year])
-          td= player.retrieve_game_pitcher_records("lose", params[:year])
-          td= player.era(params[:year])
-          td= player.inning_pitched(params[:year])
-          td= player.retrieve_game_pitcher_records("hit", params[:year])
-          td= player.retrieve_game_pitcher_records("run", params[:year])
-          td= player.retrieve_game_pitcher_records("earned_run", params[:year])
-          td= player.retrieve_game_pitcher_records("homerun", params[:year])
-          td= player.retrieve_game_pitcher_records("walk", params[:year])
-          td= player.retrieve_game_pitcher_records("strike_out", params[:year])
-          td= player.retrieve_game_pitcher_records("hit_by_pitch", params[:year])
-          td= player.pitcher_whip(params[:year])
+          - @pitcher_record_columns.each do |column|
+            - if column == "Name"
+              td= link_to pitcher[column], pitcher["player_data"]
+            - else
+              td= pitcher[column]
           - if current_user
-            td= link_to 'Edit', edit_player_path(player)
-            td= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' }
+            td= link_to 'Edit', edit_player_path(pitcher)
+            td= link_to 'Destroy', pitcher, method: :delete, data: { confirm: 'Are you sure?' }
 
 - if current_user
   = link_to 'New Player', new_player_path
