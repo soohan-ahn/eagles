@@ -1,4 +1,6 @@
 class GameBatterRecord < ActiveRecord::Base
+  belongs_to :player
+
   def self.new_game_record(params)
     i = 0
 
@@ -8,7 +10,7 @@ class GameBatterRecord < ActiveRecord::Base
           Player.new(name: params[:batting_player_name][@batting_order.to_s]).save
         end
 
-        @params_for_save = GameBatterRecord.params_for_save(params, @batting_order)
+        @params_for_save = GameBatterRecord.params_for_save(params, params[:batting_order][@batting_order.to_s])
         @game_batter_record = GameBatterRecord.new(@params_for_save)
         unless @game_batter_record.save
           return false

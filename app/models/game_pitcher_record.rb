@@ -65,6 +65,28 @@ class GamePitcherRecord < ActiveRecord::Base
     @new_params
   end
 
+  def self.pitched_result(pitcher_result)
+    return "W" if pitcher_result[:win]
+    return "L" if pitcher_result[:lose]
+    return "SV" if pitcher_result[:save_point]
+    return " "
+  end
+
+
+  def self.pitcher_results_of_game(game_id)
+    @pitcher_results = self.where(game_id: game_id)
+    @pitcher_results_in_hash = Hash.new
+    @pitcher_results.each do |pitcher_result|
+      @pitcher_results_in_hash[pitcher_result.pitched_order.to_i] = {
+          "pitcher_name" => Player.where(id: pitcher_result.player_id).first.name,
+          "details" => pitcher_result,
+          "pitched_result" => pitched_result(pitcher_result)
+      }
+    end
+
+    @pitcher_results_in_hash
+  end
+
   def self.index_of_game_pitcher_records
     [
       "pitched_order",

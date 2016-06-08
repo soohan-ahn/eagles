@@ -3,91 +3,95 @@ class Player < ActiveRecord::Base
   has_many :game_batter_records
   has_many :at_bat_batter_records
 
-  def self.sorted_list(params, sorting_for)
-    @sorted_list = Player.all
-    if params[:batter_sort] or params[:pitcher_sort]
-      @player_hash = {}
-      @sorted_list.each do |player|
-        @player_hash[player] = (sorting_for == "batter") ? player.batter_sotring_value(params) : player.pitcher_sotring_value(params)
+  def self.batter_record_columns
+    ["Name","Team","Back number","G","PA","AB","H","1b","2b","3b","HR","SO","BB","HBP","RBI","Run","Steal","Steal Caught","BA","OBP","SLG","OPS"]
+  end
+
+  def self.batter_records(params)
+    players = params[:id] ? Player.where(id: params[:id]) : Player.all
+    @player_batter_records = {}
+    game_count = (params[:year]) ? Game.by_year(params[:year]).count : Game.all.count
+    is_sort_by_rate = (params[:batter_sort] == "BA" or params[:batter_sort] == "OBP" or params[:batter_sort] == "SLG" or params[:batter_sort] == "OPS")
+    players.each do |player|
+      if player.plate_appearence(params[:year]) > 0
+        is_regular_plate_appearance_satisfied = (is_sort_by_rate) ? (game_count * Settings.regular_plate_appearance_rate <= player.plate_appearence) : 1
+
+        @player_batter_records[player.id] = {
+          "Name" => player.name,
+          "Team" => player.team,
+          "Back_number" => player.back_number,
+          "G" => player.game_batter_records_this_year.count,
+          "PA" => player.plate_appearence,
+          "AB" => player.at_bat,
+          "H" => player.total_hits,
+          "1b" => player.retrieve_at_bat_batter_records("one_base_hit", params[:year]),
+          "2b" => player.retrieve_at_bat_batter_records("two_base_hit", params[:year]),
+          "3b" => player.retrieve_at_bat_batter_records("three_base_hit", params[:year]),
+          "HR" => player.retrieve_at_bat_batter_records("home_run", params[:year]),
+          "SO" => player.retrieve_at_bat_batter_records("strike_out", params[:year]),
+          "BB" => player.retrieve_at_bat_batter_records("base_on_ball", params[:year]),
+          "HBP" => player.retrieve_at_bat_batter_records("hit_by_pitched_ball", params[:year]),
+          "RBI" => player.retrieve_game_batter_records("rbi", params[:year]),
+          "Run" => player.retrieve_game_batter_records("run", params[:year]),
+          "Steal" => player.retrieve_game_batter_records("steal", params[:year]),
+          "Steal Caught" => player.retrieve_game_batter_records("steal_caught", params[:year]),
+          "BA" => player.batting_average,
+          "OBP" => player.on_base_percentage,
+          "SLG" => player.slugging_percentage,
+          "OPS" => player.ops,
+          "player_data" => player,
+          "is_regular_plate_appearance_satisfied" => (is_regular_plate_appearance_satisfied) ? 1 : 0
+        }
       end
-
-      return @player_hash.sort_by { |_key, value| value }.reverse.collect { |key, value| key }
     end
-    return @sorted_list
-  end
 
-  def pitcher_sotring_value(params)
-    if params[:pitcher_sort] == "G"
-      retrieve_game_pitcher_records("pitcher_games", params[:year])
-    elsif params[:pitcher_sort] == "W"
-      retrieve_game_pitcher_records("win", params[:year])
-    elsif params[:pitcher_sort] == "L"
-      retrieve_game_pitcher_records("lose", params[:year])
-    elsif params[:pitcher_sort] == "ERA"
-      era(params[:year])
-    elsif params[:pitcher_sort] == "IP"
-      inning_pitched(params[:year])
-    elsif params[:pitcher_sort] == "H"
-      retrieve_game_pitcher_records("hit", params[:year])
-    elsif params[:pitcher_sort] == "R"
-      retrieve_game_pitcher_records("run", params[:year])
-    elsif params[:pitcher_sort] == "ER"
-      retrieve_game_pitcher_records("earned_run", params[:year])
-    elsif params[:pitcher_sort] == "HR"
-      retrieve_game_pitcher_records("homerun", params[:year])
-    elsif params[:pitcher_sort] == "BB"
-      retrieve_game_pitcher_records("walk", params[:year])
-    elsif params[:pitcher_sort] == "SO"
-      retrieve_game_pitcher_records("strike_out", params[:year])
-    elsif params[:pitcher_sort] == "HBP"
-      retrieve_game_pitcher_records("hit_by_pitch", params[:year])
-    elsif params[:pitcher_sort] == "WHIP"
-      pitcher_whip(params[:year])
-    else return nil
+    if is_sort_by_rate
+      @regular_plate_players = @player_batter_records.select { |_key, value| value["is_regular_plate_appearance_satisfied"] == 1 }
+      @result = @regular_plate_players.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value }
+      @non_regular_plate_players = @player_batter_records.select { |_key, value| value["is_regular_plate_appearance_satisfied"] == 0}
+      @result.concat(@non_regular_plate_players.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value })
+      return @result
+    else
+      return @player_batter_records.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value }
     end
   end
 
-  def batter_sotring_value(params)
-    if params[:batter_sort] == "G"
-      game_batter_records_this_year(params[:year]).count
-    elsif params[:batter_sort] == "PA"
-      plate_appearence(params[:year])
-    elsif params[:batter_sort] == "AB"
-      at_bat(params[:year])
-    elsif params[:batter_sort] == "H"
-      total_hits(params[:year])
-    elsif params[:batter_sort] == "1b"
-      retrieve_at_bat_batter_records("one_base_hit", params[:year])
-    elsif params[:batter_sort] == "2b"
-      retrieve_at_bat_batter_records("two_base_hit", params[:year])
-    elsif params[:batter_sort] == "3b"
-      retrieve_at_bat_batter_records("three_base_hit", params[:year])
-    elsif params[:batter_sort] == "HR"
-      retrieve_at_bat_batter_records("home_run", params[:year])
-    elsif params[:batter_sort] == "SO"
-      retrieve_at_bat_batter_records("strike_out", params[:year])
-    elsif params[:batter_sort] == "BB"
-      retrieve_at_bat_batter_records("base_on_ball", params[:year])
-    elsif params[:batter_sort] == "HBP"
-      retrieve_at_bat_batter_records("hit_by_pitched_ball", params[:year])
-    elsif params[:batter_sort] == "RBI"
-      retrieve_game_batter_records("rbi", params[:year])
-    elsif params[:batter_sort] == "Run"
-      retrieve_game_batter_records("run", params[:year])
-    elsif params[:batter_sort] == "Steal"
-      retrieve_game_batter_records("steal", params[:year])
-    elsif params[:batter_sort] == "Steal Caught"
-      retrieve_game_batter_records("steal_caught", params[:year])
-    elsif params[:batter_sort] == "BA"
-      batting_average(params[:year])
-    elsif params[:batter_sort] == "OBP"
-      on_base_percentage(params[:year])
-    elsif params[:batter_sort] == "SLG"
-      slugging_percentage(params[:year])
-    elsif params[:batter_sort] == "OPS"
-      ops(params[:year])
-    else return nil
+  def self.pitcher_record_columns
+    ["Name","Team","Back number","G","W","L","ERA","IP","H","R","ER","HR","BB","SO","HBP","WHIP"]
+  end
+
+  def self.pitcher_records(params)
+    players = params[:id] ? Player.where(id: params[:id]) : Player.all
+    @player_pitcher_records = {}
+    players.each do |player|
+      if player.retrieve_game_pitcher_records("pitcher_games", params[:year]) > 0
+        @player_pitcher_records[player.id] = {
+          "Name" => player.name,
+          "Team" => player.team,
+          "Back_number" => player.back_number,
+          "G" => player.retrieve_game_pitcher_records("pitcher_games", params[:year]),
+          "W" => player.retrieve_game_pitcher_records("win", params[:year]),
+          "L" => player.retrieve_game_pitcher_records("lose", params[:year]),
+          "ERA" => player.era(params[:year]),
+          "IP" => player.inning_pitched(params[:year]),
+          "H" => player.retrieve_game_pitcher_records("hit", params[:year]),
+          "R" => player.retrieve_game_pitcher_records("run", params[:year]),
+          "ER" => player.retrieve_game_pitcher_records("earned_run", params[:year]),
+          "HR" => player.retrieve_game_pitcher_records("homerun", params[:year]),
+          "BB" => player.retrieve_game_pitcher_records("walk", params[:year]),
+          "SO" => player.retrieve_game_pitcher_records("strike_out", params[:year]),
+          "HBP" => player.retrieve_game_pitcher_records("hit_by_pitch", params[:year]),
+          "WHIP" => player.pitcher_whip(params[:year]),
+          "player_data" => player
+        }
+      end
     end
+    return @player_pitcher_records.sort_by { |_key, value| value[params[:pitcher_sort]] }.reverse.collect { |key, value| value }
+  end
+
+  # Methods for the batters.
+  def game_batting_record_of(game_id)
+    self.game_batter_records.find_by(game_id: game_id)
   end
 
   def at_bat_batter_records_this_year(year = nil)
@@ -162,9 +166,7 @@ class Player < ActiveRecord::Base
     records.pluck(result_symbol).sum
   end
 
-
-
-
+  # Methods for the pitchers.
   def game_pitcher_records_this_year(year = nil)
     (year) ? self.game_pitcher_records.where(game_id: Game.by_year(year).pluck(:id)) : self.game_pitcher_records
   end
@@ -206,7 +208,7 @@ class Player < ActiveRecord::Base
 
   def retrieve_game_pitcher_records(result, year = nil)
     result = result.to_sym
-    records = year ? game_pitcher_records_this_year(year) :  self.game_pitcher_records
+    records = year ? game_pitcher_records_this_year(year) : self.game_pitcher_records
     if result == :pitcher_games
       return records.count
     elsif result == :win or result == :lose
