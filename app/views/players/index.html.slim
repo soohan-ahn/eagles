@@ -20,7 +20,9 @@ table class="table table-condensed table-striped"
     - @batters.each do |batter|
       tr
         - @batter_record_columns.each do |column|
-          
+          - if column == "Name"
+            td= link_to batter[column], batter["player_data"]
+          - else
             td= batter[column]
         - if current_user
           td= link_to 'Edit', edit_player_path(batter["player_data"])
@@ -45,8 +47,8 @@ table class="table table-condensed table-striped"
             - else
               td= pitcher[column]
           - if current_user
-            td= link_to 'Edit', edit_player_path(pitcher)
-            td= link_to 'Destroy', pitcher, method: :delete, data: { confirm: 'Are you sure?' }
+            td= link_to 'Edit', edit_player_path(pitcher["player_data"])
+            td= link_to 'Destroy', pitcher["player_data"], method: :delete, data: { confirm: 'Are you sure?' }
 
 - if current_user
   = link_to 'New Player', new_player_path
