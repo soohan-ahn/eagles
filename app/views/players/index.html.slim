@@ -20,9 +20,7 @@ table class="table table-condensed table-striped"
     - @batters.each do |batter|
       tr
         - @batter_record_columns.each do |column|
-          - if column == "Name"
-            td= link_to batter[column], batter["player_data"]
-          - else
+          
             td= batter[column]
         - if current_user
           td= link_to 'Edit', edit_player_path(batter["player_data"])
