@@ -48,17 +48,17 @@ class Player < ActiveRecord::Base
     if is_sort_by_rate
       @regular_plate_players = @player_batter_records.select { |_key, value| value["is_regular_plate_appearance_satisfied"] == 1 }
       if @regular_plate_players
-        @result = @regular_plate_players.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value }
+        @result = @regular_plate_players.sort_by { |_key, value| value[params[:batter_sort]].to_f }.reverse.collect { |key, value| value }
       end
 
       @non_regular_plate_players = @player_batter_records.select { |_key, value| value["is_regular_plate_appearance_satisfied"] == 0}
       if @non_regular_plate_players
-        @result.concat(@non_regular_plate_players.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value })
+        @result.concat(@non_regular_plate_players.sort_by { |_key, value| value[params[:batter_sort]].to_f }.reverse.collect { |key, value| value })
       end
 
       return @result
     else
-      return @player_batter_records.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value }
+      return @player_batter_records.sort_by { |_key, value| value[params[:batter_sort]].to_i }.reverse.collect { |key, value| value }
     end
   end
 
