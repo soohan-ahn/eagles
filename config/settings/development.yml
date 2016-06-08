@@ -1,6 +1,9 @@
 #config/settings.yml
 test_message: "OK"
 
+regular_plate_appearance_rate: 1.8
+regular_pitching_inning_rate: 1.1
+
 on_base_codes:
   one_base_hit: [151,251,351,451,551,651,751,871,851,891,951,1b]
   two_base_hit:  [772,722,782,872,822,882,892,922,982,992,2a]

@@ -10,8 +10,12 @@ class Player < ActiveRecord::Base
   def self.batter_records(params)
     players = params[:id] ? Player.where(id: params[:id]) : Player.all
     @player_batter_records = {}
+    game_count = (params[:year]) ? Game.by_year(params[:year]).count : Game.all.count
+    is_sort_by_rate = (params[:batter_sort] == "BA" or params[:batter_sort] == "OBP" or params[:batter_sort] == "SLG" or params[:batter_sort] == "OPS")
     players.each do |player|
       if player.plate_appearence(params[:year]) > 0
+        is_regular_plate_appearance_satisfied = (is_sort_by_rate) ? (game_count * Settings.regular_plate_appearance_rate <= player.plate_appearence) : 1
+
         @player_batter_records[player.id] = {
           "Name" => player.name,
           "Team" => player.team,
@@ -35,11 +39,21 @@ class Player < ActiveRecord::Base
           "OBP" => player.on_base_percentage,
           "SLG" => player.slugging_percentage,
           "OPS" => player.ops,
-          "player_data" => player
+          "player_data" => player,
+          "is_regular_plate_appearance_satisfied" => (is_regular_plate_appearance_satisfied) ? 1 : 0
         }
       end
     end
-    return @player_batter_records.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value }
+
+    if is_sort_by_rate
+      @regular_plate_players = @player_batter_records.select { |_key, value| value["is_regular_plate_appearance_satisfied"] == 1 }
+      @result = @regular_plate_players.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value }
+      @non_regular_plate_players = @player_batter_records.select { |_key, value| value["is_regular_plate_appearance_satisfied"] == 0}
+      @result.concat(@non_regular_plate_players.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value })
+      return @result
+    else
+      return @player_batter_records.sort_by { |_key, value| value[params[:batter_sort]] }.reverse.collect { |key, value| value }
+    end
   end
 
   def self.pitcher_record_columns
