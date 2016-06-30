@@ -28,9 +28,9 @@ div
       - @game_batter_record = @batter_records[game_id][:game_batter_records]
       tr
         td
-          = year_month_date_of_game(game_id)
+          = date_and_team_of_game(game_id)
         td width="50px"
-          = @batting_order
+          = @at_bat_batter_record.first.batting_order
 
         td width="50px"
           = @player.name
