@@ -34,6 +34,7 @@ class PlayersController < ApplicationController
   end
 
   def show_pitching
+    @pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
     @game_pitcher_records = GamePitcherRecord.where(player_id: params[:id])
   end
 

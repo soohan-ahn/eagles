@@ -3,54 +3,21 @@
 div
   table class="table table-condensed table-striped"
     tr
-      td width="50px"
-        ="Game"
-      td width="50px"
-        ="pitched_order"
-      td width="50px"
-        ="pitched_result"
-      td width="50px"
-        ="hold"
-      td width="50px"
-        ="innings_pitched"
-      td width="50px"
-        ="plate_appearance"
-      td width="50px"
-        ="at_bat"
-      td width="50px"
-        ="hit"
-      td width="50px"
-        ="homerun"
-      td width="50px"
-        ="sacrifice_bunt"
-      td width="50px"
-        ="sacrifice_fly"
-      td width="50px"
-        ="run"
-      td width="50px"
-        ="earned_run"
-      td width="50px"
-        ="strike_out"
-      td width="50px"
-        ="walk"
-      td width="50px"
-        ="intentional_walk"
-      td width="50px"
-        ="hit_by_pitch"
-      td width="50px"
-        ="wild_pitch"
-      td width="50px"
-        ="balk"
-      td width="50px"
-        ="number_of_pitches"
+      - @pitcher_record_columns.each do |index|
+        - if index == "game_id"
+          td width="50px"
+            = "VS"
+        - elsif index == "player_id"
+        - else
+          td width="50px"
+            = index
 
     - @game_pitcher_records.each do |game_pitcher_record|
         tr
-          - @indexes = index_of_game_pitcher_records
-          - @indexes.each do |index|
+          - @pitcher_record_columns.each do |index|
             - if index == "game_id"
               td
-                = year_month_date_of_game(game_pitcher_record[index.to_sym])
+                = date_and_team_of_game(game_pitcher_record[index.to_sym])
             - elsif index == "player_id"
             - elsif index == "pitched_result"
               td

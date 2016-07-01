@@ -3,7 +3,9 @@ module PlayersHelper
 		Date.today.strftime("%Y").to_i
 	end
 
-	def year_month_date_of_game(game_id)
-		Game.find(game_id).game_start_time.strftime("%F")
+	def date_and_team_of_game(game_id)
+		game = Game.find(game_id)
+		vs_team = (game.home_team == "Tokyo Eagles") ? game.away_team : game.home_team
+		game.game_start_time.strftime("%F") + vs_team
 	end
 end
