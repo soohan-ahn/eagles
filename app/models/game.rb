@@ -58,7 +58,7 @@ class Game < ActiveRecord::Base
   end
 
   def at_bat_of_player(player_id)
-    plate_appearence(player_id) - count_of_at_bat_batter_records("base_on_ball", player_id) - count_of_at_bat_batter_records("hit_by_pitched_ball", player_id)
+    plate_appearence(player_id) - count_of_at_bat_batter_records("base_on_ball", player_id) - count_of_at_bat_batter_records("hit_by_pitched_ball", player_id) - count_of_at_bat_batter_records("sacrifies", player_id) - count_of_at_bat_batter_records("not_in_on_base", player_id)
   end
 
   def hits_of_player(player_id)
