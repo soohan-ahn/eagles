@@ -113,7 +113,7 @@ class Player < ActiveRecord::Base
   end
 
   def at_bat(year = nil)
-    plate_appearence(year) - retrieve_at_bat_batter_records("base_on_ball", year) - retrieve_at_bat_batter_records("hit_by_pitched_ball", year) - retrieve_at_bat_batter_records("sacrifies", year)
+    plate_appearence(year) - retrieve_at_bat_batter_records("base_on_ball", year) - retrieve_at_bat_batter_records("hit_by_pitched_ball", year) - retrieve_at_bat_batter_records("sacrifies", year) - retrieve_at_bat_batter_records("not_in_on_base", year)
   end
 
   def total_hits(year = nil)
@@ -147,7 +147,7 @@ class Player < ActiveRecord::Base
   end
 
   def total_on_base(year = nil)
-    total_hits(year) + retrieve_at_bat_batter_records("base_on_ball", year) + retrieve_at_bat_batter_records("hit_by_pitched_ball", year) + retrieve_at_bat_batter_records("not_in_on_base", year)
+    total_hits(year) + retrieve_at_bat_batter_records("base_on_ball", year) + retrieve_at_bat_batter_records("hit_by_pitched_ball", year)
   end
 
   def slugging_percentage(year = nil)
