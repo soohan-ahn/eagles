@@ -187,24 +187,14 @@ class Player < ActiveRecord::Base
 
     innings = records.pluck(:innings_pitched)
     inning_total_count = 0.0
-    inning_fraction_count = 0.0
     innings.each do |inning|
-      fraction = inning.to_f.modulo(1)
-      decimal = inning - fraction
-      inning_total_count += decimal
+      inning_total_count += inning
+      current_fraction = inning_total_count.to_f.modulo(1)
 
-      current_fraction = inning_fraction_count.modulo(1)
-      if current_fraction >= 0.00 and current_fraction < 0.3
-        inning_fraction_count += fraction
-      elsif current_fraction >= 0.33 and current_fraction < 0.6
-        inning_fraction_count += ( (fraction == 0.33) ? 0.33 : 1 )
-      elsif current_fraction >= 0.6
-        inning_fraction_count -= 0.66
-        inning_fraction_count += ( (fraction == 0.33) ? 1 : 1.33 )
-      end
+      inning_total_count += 0.01 if current_fraction > 0.66
     end
 
-    inning_total_count + inning_fraction_count
+    inning_total_count
   end
 
   def pitcher_whip(year = nil)

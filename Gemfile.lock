@@ -1,3 +1,60 @@
+GIT
+  remote: git://github.com/rspec/rspec-core.git
+  revision: fc767bef47807008899c24a8fd919236567c9023
+  branch: master
+  specs:
+    rspec-core (3.6.0.pre)
+      rspec-support (= 3.6.0.pre)
+
+GIT
+  remote: git://github.com/rspec/rspec-expectations.git
+  revision: add9b271ecb1d65f7da5bc8a9dd8c64d81d92303
+  branch: master
+  specs:
+    rspec-expectations (3.6.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.6.0.pre)
+
+GIT
+  remote: git://github.com/rspec/rspec-mocks.git
+  revision: 4d842fefb82eaca7d33554746c1fb8c03738b068
+  branch: master
+  specs:
+    rspec-mocks (3.6.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.6.0.pre)
+
+GIT
+  remote: git://github.com/rspec/rspec-rails.git
+  revision: e8054a1cd03044f725030fe8315952cf3799a395
+  branch: master
+  specs:
+    rspec-rails (3.6.0.pre)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (= 3.6.0.pre)
+      rspec-expectations (= 3.6.0.pre)
+      rspec-mocks (= 3.6.0.pre)
+      rspec-support (= 3.6.0.pre)
+
+GIT
+  remote: git://github.com/rspec/rspec-support.git
+  revision: e96cc73d0a7d46d9b1948d165c52f0aff78e9457
+  branch: master
+  specs:
+    rspec-support (3.6.0.pre)
+
+GIT
+  remote: git://github.com/rspec/rspec.git
+  revision: a6d52f65daa9ea2e3d096116f67aff75afc1c115
+  branch: master
+  specs:
+    rspec (3.6.0.pre)
+      rspec-core (= 3.6.0.pre)
+      rspec-expectations (= 3.6.0.pre)
+      rspec-mocks (= 3.6.0.pre)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -74,6 +131,7 @@ GEM
       deep_merge (~> 1.0.0)
     debug_inspector (0.0.2)
     deep_merge (1.0.1)
+    diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.6.0)
     globalid (0.3.6)
@@ -225,6 +283,12 @@ DEPENDENCIES
   net-ssh
   pry-rails
   rails (= 4.2.2)
+  rspec!
+  rspec-core!
+  rspec-expectations!
+  rspec-mocks!
+  rspec-rails!
+  rspec-support!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   slim
