@@ -23,4 +23,27 @@ RSpec.describe Player, :type => :model do
 
     expect(player.inning_pitched).to eq(5)
   end
+
+  it "sums the pitched inning properly 0.66+0.66" do
+    player = Player.create!(
+      id: 1,
+      name: "ASH",
+    )
+
+    first_game_record = GamePitcherRecord.create!(
+      player_id: player.id,
+      game_id: 1,
+      pitched_order: 1,
+      innings_pitched: 1.66,
+    )
+
+    second_game_record = GamePitcherRecord.create!(
+      player_id: player.id,
+      game_id: 2,
+      pitched_order: 1,
+      innings_pitched: 3.66,
+    )
+
+    expect(player.inning_pitched).to eq(5.33)
+  end
 end

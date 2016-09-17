@@ -189,12 +189,14 @@ class Player < ActiveRecord::Base
     inning_total_count = 0.0
     innings.each do |inning|
       inning_total_count += inning
-      current_fraction = inning_total_count.to_f.modulo(1)
+      inning_total_count = inning_total_count.round(2)
 
-      inning_total_count += 0.01 if current_fraction > 0.66
+      current_fraction = inning_total_count.to_f.modulo(1).round(2)
+
+      inning_total_count += 0.01 if current_fraction == 0.99 or current_fraction == 0.32
     end
 
-    inning_total_count
+    inning_total_count.round(2)
   end
 
   def pitcher_whip(year = nil)
