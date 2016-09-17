@@ -25,6 +25,10 @@ gem "twitter-bootstrap-rails"
 gem "net-ssh"
 gem "unicorn"
 
+%w[rspec rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
+  gem lib, :git => "git://github.com/rspec/#{lib}.git", branch: 'master'
+end
+
 # Use ActiveModel has_secure_password
 # gem "bcrypt", "~> 3.1.7"
 
@@ -36,7 +40,7 @@ gem "unicorn"
 
 group :development, :test, :production do
   gem "byebug"
-  gem "web-console", "~> 2.0"
+  gem "web-console", "~> 2.0", group: :development
   gem "spring"
   gem 'capistrano'
   gem 'capistrano-rails', require: false
