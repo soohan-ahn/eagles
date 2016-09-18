@@ -1,0 +1,23 @@
+class CreateSeasonPitcherRecords < ActiveRecord::Migration
+  def change
+    create_table :season_pitcher_records do |t|
+      t.integer :player_id, null:false
+      t.integer :year, null:false
+      t.integer :pitched_games, null:false, default:0
+      t.integer :win, null:false, default:0
+      t.integer :lose, null:false, default:0
+      t.float :era, null:false, default:0.0
+      t.float :inning_pitched, null:false, default:0.0
+      t.integer :hit, null:false, default:0
+      t.integer :run, null:false, default:0
+      t.integer :earned_run, null:false, default:0
+      t.integer :homerun, null:false, default:0
+      t.integer :walk, null:false, default:0
+      t.integer :strike_out, null:false, default:0
+      t.integer :hit_by_pitch, null:false, default:0
+      t.float :whip, null:false, default:0.0
+
+      t.timestamps null: false
+    end
+  end
+end
