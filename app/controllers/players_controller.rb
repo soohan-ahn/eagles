@@ -94,10 +94,11 @@ class PlayersController < ApplicationController
     end
 
     def set_records
-      @batter_record_columns = Player.batter_record_columns
-      @pitcher_record_columns = Player.pitcher_record_columns
-      @batters = Player.batter_records(params)
-      @pitchers = Player.pitcher_records(params)
+      @batter_record_columns = SeasonBatterRecord.batter_record_columns
+      @pitcher_record_columns = SeasonPitcherRecord.pitcher_record_columns
+
+      @batters = SeasonBatterRecord.batter_records(params)
+      @pitchers = SeasonPitcherRecord.pitcher_records(params)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

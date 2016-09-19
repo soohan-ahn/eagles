@@ -1,6 +1,8 @@
 #config/settings.yml
 test_message: "OK"
 
+start_year: 2016
+
 regular_plate_appearance_rate: 1.8
 regular_pitching_inning_rate: 1.1
 
