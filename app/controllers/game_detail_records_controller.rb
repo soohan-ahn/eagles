@@ -33,8 +33,8 @@ class GameDetailRecordsController < ApplicationController
       if GamePitcherRecord.new_game_record(params) and
         AtBatBatterRecord.new_game_record(params) and
         GameBatterRecord.new_game_record(params) and
-        SeasonBatterRecord.refresh_season_records(year: Date.today.year) and
-        SeasonPitcherRecord.refresh_season_records(year: Date.today.year)
+        SeasonBatterRecord.refresh_season_records(Date.today.year) and
+        SeasonPitcherRecord.refresh_season_records(Date.today.year)
         redirect_to games_path
       else
         format.html { redirect_to games_url, notice: 'Game record create failed.' }
@@ -49,8 +49,8 @@ class GameDetailRecordsController < ApplicationController
       if GamePitcherRecord.update_game_record(params) and
          AtBatBatterRecord.update_game_record(params) and
          GameBatterRecord.update_game_record(params) and
-         SeasonBatterRecord.refresh_season_records(year: Date.today.year) and
-         SeasonPitcherRecord.refresh_season_records(year: Date.today.year)
+         SeasonBatterRecord.refresh_season_records(Date.today.year) and
+         SeasonPitcherRecord.refresh_season_records(Date.today.year)
         redirect_to games_path
       else
         format.html { redirect_to games_url, notice: 'Game update failed.' }
