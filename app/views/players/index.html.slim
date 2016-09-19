@@ -12,21 +12,29 @@ h2= "Batting Records"
 table class="table table-condensed table-striped"
   thead
     tr
-      - @batter_record_columns.each do |column|
+      - @batter_record_columns.each do |column, field_name|
         th= link_to column, players_path(year: params[:year], batter_sort: column, pitcher_sort: params[:pitcher_sort])
       th colspan="3"
 
   tbody
     - @batters.each do |batter|
       tr
-        - @batter_record_columns.each do |column|
+        - @batter_record_columns.each do |column, field_name|
           - if column == "Name"
-            td= link_to batter[column], batter["player_data"]
+            td= link_to batter.player.name, batter.player
+          - elsif column == "Team"
+            td= batter.player.team
+          - elsif column == "Back number"
+            td= batter.player.back_number
           - else
-            td= batter[column]
+            - if batter[field_name].class == BigDecimal
+              - @decimal_value = sprintf "%.3f", batter[field_name]
+              td= @decimal_value
+            - else
+              td= batter[field_name]
         - if current_user
-          td= link_to 'Edit', edit_player_path(batter["player_data"])
-          td= link_to 'Destroy', batter["player_data"], method: :delete, data: { confirm: 'Are you sure?' }
+          td= link_to 'Edit', edit_player_path(batter.player)
+          td= link_to 'Destroy', batter.player, method: :delete, data: { confirm: 'Are you sure?' }
 
 br
 
@@ -34,21 +42,29 @@ h2= "Pitching Records"
 table class="table table-condensed table-striped"
   thead
     tr
-      - @pitcher_record_columns.each do |column|
+      - @pitcher_record_columns.each do |column, field_name|
         th= link_to column, players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: column)
       th colspan="3"
 
   tbody
     - @pitchers.each do |pitcher|
         tr
-          - @pitcher_record_columns.each do |column|
+          - @pitcher_record_columns.each do |column, field_name|
             - if column == "Name"
-              td= link_to pitcher[column], pitcher["player_data"]
+              td= link_to pitcher.player.name, pitcher.player
+            - elsif column == "Team"
+              td= pitcher.player.team
+            - elsif column == "Back number"
+              td= pitcher.player.back_number
             - else
-              td= pitcher[column]
+              - if pitcher[field_name].class == BigDecimal
+                - @decimal_value = sprintf "%.2f", pitcher[field_name]
+                td= @decimal_value
+              - else
+                td= pitcher[field_name]
           - if current_user
-            td= link_to 'Edit', edit_player_path(pitcher["player_data"])
-            td= link_to 'Destroy', pitcher["player_data"], method: :delete, data: { confirm: 'Are you sure?' }
+            td= link_to 'Edit', edit_player_path(pitcher.player)
+            td= link_to 'Destroy', pitcher.player, method: :delete, data: { confirm: 'Are you sure?' }
 
 - if current_user
   = link_to 'New Player', new_player_path
