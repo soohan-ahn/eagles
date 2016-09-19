@@ -81,7 +81,7 @@ class SeasonPitcherRecord < ActiveRecord::Base
     @pitcher_records = @pitcher_records.where(year: params[:year]) if params[:year]
 
     if params[:pitcher_sort]
-      (sort_by_rate) ? @pitcher_records.order(is_regular_inning_satisfied: :desc, pitcher_sort_param => :desc) :
+      (sort_by_rate) ? @pitcher_records.order(is_regular_inning_satisfied: :desc, pitcher_sort_param => :asc) :
                         @pitcher_records.order(pitcher_sort_param => :desc)
     else
       @pitcher_records
