@@ -117,23 +117,24 @@ ActiveRecord::Schema.define(version: 20160918130059) do
   end
 
   create_table "season_pitcher_records", force: :cascade do |t|
-    t.integer  "player_id",      limit: 4,                null: false
-    t.integer  "year",           limit: 4,                null: false
-    t.integer  "pitched_games",  limit: 4,  default: 0,   null: false
-    t.integer  "win",            limit: 4,  default: 0,   null: false
-    t.integer  "lose",           limit: 4,  default: 0,   null: false
-    t.float    "era",            limit: 24, default: 0.0, null: false
-    t.float    "inning_pitched", limit: 24, default: 0.0, null: false
-    t.integer  "hit",            limit: 4,  default: 0,   null: false
-    t.integer  "run",            limit: 4,  default: 0,   null: false
-    t.integer  "earned_run",     limit: 4,  default: 0,   null: false
-    t.integer  "homerun",        limit: 4,  default: 0,   null: false
-    t.integer  "walk",           limit: 4,  default: 0,   null: false
-    t.integer  "strike_out",     limit: 4,  default: 0,   null: false
-    t.integer  "hit_by_pitch",   limit: 4,  default: 0,   null: false
-    t.float    "whip",           limit: 24, default: 0.0, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.integer  "player_id",                   limit: 4,                  null: false
+    t.integer  "year",                        limit: 4,                  null: false
+    t.integer  "pitched_games",               limit: 4,  default: 0,     null: false
+    t.integer  "win",                         limit: 4,  default: 0,     null: false
+    t.integer  "lose",                        limit: 4,  default: 0,     null: false
+    t.float    "era",                         limit: 24, default: 0.0,   null: false
+    t.float    "inning_pitched",              limit: 24, default: 0.0,   null: false
+    t.integer  "hit",                         limit: 4,  default: 0,     null: false
+    t.integer  "run",                         limit: 4,  default: 0,     null: false
+    t.integer  "earned_run",                  limit: 4,  default: 0,     null: false
+    t.integer  "homerun",                     limit: 4,  default: 0,     null: false
+    t.integer  "walk",                        limit: 4,  default: 0,     null: false
+    t.integer  "strike_out",                  limit: 4,  default: 0,     null: false
+    t.integer  "hit_by_pitch",                limit: 4,  default: 0,     null: false
+    t.float    "whip",                        limit: 24, default: 0.0,   null: false
+    t.boolean  "is_regular_inning_satisfied", limit: 1,  default: false, null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
   end
 
   create_table "users", force: :cascade do |t|

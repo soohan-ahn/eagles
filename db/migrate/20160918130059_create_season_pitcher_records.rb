@@ -16,6 +16,7 @@ class CreateSeasonPitcherRecords < ActiveRecord::Migration
       t.integer :strike_out, null:false, default:0
       t.integer :hit_by_pitch, null:false, default:0
       t.float :whip, null:false, default:0.0
+      t.boolean :is_regular_inning_satisfied, null:false, default: false
 
       t.timestamps null: false
     end
