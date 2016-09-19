@@ -27,7 +27,11 @@ table class="table table-condensed table-striped"
           - elsif column == "Back number"
             td= batter.player.back_number
           - else
-            td= batter[field_name]
+            - if batter[field_name].class == BigDecimal
+              - @decimal_value = sprintf "%.3f", batter[field_name]
+              td= @decimal_value
+            - else
+              td= batter[field_name]
         - if current_user
           td= link_to 'Edit', edit_player_path(batter.player)
           td= link_to 'Destroy', batter.player, method: :delete, data: { confirm: 'Are you sure?' }
@@ -53,7 +57,11 @@ table class="table table-condensed table-striped"
             - elsif column == "Back number"
               td= pitcher.player.back_number
             - else
-              td= pitcher[field_name]
+              - if pitcher[field_name].class == BigDecimal
+                - @decimal_value = sprintf "%.2f", pitcher[field_name]
+                td= @decimal_value
+              - else
+                td= pitcher[field_name]
           - if current_user
             td= link_to 'Edit', edit_player_path(pitcher.player)
             td= link_to 'Destroy', pitcher.player, method: :delete, data: { confirm: 'Are you sure?' }

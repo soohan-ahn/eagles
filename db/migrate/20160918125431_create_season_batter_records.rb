@@ -18,10 +18,10 @@ class CreateSeasonBatterRecords < ActiveRecord::Migration
       t.integer :run, null:false, default: 0
       t.integer :steal, null:false, default: 0
       t.integer :steal_caught, null:false, default: 0
-      t.float :batting_average, null:false, default: 0.0
-      t.float :on_base_percentage, null:false, default: 0.0
-      t.float :slugging_percentage, null:false, default: 0.0
-      t.float :ops, null:false, default: 0.0
+      t.decimal :batting_average, null:false, default: 0.0, precision: 4, scale: 3
+      t.decimal :on_base_percentage, null:false, default: 0.0, precision: 4, scale: 3
+      t.decimal :slugging_percentage, null:false, default: 0.0, precision: 4, scale: 3
+      t.decimal :ops, null:false, default: 0.0, precision: 4, scale: 3
       t.boolean :is_regular_plate_appearance_satisfied, null:false, default: false
 
       t.timestamps null: false

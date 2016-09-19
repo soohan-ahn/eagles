@@ -4,15 +4,26 @@ h2= "Batting Records"
 table class="table table-condensed table-striped"
   thead
     tr
-      - @batter_record_columns.each do |column|
+      - @batter_record_columns.each do |column, field_name|
         th = column
       th colspan="3"
 
   tbody
     tr
       - @batters.each do |batter|
-        - @batter_record_columns.each do |column|
-          td= batter[column]
+        - @batter_record_columns.each do |column, field_name|
+          - if column == "Name"
+              td= link_to batter.player.name, batter.player
+          - elsif column == "Team"
+            td= batter.player.team
+          - elsif column == "Back number"
+            td= batter.player.back_number
+          - else
+            - if batter[field_name].class == BigDecimal
+              - @decimal_value = sprintf "%.3f", batter[field_name]
+              td= @decimal_value
+            - else
+              td= batter[field_name]
       
 = link_to "Game batting records", show_batting_path
 
@@ -22,15 +33,26 @@ h2= "Pitching Records"
 table class="table table-condensed table-striped"
   thead
     tr
-      - @pitcher_record_columns.each do |column|
+      - @pitcher_record_columns.each do |column, field_name|
         th = column
       th colspan="3"
 
   tbody
     tr
       - @pitchers.each do |pitcher|
-        - @pitcher_record_columns.each do |column|
-          td= pitcher[column]
+        - @pitcher_record_columns.each do |column, field_name|
+          - if column == "Name"
+              td= link_to pitcher.player.name, pitcher.player
+          - elsif column == "Team"
+            td= pitcher.player.team
+          - elsif column == "Back number"
+            td= pitcher.player.back_number
+          - else
+            - if pitcher[field_name].class == BigDecimal
+              - @decimal_value = sprintf "%.2f", pitcher[field_name]
+              td= @decimal_value
+            - else
+              td= pitcher[field_name]
 
 
 = link_to "Game pitching records", show_pitching_path

@@ -6,7 +6,7 @@ class CreateSeasonPitcherRecords < ActiveRecord::Migration
       t.integer :pitched_games, null:false, default:0
       t.integer :win, null:false, default:0
       t.integer :lose, null:false, default:0
-      t.float :era, null:false, default:0.0
+      t.decimal :era, null:false, default:0.0, precision: 4, scale: 2
       t.float :inning_pitched, null:false, default:0.0
       t.integer :hit, null:false, default:0
       t.integer :run, null:false, default:0
@@ -15,7 +15,7 @@ class CreateSeasonPitcherRecords < ActiveRecord::Migration
       t.integer :walk, null:false, default:0
       t.integer :strike_out, null:false, default:0
       t.integer :hit_by_pitch, null:false, default:0
-      t.float :whip, null:false, default:0.0
+      t.decimal :whip, null:false, default:0.0, precision: 4, scale: 2
       t.boolean :is_regular_inning_satisfied, null:false, default: false
 
       t.timestamps null: false
