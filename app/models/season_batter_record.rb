@@ -103,8 +103,19 @@ class SeasonBatterRecord < ActiveRecord::Base
     @batter_records = @batter_records.where(year: params[:year]) if params[:year]
 
     if sort_by_player
-      symbol_to_sort = (params[:batter_sort] == "Name") ? :name : (params[:batter_sort] == "Team") ? :team : :back_number
-      @batter_records.sort { |a,b| a.player[symbol_to_sort].to_s <=> b.player[symbol_to_sort].to_s }
+      if params[:batter_sort] == "Name"
+        @batter_records.sort { |a,b| a.player.name.to_s <=> b.player.name.to_s }
+      elsif params[:batter_sort] == "Team"
+        @batter_records.sort { |a,b| b.player.team.to_s <=> a.player.team.to_s }
+      else
+        @batter_records.sort do |a,b|
+          if a.player.back_number == nil or b.player.back_number == nil
+            b.player.back_number.to_i <=> a.player.back_number.to_i
+          else
+            a.player.back_number.to_i <=> b.player.back_number.to_i
+          end
+        end
+      end
     elsif params[:batter_sort]
       (sort_by_rate) ? @batter_records.order(is_regular_plate_appearance_satisfied: :desc, batter_sort_param => :desc) :
                         @batter_records.order(batter_sort_param => :desc)
