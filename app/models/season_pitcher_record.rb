@@ -75,12 +75,19 @@ class SeasonPitcherRecord < ActiveRecord::Base
   def self.pitcher_records(params)
     players = params[:id] ? Player.where(id: params[:id]) : Player.all
     sort_by_rate = (params[:pitcher_sort] == "ERA" or params[:pitcher_sort] == "WHIP")
+    sort_by_player = (params[:pitcher_sort] == "Name" or
+      params[:pitcher_sort] == "Team" or
+      params[:pitcher_sort] == "Back number"
+    )
     pitcher_sort_param = SeasonPitcherRecord.pitcher_record_columns[params[:pitcher_sort]].to_sym if params[:pitcher_sort]
 
     @pitcher_records = SeasonPitcherRecord.where(player: players)
     @pitcher_records = @pitcher_records.where(year: params[:year]) if params[:year]
 
-    if params[:pitcher_sort]
+    if sort_by_player
+      symbol_to_sort = (params[:pitcher_sort] == "Name") ? :name : (params[:pitcher_sort] == "Team") ? :team : :back_number
+      @pitcher_records.sort { |a,b| a.player[symbol_to_sort].to_s <=> b.player[symbol_to_sort].to_s }
+    elsif params[:pitcher_sort]
       (sort_by_rate) ? @pitcher_records.order(is_regular_inning_satisfied: :desc, pitcher_sort_param => :asc) :
                         @pitcher_records.order(pitcher_sort_param => :desc)
     else
