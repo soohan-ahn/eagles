@@ -21,7 +21,7 @@ require 'capistrano/rvm'
 require 'capistrano/bundler'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
-require 'capistrano3/unicorn'
+require 'capistrano/unicorn'
 require 'capistrano/nginx'
 # require 'capistrano/passenger'
 
