@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918130059) do
+ActiveRecord::Schema.define(version: 20161126021149) do
 
   create_table "at_bat_batter_records", force: :cascade do |t|
     t.integer  "player_id",      limit: 4,                 null: false
@@ -112,6 +112,9 @@ ActiveRecord::Schema.define(version: 20160918130059) do
     t.decimal  "slugging_percentage",                             precision: 4, scale: 3, default: 0.0,   null: false
     t.decimal  "ops",                                             precision: 4, scale: 3, default: 0.0,   null: false
     t.boolean  "is_regular_plate_appearance_satisfied", limit: 1,                         default: false, null: false
+    t.integer  "sacrifice_hit",                         limit: 4,                         default: 0,     null: false
+    t.integer  "sacrifice_fly",                         limit: 4,                         default: 0,     null: false
+    t.integer  "double_play",                           limit: 4,                         default: 0,     null: false
     t.datetime "created_at",                                                                              null: false
     t.datetime "updated_at",                                                                              null: false
   end

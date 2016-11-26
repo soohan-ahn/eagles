@@ -15,6 +15,9 @@ on_base_codes:
   hit_by_pitched_ball: 21
   strike_out: [10,20,11]
   sacrifies: [8b,118b,218b,318b,418b,518b,618b,338,438,538,638,738,838,938]
+  sacrifice_bunts: [8b,118b,218b,318b,418b,518b,618b]
+  sacrifice_flys: [338,438,538,638,738,838,938]
+  double_plays: 00
   not_in_on_base: [51]
 
 result_code:
