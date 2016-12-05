@@ -32,7 +32,7 @@ div
 = form_tag(controller: "game_detail_records", action: @action) do |f|
   div
     table class="table table-condensed table-striped table-nonfluid"
-      - for @pitching_order in 0..5
+      - for @pitching_order in 0..10
         tr width="300"
         - if @pitching_order == 0
             - @game_pitcher_record_columns.each do |column|
@@ -67,8 +67,8 @@ div
   div
     table class="table table-condensed table-striped table-nonfluid"
       - @registered_order = 0
-      - for @batting_order in 0..15
-        - break if @registered_order > 15
+      - for @batting_order in 0..25
+        - break if @registered_order > 25
         tr
         - if @batting_order == 0
             td= "Batting_order"
