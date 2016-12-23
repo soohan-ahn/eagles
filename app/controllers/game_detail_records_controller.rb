@@ -47,8 +47,8 @@ class GameDetailRecordsController < ApplicationController
   def update
     ActiveRecord::Base.transaction do
       if GamePitcherRecord.update_game_record(params) and
-         AtBatBatterRecord.update_game_record(params) and
          GameBatterRecord.update_game_record(params) and
+         AtBatBatterRecord.update_game_record(params) and
          SeasonBatterRecord.refresh_season_records(Date.today.year) and
          SeasonPitcherRecord.refresh_season_records(Date.today.year)
         redirect_to games_path
