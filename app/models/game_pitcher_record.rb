@@ -32,8 +32,12 @@ class GamePitcherRecord < ActiveRecord::Base
           player_id: @params_for_save[:player_id],
           pitched_order: @pitching_order
         ).first
-        unless @game_pitcher_record.update(@params_for_save)
-          return false
+
+        if @game_pitcher_record
+          return false unless @game_pitcher_record.update(@params_for_save)
+        else
+          @game_pitcher_record = GamePitcherRecord.new(@params_for_save)
+          return false unless @game_pitcher_record.save(@params_for_save)
         end
       end
     end
