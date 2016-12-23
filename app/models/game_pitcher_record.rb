@@ -32,8 +32,12 @@ class GamePitcherRecord < ActiveRecord::Base
           player_id: @params_for_save[:player_id],
           pitched_order: @pitching_order
         ).first
-        unless @game_pitcher_record.update(@params_for_save)
-          return false
+
+        if @game_pitcher_record
+          return false unless @game_pitcher_record.update(@params_for_save)
+        else
+          @game_pitcher_record = GamePitcherRecord.new(@params_for_save)
+          return false unless @game_pitcher_record.save(@params_for_save)
         end
       end
     end
@@ -60,6 +64,9 @@ class GamePitcherRecord < ActiveRecord::Base
       elsif params[@index_symbol].present? and params[@index_symbol][pitched_order.to_s].present?
         @new_params[@index_symbol] = params[@index_symbol][pitched_order.to_s]
         @new_params[@index_symbol] = "%.2f" % @new_params[@index_symbol] if index == "innings_pitched"
+        if index == "win" or index == "lose" or index == "save_point" or index == "hold"
+          @new_params[@index_symbol] = (params[@index_symbol][pitched_order.to_s] == 1) ? true : params[@index_symbol][pitched_order.to_s]
+        end
       end
     end
     @new_params

@@ -35,8 +35,11 @@ class GameBatterRecord < ActiveRecord::Base
           game_id: @params_for_save[:game_id],
           player_id: @params_for_save[:player_id]).first
 
-        unless @game_batter_record.update(@params_for_save)
-          return false
+        if @game_batter_record
+          return false unless @game_batter_record.update(@params_for_save)
+        else
+          @game_batter_record = GameBatterRecord.new(@params_for_save)
+          return false unless @game_batter_record.save(@params_for_save)
         end
       end
     end

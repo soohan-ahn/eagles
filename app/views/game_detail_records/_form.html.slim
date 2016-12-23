@@ -44,7 +44,6 @@ div
                 td width = "50px"
                   = column
         - else
-          - next unless @game_pitcher_records[@pitching_order]
           - @game_pitcher_record_columns.each do |column|
             - if column == "game_id"
               = hidden_field_tag "#{column}[#{@pitching_order}]", @game.id, max_length: 5
@@ -54,13 +53,17 @@ div
                 = hidden_field_tag "#{column}[#{@pitching_order}]", @pitching_order, max_length: 5
             - elsif column == "player_id"
               td style="width:3%"
-                = text_field_tag "#{column}[#{@pitching_order}]", @game_pitcher_records[@pitching_order]["pitcher_name"], max_length: 5
+                - pitcher_name = @game_pitcher_records[@pitching_order]["pitcher_name"] if @game_pitcher_records[@pitching_order]
+                = text_field_tag "#{column}[#{@pitching_order}]", pitcher_name, max_length: 5
             - elsif column == "innings_pitched"
+              - value_for_column = @game_pitcher_records[@pitching_order]["details"][column.to_sym] if @game_pitcher_records[@pitching_order]
               td style="width:3%"
-                = text_field_tag "#{column}[#{@pitching_order}]", @game_pitcher_records[@pitching_order]["details"][column.to_sym], max_length: 5
+                = text_field_tag "#{column}[#{@pitching_order}]", value_for_column, max_length: 5
             -else
+              - value_for_column = @game_pitcher_records[@pitching_order]["details"][column.to_sym] if @game_pitcher_records[@pitching_order]
+              - value_for_column = 1 if value_for_column == true
               td style="width:10%"
-                = number_field_tag "#{column}[#{@pitching_order}]", @game_pitcher_records[@pitching_order]["details"][column.to_sym], max_length: 5
+                = number_field_tag "#{column}[#{@pitching_order}]", value_for_column, max_length: 5
 
   = render "result_codes_bar"
 
