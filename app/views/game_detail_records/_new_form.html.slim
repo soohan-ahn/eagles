@@ -61,20 +61,20 @@ div
           - @indexes = GamePitcherRecord.index_of_game_pitcher_records
           - @indexes.each do |index|
             - if index == "game_id"
-              = hidden_field_tag "#{index}[#{@pitching_order}]", @game.id, max_length: 5
+              = hidden_field_tag "#{index}[#{@pitching_order}]", @game.id, size: 5
             - elsif index == "pitched_order"
               td width="5%"
                 = @pitching_order
-                = hidden_field_tag "#{index}[#{@pitching_order}]", @pitching_order, max_length: 5
+                = hidden_field_tag "#{index}[#{@pitching_order}]", @pitching_order, size: 5
             - elsif index == "player_id"
               td width="5%"
-                = text_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
+                = text_field_tag "#{index}[#{@pitching_order}]", nil, size: 5
             - elsif index == "innings_pitched"
               td width="5%"
-                = text_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
+                = text_field_tag "#{index}[#{@pitching_order}]", nil, size: 5
             -else
               td width="5%"
-                = number_field_tag "#{index}[#{@pitching_order}]", nil, max_length: 5
+                = text_field_tag "#{index}[#{@pitching_order}]", nil, size: 5
 
   = render "result_codes"
 
@@ -95,29 +95,29 @@ div
 
         - else
           td width="5%"
-            = hidden_field_tag "batting_game_id[#{@batting_order}]", @game.id, max_length: 5
-            = text_field_tag "batting_order[#{@batting_order}]", @batting_order, max_length: 5
+            = hidden_field_tag "batting_game_id[#{@batting_order}]", @game.id, size: 5
+            = text_field_tag "batting_order[#{@batting_order}]", @batting_order, size: 5
 
           td width="5%"
-            = text_field_tag "batting_player_name[#{@batting_order}]", nil, max_length: 5
+            = text_field_tag "batting_player_name[#{@batting_order}]", nil, size: 5
 
           td width="5%"
-            = text_field_tag "batting_position[#{@batting_order}]", nil, max_length: 5
+            = text_field_tag "batting_position[#{@batting_order}]", nil, size: 5
 
           td width="5%"
-            = text_field_tag "batting_rbi[#{@batting_order}]", nil, max_length: 5
+            = text_field_tag "batting_rbi[#{@batting_order}]", nil, size: 5
 
           td width="5%"
-            = text_field_tag "batting_run[#{@batting_order}]", nil, max_length: 5
+            = text_field_tag "batting_run[#{@batting_order}]", nil, size: 5
 
           td width="5%"
-            = text_field_tag "batting_steal[#{@batting_order}]", nil, max_length: 5
+            = text_field_tag "batting_steal[#{@batting_order}]", nil, size: 5
 
           td width="5%"
-            = text_field_tag "batting_steal_caught[#{@batting_order}]", nil, max_length: 5
+            = text_field_tag "batting_steal_caught[#{@batting_order}]", nil, size: 5
 
           - for @inning in 1..10
-            td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", nil, max_length: 5
+            td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", nil, size: 5
 
 
   div class="actions"
