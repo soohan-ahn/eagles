@@ -13,7 +13,8 @@ table class="table table-condensed table-striped"
   thead
     tr
       - @batter_record_columns.each do |column, field_name|
-        th= link_to column, players_path(year: params[:year], batter_sort: column, pitcher_sort: params[:pitcher_sort])
+        - translated_column = "batter." + column
+        th = link_to t(translated_column), players_path(year: params[:year], batter_sort: column, pitcher_sort: params[:pitcher_sort])
       th colspan="3"
 
   tbody
@@ -21,7 +22,8 @@ table class="table table-condensed table-striped"
       tr
         - @batter_record_columns.each do |column, field_name|
           - if column == "Name"
-            td= link_to batter.player.name, batter.player
+            td width="30px"
+              = link_to batter.player.name, batter.player
           - elsif column == "Team"
             td= batter.player.team
           - elsif column == "Back number"
@@ -43,7 +45,8 @@ table class="table table-condensed table-striped"
   thead
     tr
       - @pitcher_record_columns.each do |column, field_name|
-        th= link_to column, players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: column)
+        - translated_column = "pitcher." + column
+        th= link_to t(translated_column), players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: column)
       th colspan="3"
 
   tbody
