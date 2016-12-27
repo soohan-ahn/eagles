@@ -1,0 +1,99 @@
+kr:
+  batter:
+    Name: "이름"
+    Team: "팀"
+    Back number: "등번호"
+    G: "게임"
+    PA: "타석"
+    AB: "타수"
+    H: "안타"
+    1b: "단타"
+    2b: "2루타"
+    3b: "3루타"
+    HR: "홈런"
+    SO: "삼진"
+    BB: "볼넷"
+    HBP: "사구"
+    RBI: "타점"
+    Run: "득점"
+    Steal: "도루"
+    Steal Caught: "도실"
+    Sacrifice Hit: "희생타"
+    Sacrifice Fly: "희플"
+    Double play: "병상타"
+    BA: "타율"
+    OBP: "출루율"
+    SLG: "장타율"
+    OPS: "OPS"
+  pitcher:
+    Name: "이름"
+    Team: "소속"
+    Back number: "등번호"
+    G: "게임"
+    W: "승"
+    L: "패"
+    ERA: "방어율"
+    IP: "이닝"
+    H: "안타"
+    R: "실점"
+    ER: "자책"
+    HR: "홈런"
+    BB: "볼넷"
+    SO: "탈삼진"
+    HBP: "사구"
+    WHIP: "WHIP"
+  game_detail_pitcher:
+    pitched_order: "순서"
+    player: "선수"
+    pitched_result: "결과"
+    innings_pitched: "이닝"
+    plate_appearance: "타석"
+    at_bat: "타수"
+    hit: "안타"
+    homerun: "홈런"
+    sacrifice_bunt: "희생타"
+    sacrifice_fly: "희플"
+    run: "실점"
+    earned_run: "자책"
+    strike_out: "삼진"
+    walk: "볼넷"
+    intentional_walk: "고4"
+    hit_by_pitch: "사구"
+    wild_pitch: "폭투"
+    balk: "보크"
+    number_of_pitches: "투구수"
+  game_detail_batter:
+    Batting_order: "타순"
+    Player_name: "선수"
+    Position: "수비"
+    RBI: "타점"
+    Run: "득점"
+    Steal: "도루"
+    Steal Caught: "도실"
+    Game Date: "날짜"
+
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      short: "%m/%d"
+      long: "%Y年%m月%d日(%a)"
+
+    day_names: [日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日]
+    abbr_day_names: [日, 月, 火, 水, 木, 金, 土]
+
+    month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
+    abbr_month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
+
+    order:
+      - :year
+      - :month
+      - :day
+
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
+      short: "%y/%m/%d %H:%M"
+      long: "%Y年%m月%d日(%a) %H時%M分%S秒 %Z"
+    am: "午前"
+    pm: "午後"
+

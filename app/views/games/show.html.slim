@@ -38,11 +38,11 @@ div
       tr
       - if @batting_order == 0
           td width="50px"
-            = "Batting_order"
+            = t("game_detail_batter.Batting_order")
           td width="50px"
-            = "Player_name"
+            = t("game_detail_batter.Player_name")
           td width="50px"
-            = "Position"
+            = t("game_detail_batter.Position")
           td width="50px"
             = "타석"
           td width="50px"
@@ -50,13 +50,13 @@ div
           td width="50px"
             = "안타"
           td width="50px"
-            = "RBI"
+            = t("game_detail_batter.RBI")
           td width="50px"
-            = "Run"
+            = t("game_detail_batter.Run")
           td width="50px"
-            = "Steal"
+            = t("game_detail_batter.Steal")
           td width="50px"
-            = "Steal Caught"
+            = t("game_detail_batter.Steal Caught")
           - for @inning in 1..10
             td width="60px" 
               = @inning
@@ -112,15 +112,16 @@ div
         - @game_pitcher_record_columns.each do |column|
           - if column == "win"
             td width="50px"
-              = "pitched_result"
+              = t("game_detail_pitcher.pitched_result")
           - elsif column == "player_id"
             td width = "50px"
-              = "player"
+              = t("game_detail_pitcher.player")
           - elsif column == "lose" or column == "save_point" or column == "hold" or column == "game_id"
             - next
           - else
             td width = "50px"
-              = column
+              - translated_column = "game_detail_pitcher." + column
+              = t(translated_column)
       - else
         - next unless @game_pitcher_records[@pitching_order]
         - @game_pitcher_record_columns.each do |column|

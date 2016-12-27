@@ -5,7 +5,8 @@ table class="table table-condensed table-striped"
   thead
     tr
       - @batter_record_columns.each do |column, field_name|
-        th = column
+        - translated_column = "batter." + column
+        th = t(translated_column)
       th colspan="3"
 
   tbody
@@ -34,7 +35,8 @@ table class="table table-condensed table-striped"
   thead
     tr
       - @pitcher_record_columns.each do |column, field_name|
-        th = column
+        - translated_column = "pitcher." + column
+        th = t(translated_column)
       th colspan="3"
 
   tbody
