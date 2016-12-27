@@ -3,14 +3,15 @@
 div
   table class="table table-condensed table-striped"
     tr
-      - @pitcher_record_columns.each do |index|
-        - if index == "game_id"
+      - @pitcher_record_columns.each do |column|
+        - if column == "game_id"
           td width="50px"
             = "VS"
-        - elsif index == "player_id"
+        - elsif column == "player_id"
         - else
           td width="50px"
-            = index
+            - translated_column = "game_detail_pitcher." + column
+            = t(translated_column)
 
     - @game_pitcher_records.each do |game_pitcher_record|
         tr
