@@ -6,7 +6,7 @@ class GamePitcherRecord < ActiveRecord::Base
       (@pitching_order, @pitcher_name) = pitcher_info
       if @pitcher_name.present?
         i = i + 1
-        Player.new(name: @pitcher_name).save unless Player.where(name: @pitcher_name).exists?
+        return false unless Player.where(name: @pitcher_name).exists?
         @params_for_save = GamePitcherRecord.params_for_save(params, i)
         @game_pitcher_record = GamePitcherRecord.new(@params_for_save)
         unless @game_pitcher_record.save

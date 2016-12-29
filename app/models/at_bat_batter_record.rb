@@ -39,9 +39,9 @@ class AtBatBatterRecord < ActiveRecord::Base
   def self.new_game_record(params)
     i = 0
 
-    for @batting_order in 1..15
+    for @batting_order in 1..25
       if params[:batting_player_name][@batting_order.to_s] and !Player.where(name: params[:batting_player_name][@batting_order.to_s]).exists?
-        Player.new(name: params[:batting_player_name][@batting_order.to_s]).save
+        return false
       end
 
       for @inning in 1..9

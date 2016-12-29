@@ -37,7 +37,7 @@ class GameDetailRecordsController < ApplicationController
         SeasonPitcherRecord.refresh_season_records(Date.today.year)
         redirect_to games_path
       else
-        format.html { redirect_to games_url, notice: 'Game record create failed.' }
+        redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name'
       end
     end
   end
@@ -53,7 +53,7 @@ class GameDetailRecordsController < ApplicationController
          SeasonPitcherRecord.refresh_season_records(Date.today.year)
         redirect_to games_path
       else
-        format.html { redirect_to games_url, notice: 'Game update failed.' }
+        redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name'
       end
     end
   end
