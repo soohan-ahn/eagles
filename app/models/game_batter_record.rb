@@ -4,45 +4,16 @@ class GameBatterRecord < ActiveRecord::Base
   def self.new_game_record(params)
     i = 0
 
-    for @batting_order in 1..15
-      unless params[:batting_player_name][@batting_order.to_s].empty?
-        if !Player.where(name: params[:batting_player_name][@batting_order.to_s]).exists?
-          Player.new(name: params[:batting_player_name][@batting_order.to_s]).save
-        end
+    for @batter_input_order in 1..25
+      unless params[:batting_player_name][@batter_input_order.to_s].empty?
+        return false if !Player.where(name: params[:batting_player_name][@batter_input_order.to_s]).exists?
 
-        @params_for_save = GameBatterRecord.params_for_save(params, params[:batting_order][@batting_order.to_s])
+        @params_for_save = GameBatterRecord.params_for_save(params, @batter_input_order)
         @game_batter_record = GameBatterRecord.new(@params_for_save)
-        unless @game_batter_record.save
-          return false
-        end
+        return false unless @game_batter_record.save
       end
     end
 
-    true
-  end
-
-  def self.update_game_record(params)
-    i = 0
-
-    for @batting_order in 1..15
-      unless params[:batting_player_name][@batting_order.to_s].empty?
-        if !Player.where(name: params[:batting_player_name][@batting_order.to_s]).exists?
-          Player.new(name: params[:batting_player_name][@batting_order.to_s]).save
-        end
-
-        @params_for_save = GameBatterRecord.params_for_save(params, @batting_order)
-        @game_batter_record = GameBatterRecord.where(
-          game_id: @params_for_save[:game_id],
-          player_id: @params_for_save[:player_id]).first
-
-        if @game_batter_record
-          return false unless @game_batter_record.update(@params_for_save)
-        else
-          @game_batter_record = GameBatterRecord.new(@params_for_save)
-          return false unless @game_batter_record.save(@params_for_save)
-        end
-      end
-    end
     true
   end
 

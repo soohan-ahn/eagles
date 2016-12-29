@@ -29,12 +29,22 @@ class GameDetailRecordsController < ApplicationController
   # POST /games
   # POST /games.json
   def create
+    game = Game.find(params[:game_id]['1']) or redirect_to :back, notice: 'Something wrong. Game not found.'
+    year_of_game = game.game_start_time.year
+
     ActiveRecord::Base.transaction do
+      if GamePitcherRecord.destroy_game_record(game.id) and
+        AtBatBatterRecord.destroy_game_record(game.id) and
+        GameBatterRecord.destroy_game_record(game.id)
+      else
+        redirect_to :back, notice: 'Something wrong during the clearing'
+      end
+
       if GamePitcherRecord.new_game_record(params) and
         AtBatBatterRecord.new_game_record(params) and
         GameBatterRecord.new_game_record(params) and
-        SeasonBatterRecord.refresh_season_records(Date.today.year) and
-        SeasonPitcherRecord.refresh_season_records(Date.today.year)
+        SeasonBatterRecord.refresh_season_records(year_of_game) and
+        SeasonPitcherRecord.refresh_season_records(year_of_game)
         redirect_to games_path
       else
         redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name'
@@ -45,12 +55,22 @@ class GameDetailRecordsController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
+    game = Game.find(params[:game_id]['1']) or redirect_to :back, notice: 'Something wrong. Game not found.'
+    year_of_game = game.game_start_time.year
+
     ActiveRecord::Base.transaction do
-      if GamePitcherRecord.update_game_record(params) and
-         GameBatterRecord.update_game_record(params) and
-         AtBatBatterRecord.update_game_record(params) and
-         SeasonBatterRecord.refresh_season_records(Date.today.year) and
-         SeasonPitcherRecord.refresh_season_records(Date.today.year)
+      if GamePitcherRecord.destroy_game_record(game.id) and
+        AtBatBatterRecord.destroy_game_record(game.id) and
+        GameBatterRecord.destroy_game_record(game.id)
+      else
+        redirect_to :back, notice: 'Something wrong during the clearing'
+      end
+
+      if GamePitcherRecord.new_game_record(params) and
+        AtBatBatterRecord.new_game_record(params) and
+        GameBatterRecord.new_game_record(params) and
+        SeasonBatterRecord.refresh_season_records(year_of_game) and
+        SeasonPitcherRecord.refresh_season_records(year_of_game)
         redirect_to games_path
       else
         redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name'

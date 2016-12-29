@@ -18,33 +18,6 @@ class GamePitcherRecord < ActiveRecord::Base
     true
   end
 
-  def self.update_game_record(params)
-    i = 0
-
-    params[:player_id].each do |pitcher_info|
-      (@pitching_order, @pitcher_name) = pitcher_info
-      if @pitcher_name.present?
-        i = i + 1
-        Player.new(name: @pitcher_name).save unless Player.where(name: @pitcher_name).exists?
-        @params_for_save = GamePitcherRecord.params_for_save(params, i)
-        @game_pitcher_record = GamePitcherRecord.where(
-          game_id: @params_for_save[:game_id],
-          player_id: @params_for_save[:player_id],
-          pitched_order: @pitching_order
-        ).first
-
-        if @game_pitcher_record
-          return false unless @game_pitcher_record.update(@params_for_save)
-        else
-          @game_pitcher_record = GamePitcherRecord.new(@params_for_save)
-          return false unless @game_pitcher_record.save(@params_for_save)
-        end
-      end
-    end
-
-    true
-  end
-
   def self.destroy_game_record(game_id)
     @game_pitcher_record = GamePitcherRecord.where(game_id: game_id)
     unless @game_pitcher_record.destroy_all
