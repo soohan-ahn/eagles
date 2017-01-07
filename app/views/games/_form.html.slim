@@ -54,13 +54,13 @@
             td
 
           - for j in 1..9
-            td width="5%"
+            td
               - if i == 0
                 = j
               - elsif @score_boxes
-                = number_field_tag "scores[#{score_box_inning_id(i, j)}]", @score_boxes[(i - 1) * 9 + (j - 1)], max_length: 5
+                = text_field_tag "scores[#{score_box_inning_id(i, j)}]", @score_boxes[(i - 1) * 9 + (j - 1)], size: 3
               - else
-                = number_field_tag "scores[#{score_box_inning_id(i, j)}]", nil, max_length: 5
+                = text_field_tag "scores[#{score_box_inning_id(i, j)}]", nil, size: 3
 
   div class="actions"
     = f.submit
