@@ -4,9 +4,9 @@ h2= "Season"
 table class="table table-condensed table-striped"
   tbody
     tr
+      td = link_to "All", players_path
       - (2014..current_year).to_a.each do |year|
-        th= link_to year, players_path(year: year)
-
+        td = link_to year, players_path(year: year)
 
 h2= "Batting Records"
 table class="table table-condensed table-striped"
@@ -22,21 +22,20 @@ table class="table table-condensed table-striped"
       tr
         - @batter_record_columns.each do |column, field_name|
           - if column == "Name"
-            td width="30px"
-              = link_to batter.player.name, batter.player
+            td = link_to batter.player.name, batter.player
           - elsif column == "Team"
-            td= batter.player.team
+            td = batter.player.team
           - elsif column == "Back number"
-            td= batter.player.back_number
+            td = batter.player.back_number
           - else
             - if batter[field_name].class == BigDecimal
               - @decimal_value = sprintf "%.3f", batter[field_name]
-              td= @decimal_value
+              td = @decimal_value
             - else
-              td= batter[field_name]
+              td = batter[field_name]
         - if current_user
-          td= link_to 'Edit', edit_player_path(batter.player)
-          td= link_to 'Destroy', batter.player, method: :delete, data: { confirm: 'Are you sure?' }
+          td = link_to 'Edit', edit_player_path(batter.player)
+          td = link_to 'Destroy', batter.player, method: :delete, data: { confirm: 'Are you sure?' }
 
 br
 
@@ -46,7 +45,7 @@ table class="table table-condensed table-striped"
     tr
       - @pitcher_record_columns.each do |column, field_name|
         - translated_column = "pitcher." + column
-        th= link_to t(translated_column), players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: column)
+        th = link_to t(translated_column), players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: column)
       th colspan="3"
 
   tbody
@@ -54,20 +53,20 @@ table class="table table-condensed table-striped"
         tr
           - @pitcher_record_columns.each do |column, field_name|
             - if column == "Name"
-              td= link_to pitcher.player.name, pitcher.player
+              td = link_to pitcher.player.name, pitcher.player
             - elsif column == "Team"
-              td= pitcher.player.team
+              td = pitcher.player.team
             - elsif column == "Back number"
-              td= pitcher.player.back_number
+              td = pitcher.player.back_number
             - else
               - if pitcher[field_name].class == BigDecimal
                 - @decimal_value = sprintf "%.2f", pitcher[field_name]
-                td= @decimal_value
+                td = @decimal_value
               - else
                 td= pitcher[field_name]
           - if current_user
-            td= link_to 'Edit', edit_player_path(pitcher.player)
-            td= link_to 'Destroy', pitcher.player, method: :delete, data: { confirm: 'Are you sure?' }
+            td = link_to 'Edit', edit_player_path(pitcher.player)
+            td = link_to 'Destroy', pitcher.player, method: :delete, data: { confirm: 'Are you sure?' }
 
 - if current_user
   = link_to 'New Player', new_player_path
