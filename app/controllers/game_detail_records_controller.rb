@@ -17,7 +17,6 @@ class GameDetailRecordsController < ApplicationController
   def edit
     @game = Game.find(params[:game_id])
     @score_boxes = @game.score_box.split "\t"
-    #@game_pitcher_record = GamePitcherRecord.where(game_id: params[:game_id])
     @game_pitcher_records = GamePitcherRecord.pitcher_results_of_game(params[:game_id])
     @game_pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
     @game_batter_record = GameBatterRecord.where(game_id: params[:game_id])

@@ -17,6 +17,7 @@ on_base_codes:
   sacrifice_flys: [338,438,538,638,738,838,938]
   double_plays: 00
   not_in_on_base: [51]
+  on_base_by_error: [155,255,355,455,555,655,755,855,955]
 
 result_code:
   10: 삼진
