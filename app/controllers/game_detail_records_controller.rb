@@ -34,7 +34,8 @@ class GameDetailRecordsController < ApplicationController
     ActiveRecord::Base.transaction do
       if GamePitcherRecord.destroy_game_record(game.id) and
         AtBatBatterRecord.destroy_game_record(game.id) and
-        GameBatterRecord.destroy_game_record(game.id)
+        GameBatterRecord.destroy_game_record(game.id) and
+        GameFielderSimpleRecord.destroy_game_record(game.id)
       else
         redirect_to :back, notice: 'Something wrong during the clearing'
       end
@@ -42,6 +43,7 @@ class GameDetailRecordsController < ApplicationController
       if GamePitcherRecord.new_game_record(params) and
         AtBatBatterRecord.new_game_record(params) and
         GameBatterRecord.new_game_record(params) and
+        GameFielderSimpleRecord.new_game_record(params) and
         SeasonBatterRecord.refresh_season_records(year_of_game) and
         SeasonPitcherRecord.refresh_season_records(year_of_game)
         redirect_to games_path
@@ -60,7 +62,8 @@ class GameDetailRecordsController < ApplicationController
     ActiveRecord::Base.transaction do
       if GamePitcherRecord.destroy_game_record(game.id) and
         AtBatBatterRecord.destroy_game_record(game.id) and
-        GameBatterRecord.destroy_game_record(game.id)
+        GameBatterRecord.destroy_game_record(game.id) and
+        GameFielderSimpleRecord.destroy_game_record(game.id)
       else
         redirect_to :back, notice: 'Something wrong during the clearing'
       end
@@ -68,6 +71,7 @@ class GameDetailRecordsController < ApplicationController
       if GamePitcherRecord.new_game_record(params) and
         AtBatBatterRecord.new_game_record(params) and
         GameBatterRecord.new_game_record(params) and
+        GameFielderSimpleRecord.new_game_record(params) and
         SeasonBatterRecord.refresh_season_records(year_of_game) and
         SeasonPitcherRecord.refresh_season_records(year_of_game)
         redirect_to games_path

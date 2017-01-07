@@ -71,6 +71,7 @@ kr:
     Run: "득점"
     Steal: "도루"
     Steal Caught: "도실"
+    Field Error: "실책"
     Game Date: "날짜"
 
   date:
