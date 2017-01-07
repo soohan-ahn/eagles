@@ -64,12 +64,12 @@ class SeasonBatterRecord < ActiveRecord::Base
     is_regular_plate_appearance_satisfied = (game_count * Settings.regular_plate_appearance_rate <= player.plate_appearence(params[:year]))
 
     {
-			player_id: player.id,
-    	year: params[:year],
-    	played_game: player.game_batter_records_this_year.count,
-    	plate_appearence: player.plate_appearence(params[:year]),
-    	at_bat: player.at_bat(params[:year]),
-    	total_hits: player.total_hits(params[:year]),
+      player_id: player.id,
+      year: params[:year],
+      played_game: player.game_batter_records_this_year(params[:year]).count,
+      plate_appearence: player.plate_appearence(params[:year]),
+      at_bat: player.at_bat(params[:year]),
+      total_hits: player.total_hits(params[:year]),
       one_base_hit: player.retrieve_at_bat_batter_records("one_base_hit", params[:year]),
       two_base_hit: player.retrieve_at_bat_batter_records("two_base_hit", params[:year]),
       three_base_hit: player.retrieve_at_bat_batter_records("three_base_hit", params[:year]),
@@ -106,7 +106,7 @@ class SeasonBatterRecord < ActiveRecord::Base
     batter_sort_param = SeasonBatterRecord.batter_record_columns[params[:batter_sort]].to_sym if params[:batter_sort]
 
     @batter_records = SeasonBatterRecord.where(player: players)
-    @batter_records = @batter_records.where(year: params[:year]) if params[:year]
+    @batter_records = @batter_records.where(year: params[:year]).where("played_game > 0") if params[:year]
 
     if sort_by_player
       if params[:batter_sort] == "Name"

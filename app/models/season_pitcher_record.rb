@@ -82,7 +82,7 @@ class SeasonPitcherRecord < ActiveRecord::Base
     pitcher_sort_param = SeasonPitcherRecord.pitcher_record_columns[params[:pitcher_sort]].to_sym if params[:pitcher_sort]
 
     @pitcher_records = SeasonPitcherRecord.where(player: players)
-    @pitcher_records = @pitcher_records.where(year: params[:year]) if params[:year]
+    @pitcher_records = @pitcher_records.where(year: params[:year]).where("pitched_games > 0") if params[:year]
 
     if sort_by_player
       if params[:pitcher_sort] == "Name"
