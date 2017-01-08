@@ -115,7 +115,7 @@ div
                 = text_field_tag "batting_steal_caught[#{@registered_order}]", (current_player) ? @player_game_record[:steal_caught] : nil, size: 5
 
               td
-                = text_field_tag "simple_fielder_error[#{@batting_order}]", (current_player) ? @player_game_field_simple_record[:field_error] : nil, size: 5
+                = text_field_tag "simple_fielder_error[#{@batting_order}]", (current_player and @player_game_field_simple_record) ? @player_game_field_simple_record[:field_error] : nil, size: 5
 
               - for @inning in 1..10
                 - inning_bat_results = (current_player and @at_bat_batter_record[@inning][@batting_order][current_player.name]) ? @at_bat_batter_record[@inning][@batting_order][current_player.name]["results"] : nil
