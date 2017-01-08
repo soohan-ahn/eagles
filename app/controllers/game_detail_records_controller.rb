@@ -51,9 +51,8 @@ class GameDetailRecordsController < ApplicationController
         end
       end
     rescue ActiveRecord::RecordInvalid
-      notice = "Something wrong with the input. Check the typeo of the player name"
     ensure
-      redirect_to :back, notice: notice
+      redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name'
     end
   end
 
@@ -83,9 +82,8 @@ class GameDetailRecordsController < ApplicationController
         end
       end
     rescue ActiveRecord::RecordInvalid
-      notice = "Something wrong with the input. Check the typeo of the player name"
     ensure
-      redirect_to :back, notice: notice
+      redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name'
     end
   end
 
