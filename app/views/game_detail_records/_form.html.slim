@@ -81,6 +81,7 @@ div
             td= "Run"
             td= "Steal"
             td= "Steal Caught"
+            td= "Field Error"
             - for @inning in 1..10
               td= @inning
 
@@ -89,6 +90,7 @@ div
           - @current_players.each do |current_player|
             - @registered_order += 1
             - @player_game_record = (current_player) ? current_player.game_batting_record_of(@game.id) : nil
+            - @player_game_field_simple_record = (current_player) ? current_player.game_field_simple_record_of(@game.id) : nil
             tr
               td
                 = hidden_field_tag "batting_game_id[#{@registered_order}]", @game.id, size: 5
@@ -111,6 +113,9 @@ div
 
               td
                 = text_field_tag "batting_steal_caught[#{@registered_order}]", (current_player) ? @player_game_record[:steal_caught] : nil, size: 5
+
+              td
+                = text_field_tag "simple_fielder_error[#{@batting_order}]", (current_player) ? @player_game_field_simple_record[:field_error] : nil, size: 5
 
               - for @inning in 1..10
                 - inning_bat_results = (current_player and @at_bat_batter_record[@inning][@batting_order][current_player.name]) ? @at_bat_batter_record[@inning][@batting_order][current_player.name]["results"] : nil

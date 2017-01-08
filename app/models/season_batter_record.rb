@@ -48,6 +48,7 @@ class SeasonBatterRecord < ActiveRecord::Base
       "Run" => "run",
       "Steal" => "steal",
       "Steal Caught" => "steal_caught",
+      "Error" => "on_base_by_error",
       "Sacrifice Hit" => "sacrifice_hit",
       "Sacrifice Fly" => "sacrifice_fly",
       "Double play" => "double_play",
@@ -89,6 +90,7 @@ class SeasonBatterRecord < ActiveRecord::Base
       slugging_percentage: player.slugging_percentage(params[:year]),
       ops: player.ops(params[:year]),
       is_regular_plate_appearance_satisfied: (is_regular_plate_appearance_satisfied) ? true : false,
+      on_base_by_error: player.retrieve_at_bat_batter_records("on_base_by_error", params[:year]),
     }
   end
 

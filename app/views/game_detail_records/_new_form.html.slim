@@ -90,6 +90,7 @@ div
             td= "Run"
             td= "Steal"
             td= "Steal Caught"
+            td= "Field Error"
             - for @inning in 1..10
               td= @inning
 
@@ -115,6 +116,9 @@ div
 
           td width="5%"
             = text_field_tag "batting_steal_caught[#{@batting_order}]", nil, size: 5
+
+          td width="5%"
+            = text_field_tag "simple_fielder_error[#{@batting_order}]", nil, size: 5
 
           - for @inning in 1..10
             td = text_field_tag "result_code[#{@inning}][#{@batting_order}]", nil, size: 5

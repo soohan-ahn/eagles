@@ -21,6 +21,7 @@ kr:
     Sacrifice Hit: "희생타"
     Sacrifice Fly: "희플"
     Double play: "병상타"
+    Error: "실책"
     BA: "타율"
     OBP: "출루율"
     SLG: "장타율"
@@ -70,7 +71,11 @@ kr:
     Run: "득점"
     Steal: "도루"
     Steal Caught: "도실"
+    Field Error: "실책"
     Game Date: "날짜"
+  game_simple_fielder:
+    Player Name: "선수"
+    Field Error: "실책"
 
   date:
     formats:

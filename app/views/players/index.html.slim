@@ -33,9 +33,24 @@ table class="table table-condensed table-striped"
               td = @decimal_value
             - else
               td = batter[field_name]
+
         - if current_user
           td = link_to 'Edit', edit_player_path(batter.player)
           td = link_to 'Destroy', batter.player, method: :delete, data: { confirm: 'Are you sure?' }
+
+br
+
+h2= "Fielding Records"
+table class="table table-condensed table-striped"
+  thead
+    tr
+      th = t("game_simple_fielder.Player Name")
+      th = t("game_simple_fielder.Field Error")
+  tbody
+    - @simple_field_records.each do |player, field_error|
+      tr
+        td = player
+        td = field_error
 
 br
 

@@ -97,6 +97,8 @@ class PlayersController < ApplicationController
       @batter_record_columns = SeasonBatterRecord.batter_record_columns
       @pitcher_record_columns = SeasonPitcherRecord.pitcher_record_columns
 
+      @simple_field_records = GameFielderSimpleRecord.to_hash(params)
+
       @batters = SeasonBatterRecord.batter_records(params)
       @pitchers = SeasonPitcherRecord.pitcher_records(params)
     end
