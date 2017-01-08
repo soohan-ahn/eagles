@@ -15,7 +15,6 @@ table class="table table-condensed table-striped"
       - @batter_record_columns.each do |column, field_name|
         - translated_column = "batter." + column
         th = link_to t(translated_column), players_path(year: params[:year], batter_sort: column, pitcher_sort: params[:pitcher_sort])
-      th = "Field Error"
       th colspan="3"
 
   tbody
@@ -35,10 +34,23 @@ table class="table table-condensed table-striped"
             - else
               td = batter[field_name]
 
-        td = @simple_field_records[batter.player.name.to_sym]
         - if current_user
           td = link_to 'Edit', edit_player_path(batter.player)
           td = link_to 'Destroy', batter.player, method: :delete, data: { confirm: 'Are you sure?' }
+
+br
+
+h2= "Fielding Records"
+table class="table table-condensed table-striped"
+  thead
+    tr
+      th = t("game_simple_fielder.Player Name")
+      th = t("game_simple_fielder.Field Error")
+  tbody
+    - @simple_field_records.each do |player, field_error|
+      tr
+        td = player
+        td = field_error
 
 br
 

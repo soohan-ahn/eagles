@@ -73,6 +73,9 @@ kr:
     Steal Caught: "도실"
     Field Error: "실책"
     Game Date: "날짜"
+  game_simple_fielder:
+    Player Name: "선수"
+    Field Error: "실책"
 
   date:
     formats:

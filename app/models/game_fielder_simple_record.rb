@@ -40,6 +40,6 @@ class GameFielderSimpleRecord < ActiveRecord::Base
       @new_hash[player.name.to_sym] = records.pluck(:field_error).sum
     end
 
-    @new_hash
+    @new_hash.sort {|(k1, v1), (k2, v2)| v2 <=> v1 }
   end
 end
