@@ -30,4 +30,16 @@ class GameFielderSimpleRecord < ActiveRecord::Base
 
     @new_params
   end
+
+  def self.to_hash(params)
+    @players = Player.all
+    @new_hash = { }
+    @players.each do |player|
+      records = self.where(player_id: player.id)
+      records = (params[:year]) ? records.where(game_id: Game.by_year(params[:year]).pluck(:id)) : records
+      @new_hash[player.name.to_sym] = records.pluck(:field_error).sum
+    end
+
+    @new_hash
+  end
 end
