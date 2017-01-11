@@ -1,6 +1,7 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy, :show_batting, :show_pitching]
   before_action :set_records, only: [:index, :show]
+  before_action :is_admin?, only: [:new, :edit, :update, :destroy]
 
   # GET /players
   # GET /players.json
@@ -89,6 +90,13 @@ class PlayersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def is_admin?
+      @current_user ||= User.find_by(id: session[:user_id])
+      redirect_to root_path, notice: 'Login required.' unless @current_user
+
+      true
+    end
+
     def set_player
       @player = Player.find(params[:id])
     end
