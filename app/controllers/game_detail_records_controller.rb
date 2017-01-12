@@ -1,4 +1,6 @@
 class GameDetailRecordsController < ApplicationController
+  before_action :is_admin?, only: [:new, :edit, :update, :destroy]
+
   # GET /games
   # GET /games.json
   def index
@@ -116,4 +118,12 @@ class GameDetailRecordsController < ApplicationController
         :number_of_pitches,
       )
     end
+
+    def is_admin?
+      @current_user ||= User.find_by(id: session[:user_id])
+      redirect_to root_path, notice: 'Login required.' unless @current_user
+
+      true
+    end
+
 end

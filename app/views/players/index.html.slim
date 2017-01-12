@@ -8,6 +8,9 @@ table class="table table-condensed table-striped"
       - (2014..current_year).to_a.each do |year|
         td = link_to year, players_path(year: year)
 
+- if current_user
+  = link_to 'New Player', new_player_path
+
 h2= "Batting Records"
 table class="table table-condensed table-striped"
   thead
@@ -83,6 +86,4 @@ table class="table table-condensed table-striped"
             td = link_to 'Edit', edit_player_path(pitcher.player)
             td = link_to 'Destroy', pitcher.player, method: :delete, data: { confirm: 'Are you sure?' }
 
-- if current_user
-  = link_to 'New Player', new_player_path
 

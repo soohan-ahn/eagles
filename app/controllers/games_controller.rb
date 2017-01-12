@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :is_admin?, only: [:new, :edit, :update, :destroy]
 
   # GET /games
   # GET /games.json
@@ -78,4 +79,12 @@ class GamesController < ApplicationController
     def game_params
       params.require(:game).permit(:home_team, :away_team, :home_score, :away_score, :stadium, :game_start_time, :game_type, :score_box)
     end
+
+    def is_admin?
+      @current_user ||= User.find_by(id: session[:user_id])
+      redirect_to root_path, notice: 'Login required.' unless @current_user
+
+      true
+    end
+
 end
