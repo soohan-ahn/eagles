@@ -33,6 +33,11 @@
     = f.text_field :stadium
 
   div class="field"
+    = f.label :ground_id
+    br
+    = f.select 'ground_id', options_for_select(@grounds.map{ |u| [u.name, u.id] })
+
+  div class="field"
     = f.label :game_start_time
     br
     = f.datetime_select :game_start_time
@@ -41,6 +46,11 @@
     = f.label :game_type
     br
     = f.number_field :game_type
+
+  div class="field"
+    = f.label :league_id
+    br
+    = f.select 'league_id', options_for_select(@leagues.map{ |u| [u.name, u.id] })
 
   div
     table class="table table-condensed table-striped"

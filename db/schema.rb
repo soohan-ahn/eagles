@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170112132708) do
+ActiveRecord::Schema.define(version: 20170112150059) do
 
   create_table "at_bat_batter_records", force: :cascade do |t|
     t.integer  "player_id",      limit: 4,                 null: false
@@ -73,17 +73,18 @@ ActiveRecord::Schema.define(version: 20170112132708) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.string   "home_team",       limit: 255,                         null: false
-    t.string   "away_team",       limit: 255,                         null: false
-    t.integer  "home_score",      limit: 4,   default: 0,             null: false
-    t.integer  "away_score",      limit: 4,   default: 0,             null: false
+    t.string   "home_team",       limit: 255,             null: false
+    t.string   "away_team",       limit: 255,             null: false
+    t.integer  "home_score",      limit: 4,   default: 0, null: false
+    t.integer  "away_score",      limit: 4,   default: 0, null: false
     t.string   "stadium",         limit: 255
     t.string   "score_box",       limit: 255
-    t.string   "league",          limit: 255, default: "Exchibition", null: false
     t.datetime "game_start_time"
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
-    t.integer  "game_type",       limit: 4,   default: 0,             null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.integer  "game_type",       limit: 4,   default: 0, null: false
+    t.integer  "league_id",       limit: 4,   default: 1, null: false
+    t.integer  "ground_id",       limit: 4,   default: 1, null: false
   end
 
   create_table "grounds", force: :cascade do |t|

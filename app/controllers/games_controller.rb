@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :is_admin?, only: [:new, :edit, :update, :destroy]
+  before_action :set_league_and_ground, only: [:new, :edit]
 
   # GET /games
   # GET /games.json
@@ -77,7 +78,7 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:home_team, :away_team, :home_score, :away_score, :stadium, :game_start_time, :game_type, :score_box)
+      params.require(:game).permit(:home_team, :away_team, :home_score, :away_score, :stadium, :game_start_time, :game_type, :score_box, :league_id, :ground_id)
     end
 
     def is_admin?
@@ -87,4 +88,8 @@ class GamesController < ApplicationController
       true
     end
 
+    def set_league_and_ground
+      @leagues = League.all
+      @grounds = Ground.all
+    end
 end
