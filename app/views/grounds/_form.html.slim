@@ -1,0 +1,26 @@
+= form_for(@ground) do |f|
+  - if @ground.errors.any?
+    div id="error_explanation"
+      h2 = pluralize(@ground.errors.count, "error")
+      prohibited this ground from being saved:
+      ul
+      = @ground.errors.full_messages.each do |message|
+        li = message
+
+  div class="field"
+    = f.label :name
+    br
+    = f.text_field :name
+
+  div class="field"
+    = f.label :ground_type
+    br
+    = f.select 'ground_type', options_for_select(@ground_types.map{ |u| [u[1], u[0]] })
+
+  div class="field"
+    = f.label :grass_type
+    br
+    = f.select 'grass_type', options_for_select(@grass_types.map{ |u| [u[1], u[0]] })
+
+  div class="actions"
+    = f.submit
