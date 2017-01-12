@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170108045100) do
+ActiveRecord::Schema.define(version: 20170112124425) do
 
   create_table "at_bat_batter_records", force: :cascade do |t|
     t.integer  "player_id",      limit: 4,                 null: false
@@ -84,6 +84,12 @@ ActiveRecord::Schema.define(version: 20170108045100) do
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
     t.integer  "game_type",       limit: 4,   default: 0,             null: false
+  end
+
+  create_table "leagues", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "players", force: :cascade do |t|
