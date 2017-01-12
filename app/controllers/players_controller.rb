@@ -1,11 +1,15 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy, :show_batting, :show_pitching]
   before_action :set_records, only: [:index, :show]
-  before_action :is_admin?, only: [:new, :edit, :update, :destroy]
+  before_action :is_admin?, only: [:index_admin, :new, :edit, :update, :destroy]
 
   # GET /players
   # GET /players.json
   def index
+  end
+
+  def index_admin
+    @players = Player.all
   end
 
   # GET /players/1

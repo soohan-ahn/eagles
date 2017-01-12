@@ -102,6 +102,7 @@
                 <div class="dropdown">
                   <button class="dropbtn">Admin</button>
                   <div class="dropdown-content">
+                    <%= link_to "Players", admin_players_path %>
                     <%= link_to "Admin Users", users_path %>
                     <%= link_to "Logout", logout_path, method: "delete" %>
                   </div>
