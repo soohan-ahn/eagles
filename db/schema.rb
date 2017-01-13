@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113134422) do
+ActiveRecord::Schema.define(version: 20170113140310) do
 
   create_table "at_bat_batter_records", force: :cascade do |t|
     t.integer  "player_id",      limit: 4,                 null: false
@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 20170113134422) do
     t.datetime "updated_at",                               null: false
   end
 
+  add_index "at_bat_batter_records", ["player_id", "game_id"], name: "index_at_bat_batter_records_on_player_id_and_game_id", using: :btree
+
   create_table "game_batter_records", force: :cascade do |t|
     t.integer  "player_id",    limit: 4,             null: false
     t.integer  "game_id",      limit: 4,             null: false
@@ -36,6 +38,8 @@ ActiveRecord::Schema.define(version: 20170113134422) do
     t.datetime "updated_at",                         null: false
   end
 
+  add_index "game_batter_records", ["player_id", "game_id"], name: "index_game_batter_records_on_player_id_and_game_id", unique: true, using: :btree
+
   create_table "game_fielder_simple_records", force: :cascade do |t|
     t.integer  "player_id",   limit: 4, null: false
     t.integer  "game_id",     limit: 4, null: false
@@ -43,6 +47,8 @@ ActiveRecord::Schema.define(version: 20170113134422) do
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
+
+  add_index "game_fielder_simple_records", ["player_id", "game_id"], name: "index_game_fielder_simple_records_on_player_id_and_game_id", unique: true, using: :btree
 
   create_table "game_pitcher_records", force: :cascade do |t|
     t.integer  "player_id",         limit: 4,                 null: false
@@ -72,6 +78,8 @@ ActiveRecord::Schema.define(version: 20170113134422) do
     t.datetime "updated_at",                                  null: false
   end
 
+  add_index "game_pitcher_records", ["player_id", "game_id"], name: "index_game_pitcher_records_on_player_id_and_game_id", unique: true, using: :btree
+
   create_table "games", force: :cascade do |t|
     t.string   "home_team",       limit: 255,             null: false
     t.string   "away_team",       limit: 255,             null: false
@@ -84,6 +92,8 @@ ActiveRecord::Schema.define(version: 20170113134422) do
     t.integer  "league_id",       limit: 4,   default: 1, null: false
     t.integer  "ground_id",       limit: 4,   default: 1, null: false
   end
+
+  add_index "games", ["league_id", "ground_id"], name: "index_games_on_league_id_and_ground_id", using: :btree
 
   create_table "grounds", force: :cascade do |t|
     t.string   "name",        limit: 255,             null: false
@@ -141,6 +151,8 @@ ActiveRecord::Schema.define(version: 20170113134422) do
     t.datetime "updated_at",                                                                              null: false
   end
 
+  add_index "season_batter_records", ["player_id", "year"], name: "index_season_batter_records_on_player_id_and_year", unique: true, using: :btree
+
   create_table "season_pitcher_records", force: :cascade do |t|
     t.integer  "player_id",                   limit: 4,                                          null: false
     t.integer  "year",                        limit: 4,                                          null: false
@@ -161,6 +173,8 @@ ActiveRecord::Schema.define(version: 20170113134422) do
     t.datetime "created_at",                                                                     null: false
     t.datetime "updated_at",                                                                     null: false
   end
+
+  add_index "season_pitcher_records", ["player_id", "year"], name: "index_season_pitcher_records_on_player_id_and_year", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string  "email",         limit: 255,                 null: false
