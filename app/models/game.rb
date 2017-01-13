@@ -1,6 +1,8 @@
 class Game < ActiveRecord::Base
   has_many :at_bat_batter_records
   has_many :game_batter_records
+  belongs_to :ground
+  belongs_to :league
 
   def self.by_year(year)
     where('extract(year from game_start_time) = ?', year)

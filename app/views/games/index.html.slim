@@ -24,7 +24,7 @@ table class="table table-condensed table-striped"
   tbody
     - @games.each do |game|
       tr
-        th  = (game.league_id == 1) ? "연습게임" : "리그"
+        th  = game.league.name
         th  = game.game_start_time
         th  = game.home_team
         th  = game.home_score
