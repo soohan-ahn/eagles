@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :is_admin?, only: [:new, :edit, :update, :destroy]
-  before_action :set_league_and_ground, only: [:new, :edit]
+  before_action :set_league_and_ground, only: [:index, :new, :edit]
 
   # GET /games
   # GET /games.json

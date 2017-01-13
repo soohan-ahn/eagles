@@ -8,8 +8,8 @@ table class="table table-condensed table-striped"
         th= link_to year, games_path(year: year, game_type: params[:game_type])
     tr
       th= link_to "전체", games_path(year: params[:year])
-      th= link_to "연습게임", games_path(year: params[:year], game_type: 0)
-      th= link_to "리그", games_path(year: params[:year], game_type: 1)
+      - @leagues.each do |league|
+        th= link_to league.name, games_path(year: params[:year], league_id: league.id)
 
 table class="table table-condensed table-striped"
   thead
@@ -24,7 +24,7 @@ table class="table table-condensed table-striped"
   tbody
     - @games.each do |game|
       tr
-        th  = (game.game_type == 0) ? "연습게임" : "리그"
+        th  = (game.league_id == 1) ? "연습게임" : "리그"
         th  = game.game_start_time
         th  = game.home_team
         th  = game.home_score
