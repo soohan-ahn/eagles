@@ -28,11 +28,6 @@
     = f.number_field :away_score
 
   div class="field"
-    = f.label :stadium
-    br
-    = f.text_field :stadium
-
-  div class="field"
     = f.label :ground_id
     br
     = f.select 'ground_id', options_for_select(@grounds.map{ |u| [u.name, u.id] })
@@ -41,11 +36,6 @@
     = f.label :game_start_time
     br
     = f.datetime_select :game_start_time
-
-  div class="field"
-    = f.label :game_type
-    br
-    = f.number_field :game_type
 
   div class="field"
     = f.label :league_id

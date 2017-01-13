@@ -1,13 +1,13 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :is_admin?, only: [:new, :edit, :update, :destroy]
-  before_action :set_league_and_ground, only: [:new, :edit]
+  before_action :set_league_and_ground, only: [:index, :new, :edit]
 
   # GET /games
   # GET /games.json
   def index
     @games_by_year = (params[:year]) ? Game.by_year(params[:year]) : Game.all
-    @games = (params[:game_type]) ? @games_by_year.where(game_type: params[:game_type]) : @games_by_year
+    @games = (params[:league_id]) ? @games_by_year.where(league_id: params[:league_id]) : @games_by_year
   end
 
   # GET /games/1
