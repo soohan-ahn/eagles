@@ -10,12 +10,12 @@ class AddIndexToGame < ActiveRecord::Migration
   end
 
   def down
-    remove_index :at_bat_batter_records, [:player_id, :game_id]
-    remove_index :game_batter_records, [:player_id, :game_id]
-    remove_index :game_pitcher_records, [:player_id, :game_id]
-    remove_index :game_fielder_simple_records, [:player_id, :game_id]
-    remove_index :games, [:league_id, :ground_id]
-    remove_index :season_batter_records, [:player_id]
-    remove_index :season_pitcher_records, [:player_id]
+    remove_index :at_bat_batter_records, column: [:player_id, :game_id]
+    remove_index :game_batter_records, column: [:player_id, :game_id]
+    remove_index :game_pitcher_records, column: [:player_id, :game_id]
+    remove_index :game_fielder_simple_records, column: [:player_id, :game_id]
+    remove_index :games, column: [:league_id, :ground_id]
+    remove_index :season_batter_records, column: [:player_id, :year]
+    remove_index :season_pitcher_records, column: [:player_id, :year]
   end
 end
