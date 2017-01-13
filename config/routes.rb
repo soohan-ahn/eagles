@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :grounds
+  resources :leagues
   # get 'sessions/new'
 
   resources :players

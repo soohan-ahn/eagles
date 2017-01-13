@@ -21,6 +21,15 @@ on_base_codes:
   not_in_on_base: [51]
   on_base_by_error: [155,255,355,455,555,655,755,855,955]
 
+ground:
+  grass_type:
+    1: 인조잔디
+    2: 천연잔디
+
+  ground_type:
+    1: 단독구장
+    2: 양면구장
+
 result_code:
   10: 삼진
   20: "낫아웃"
