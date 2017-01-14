@@ -1,30 +1,23 @@
-# Set the working application directory
-# working_directory "/path/to/your/app"
-app_path = '/home/deploy/eagles'
-app_shared_path = "#{app_path}/shared"
+# config/unicorn.rb
+worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
+timeout 15
+preload_app true
 
-working_directory "#{app_path}/current"
+before_fork do |server, worker|
+  Signal.trap 'TERM' do
+    puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
+    Process.kill 'QUIT', Process.pid
+  end
 
-# Unicorn PID file location
-# pid "/path/to/pids/unicorn.pid"
-pid "#{app_shared_path}/tmp/pids/unicorn.pid"
-
-# Path to logs
-# stderr_path "/path/to/log/unicorn.log"
-# stdout_path "/path/to/log/unicorn.log"
-stderr_path "log/unicorn.log"
-stdout_path "log/unicorn.log"
-
-# Unicorn socket
-listen "/tmp/unicorn.sock"
-
-before_exec do |server|
-  ENV['BUNDLE_GEMFILE'] = "#{working_directory}/Gemfile"
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.connection.disconnect!
 end
 
-# Number of processes
-# worker_processes 4
-worker_processes 2
+after_fork do |server, worker|
+  Signal.trap 'TERM' do
+    puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
+  end
 
-# Time-out
-timeout 30
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.establish_connection
+end
