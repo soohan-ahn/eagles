@@ -2,7 +2,6 @@ class CreateTotalBatterRecords < ActiveRecord::Migration
   def change
     create_table :total_batter_records do |t|
       t.integer :player_id, null:false, index: true
-      t.integer :year, null:false, index: true
       t.integer :played_game, null:false, default: 0
       t.integer :plate_appearence, null:false, default: 0
       t.integer :at_bat, null:false, default: 0

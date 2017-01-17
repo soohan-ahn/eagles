@@ -168,7 +168,6 @@ ActiveRecord::Schema.define(version: 20170117141009) do
 
   create_table "total_batter_records", force: :cascade do |t|
     t.integer  "player_id",                             limit: 4,                                         null: false
-    t.integer  "year",                                  limit: 4,                                         null: false
     t.integer  "played_game",                           limit: 4,                         default: 0,     null: false
     t.integer  "plate_appearence",                      limit: 4,                         default: 0,     null: false
     t.integer  "at_bat",                                limit: 4,                         default: 0,     null: false
@@ -194,11 +193,9 @@ ActiveRecord::Schema.define(version: 20170117141009) do
   end
 
   add_index "total_batter_records", ["player_id"], name: "index_total_batter_records_on_player_id", using: :btree
-  add_index "total_batter_records", ["year"], name: "index_total_batter_records_on_year", using: :btree
 
   create_table "total_pitcher_records", force: :cascade do |t|
     t.integer  "player_id",                   limit: 4,                                          null: false
-    t.integer  "year",                        limit: 4,                                          null: false
     t.integer  "pitched_games",               limit: 4,                          default: 0,     null: false
     t.integer  "win",                         limit: 4,                          default: 0,     null: false
     t.integer  "lose",                        limit: 4,                          default: 0,     null: false
@@ -218,7 +215,6 @@ ActiveRecord::Schema.define(version: 20170117141009) do
   end
 
   add_index "total_pitcher_records", ["player_id"], name: "index_total_pitcher_records_on_player_id", using: :btree
-  add_index "total_pitcher_records", ["year"], name: "index_total_pitcher_records_on_year", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string  "email",         limit: 255,                 null: false

@@ -2,7 +2,6 @@ class CreateTotalPitcherRecords < ActiveRecord::Migration
   def change
     create_table :total_pitcher_records do |t|
       t.integer :player_id, null:false, index: true
-      t.integer :year, null:false, index: true
       t.integer :pitched_games, null:false, default:0
       t.integer :win, null:false, default:0
       t.integer :lose, null:false, default:0
