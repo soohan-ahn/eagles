@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113140310) do
+ActiveRecord::Schema.define(version: 20170117141009) do
 
   create_table "at_bat_batter_records", force: :cascade do |t|
     t.integer  "player_id",      limit: 4,                 null: false
@@ -25,8 +25,6 @@ ActiveRecord::Schema.define(version: 20170113140310) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "at_bat_batter_records", ["player_id", "game_id"], name: "index_at_bat_batter_records_on_player_id_and_game_id", using: :btree
-
   create_table "game_batter_records", force: :cascade do |t|
     t.integer  "player_id",    limit: 4,             null: false
     t.integer  "game_id",      limit: 4,             null: false
@@ -38,8 +36,6 @@ ActiveRecord::Schema.define(version: 20170113140310) do
     t.datetime "updated_at",                         null: false
   end
 
-  add_index "game_batter_records", ["player_id", "game_id"], name: "index_game_batter_records_on_player_id_and_game_id", unique: true, using: :btree
-
   create_table "game_fielder_simple_records", force: :cascade do |t|
     t.integer  "player_id",   limit: 4, null: false
     t.integer  "game_id",     limit: 4, null: false
@@ -47,8 +43,6 @@ ActiveRecord::Schema.define(version: 20170113140310) do
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
-
-  add_index "game_fielder_simple_records", ["player_id", "game_id"], name: "index_game_fielder_simple_records_on_player_id_and_game_id", unique: true, using: :btree
 
   create_table "game_pitcher_records", force: :cascade do |t|
     t.integer  "player_id",         limit: 4,                 null: false
@@ -78,8 +72,6 @@ ActiveRecord::Schema.define(version: 20170113140310) do
     t.datetime "updated_at",                                  null: false
   end
 
-  add_index "game_pitcher_records", ["player_id", "game_id"], name: "index_game_pitcher_records_on_player_id_and_game_id", unique: true, using: :btree
-
   create_table "games", force: :cascade do |t|
     t.string   "home_team",       limit: 255,             null: false
     t.string   "away_team",       limit: 255,             null: false
@@ -92,8 +84,6 @@ ActiveRecord::Schema.define(version: 20170113140310) do
     t.integer  "league_id",       limit: 4,   default: 1, null: false
     t.integer  "ground_id",       limit: 4,   default: 1, null: false
   end
-
-  add_index "games", ["league_id", "ground_id"], name: "index_games_on_league_id_and_ground_id", using: :btree
 
   create_table "grounds", force: :cascade do |t|
     t.string   "name",        limit: 255,             null: false
@@ -175,6 +165,60 @@ ActiveRecord::Schema.define(version: 20170113140310) do
   end
 
   add_index "season_pitcher_records", ["player_id", "year"], name: "index_season_pitcher_records_on_player_id_and_year", unique: true, using: :btree
+
+  create_table "total_batter_records", force: :cascade do |t|
+    t.integer  "player_id",                             limit: 4,                                         null: false
+    t.integer  "year",                                  limit: 4,                                         null: false
+    t.integer  "played_game",                           limit: 4,                         default: 0,     null: false
+    t.integer  "plate_appearence",                      limit: 4,                         default: 0,     null: false
+    t.integer  "at_bat",                                limit: 4,                         default: 0,     null: false
+    t.integer  "total_hits",                            limit: 4,                         default: 0,     null: false
+    t.integer  "one_base_hit",                          limit: 4,                         default: 0,     null: false
+    t.integer  "two_base_hit",                          limit: 4,                         default: 0,     null: false
+    t.integer  "three_base_hit",                        limit: 4,                         default: 0,     null: false
+    t.integer  "home_run",                              limit: 4,                         default: 0,     null: false
+    t.integer  "strike_out",                            limit: 4,                         default: 0,     null: false
+    t.integer  "base_on_ball",                          limit: 4,                         default: 0,     null: false
+    t.integer  "hit_by_pitched_ball",                   limit: 4,                         default: 0,     null: false
+    t.integer  "rbi",                                   limit: 4,                         default: 0,     null: false
+    t.integer  "run",                                   limit: 4,                         default: 0,     null: false
+    t.integer  "steal",                                 limit: 4,                         default: 0,     null: false
+    t.integer  "steal_caught",                          limit: 4,                         default: 0,     null: false
+    t.decimal  "batting_average",                                 precision: 4, scale: 3, default: 0.0,   null: false
+    t.decimal  "on_base_percentage",                              precision: 4, scale: 3, default: 0.0,   null: false
+    t.decimal  "slugging_percentage",                             precision: 4, scale: 3, default: 0.0,   null: false
+    t.decimal  "ops",                                             precision: 4, scale: 3, default: 0.0,   null: false
+    t.boolean  "is_regular_plate_appearance_satisfied", limit: 1,                         default: false, null: false
+    t.datetime "created_at",                                                                              null: false
+    t.datetime "updated_at",                                                                              null: false
+  end
+
+  add_index "total_batter_records", ["player_id"], name: "index_total_batter_records_on_player_id", using: :btree
+  add_index "total_batter_records", ["year"], name: "index_total_batter_records_on_year", using: :btree
+
+  create_table "total_pitcher_records", force: :cascade do |t|
+    t.integer  "player_id",                   limit: 4,                                          null: false
+    t.integer  "year",                        limit: 4,                                          null: false
+    t.integer  "pitched_games",               limit: 4,                          default: 0,     null: false
+    t.integer  "win",                         limit: 4,                          default: 0,     null: false
+    t.integer  "lose",                        limit: 4,                          default: 0,     null: false
+    t.decimal  "era",                                    precision: 4, scale: 2, default: 0.0,   null: false
+    t.float    "inning_pitched",              limit: 24,                         default: 0.0,   null: false
+    t.integer  "hit",                         limit: 4,                          default: 0,     null: false
+    t.integer  "run",                         limit: 4,                          default: 0,     null: false
+    t.integer  "earned_run",                  limit: 4,                          default: 0,     null: false
+    t.integer  "homerun",                     limit: 4,                          default: 0,     null: false
+    t.integer  "walk",                        limit: 4,                          default: 0,     null: false
+    t.integer  "strike_out",                  limit: 4,                          default: 0,     null: false
+    t.integer  "hit_by_pitch",                limit: 4,                          default: 0,     null: false
+    t.decimal  "whip",                                   precision: 4, scale: 2, default: 0.0,   null: false
+    t.boolean  "is_regular_inning_satisfied", limit: 1,                          default: false, null: false
+    t.datetime "created_at",                                                                     null: false
+    t.datetime "updated_at",                                                                     null: false
+  end
+
+  add_index "total_pitcher_records", ["player_id"], name: "index_total_pitcher_records_on_player_id", using: :btree
+  add_index "total_pitcher_records", ["year"], name: "index_total_pitcher_records_on_year", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string  "email",         limit: 255,                 null: false
