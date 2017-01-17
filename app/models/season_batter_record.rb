@@ -107,8 +107,12 @@ class SeasonBatterRecord < ActiveRecord::Base
     )
     batter_sort_param = SeasonBatterRecord.batter_record_columns[params[:batter_sort]].to_sym if params[:batter_sort]
 
-    @batter_records = SeasonBatterRecord.where(player: players)
-    @batter_records = @batter_records.where(year: params[:year]).where("played_game > 0") if params[:year]
+    if params[:year]
+      @batter_records = SeasonBatterRecord.where(player: players)
+      @batter_records = @batter_records.where(year: params[:year]).where("played_game > 0")
+    else
+      @batter_records = TotalBatterRecord.where(player: players)
+    end
 
     if sort_by_player
       if params[:batter_sort] == "Name"

@@ -13,8 +13,18 @@ class PlayersController < ApplicationController
   end
 
   def update_total_records
-    TotalBatterRecord.refresh_records
-    TotalPitcherRecord.refresh_records
+    @success = true
+    ActiveRecord::Base.transaction do
+      TotalBatterRecord.destroy_all
+      TotalPitcherRecord.destroy_all
+      unless TotalBatterRecord.summarize and TotalPitcherRecord.summarize
+        @success = false
+        raise ActiveRecord::Rollback
+      end
+      redirect_to root_path
+    end
+
+    redirect_to :back, notice: 'Something wrong during the update.' unless @success
   end
 
   # GET /players/1
