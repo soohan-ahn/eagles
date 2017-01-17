@@ -5,7 +5,6 @@ class TotalBatterRecord < ActiveRecord::Base
     players = Player.all
 
     players.each do |player|
-      total_batter_records = TotalBatterRecord.find_by(player_id: player.id)
       refreshed_records = TotalBatterRecord.batter_records_of_player(player: player)
 
       if refreshed_records[:played_game] > 0
@@ -22,7 +21,7 @@ class TotalBatterRecord < ActiveRecord::Base
     player = params[:player]
     season_batter_records = player.season_batter_records
     game_count = Game.all.count
-    is_regular_plate_appearance_satisfied = (200 <= player.plate_appearence(params[:year]))
+    is_regular_plate_appearance_satisfied = (200 <= player.plate_appearence)
 
     @return_hash = { }
     @columns = TotalBatterRecord.column_names
