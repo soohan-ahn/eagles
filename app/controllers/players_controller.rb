@@ -12,6 +12,11 @@ class PlayersController < ApplicationController
     @players = Player.all
   end
 
+  def update_total_records
+    TotalBatterRecord.refresh_records
+    TotalPitcherRecord.refresh_records
+  end
+
   # GET /players/1
   # GET /players/1.json
   def show

@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   root "players#index"
 
   get "admin/players" => "players#index_admin"
+  get "admin/players/update_total_records" => "players#update_total_records"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
