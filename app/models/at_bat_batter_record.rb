@@ -41,7 +41,7 @@ class AtBatBatterRecord < ActiveRecord::Base
 
     for @batting_order in 1..25
       if params[:batting_player_name][@batting_order.to_s] and !Player.where(name: params[:batting_player_name][@batting_order.to_s]).exists?
-        raise ActiveRecord::Rollback
+        return false
       end
 
       for @inning in 1..9

@@ -6,7 +6,7 @@ class GameBatterRecord < ActiveRecord::Base
 
     for @batter_input_order in 1..25
       unless params[:batting_player_name][@batter_input_order.to_s].empty?
-        raise ActiveRecord::Rollback if !Player.where(name: params[:batting_player_name][@batter_input_order.to_s]).exists?
+        return false if !Player.where(name: params[:batting_player_name][@batter_input_order.to_s]).exists?
 
         @params_for_save = GameBatterRecord.params_for_save(params, @batter_input_order)
         @game_batter_record = GameBatterRecord.new(@params_for_save)

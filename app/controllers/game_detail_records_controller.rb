@@ -33,6 +33,7 @@ class GameDetailRecordsController < ApplicationController
     game = Game.find(params[:game_id]['1']) or redirect_to :back, notice: 'Something wrong. Game not found.'
     year_of_game = game.game_start_time.year
 
+    @success = true
     begin
       ActiveRecord::Base.transaction do
         if GamePitcherRecord.destroy_game_record(game.id) and
@@ -50,12 +51,14 @@ class GameDetailRecordsController < ApplicationController
           SeasonBatterRecord.refresh_season_records(year_of_game) and
           SeasonPitcherRecord.refresh_season_records(year_of_game)
           redirect_to games_path
+        else
+          @success = false
+          raise ActiveRecord::Rollback
         end
       end
-    rescue ActiveRecord::RecordInvalid
-    ensure
-      redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name'
     end
+
+    redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name' unless @success
   end
 
   # PATCH/PUT /games/1
@@ -64,6 +67,7 @@ class GameDetailRecordsController < ApplicationController
     game = Game.find(params[:game_id]['1']) or redirect_to :back, notice: 'Something wrong. Game not found.'
     year_of_game = game.game_start_time.year
 
+    @success = true
     begin
       ActiveRecord::Base.transaction do
         if GamePitcherRecord.destroy_game_record(game.id) and
@@ -81,12 +85,14 @@ class GameDetailRecordsController < ApplicationController
           SeasonBatterRecord.refresh_season_records(year_of_game) and
           SeasonPitcherRecord.refresh_season_records(year_of_game)
           redirect_to games_path
+        else
+          @success = false
+          raise ActiveRecord::Rollback
         end
       end
-    rescue ActiveRecord::RecordInvalid
-    ensure
-      redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name'
     end
+
+    redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name' unless @success
   end
 
   private
