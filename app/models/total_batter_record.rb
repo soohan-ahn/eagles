@@ -37,10 +37,18 @@ class TotalBatterRecord < ActiveRecord::Base
       end
     end
 
-    @return_hash[:batting_average] = player.batting_average
-    @return_hash[:on_base_percentage] = player.on_base_percentage
-    @return_hash[:slugging_percentage] = player.slugging_percentage
-    @return_hash[:ops] = player.ops
+    @batting_average = (@return_hash[:at_bat] > 0) ? (@return_hash[:total_hits].to_f / @return_hash[:at_bat]) : 0.0
+    @return_hash[:batting_average] = "%.3f" % @batting_average
+
+    @total_on_base = @return_hash[:total_hits] + @return_hash[:base_on_ball] + @return_hash[:hit_by_pitched_ball]
+    @on_base_percentage = (@return_hash[:plate_appearence] > 0) ? (@total_on_base.to_f / @return_hash[:plate_appearence]) : 0.0
+    @return_hash[:on_base_percentage] = "%.3f" % @on_base_percentage
+
+    @slugging_percentage = @return_hash[:one_base_hit] + (@return_hash[:two_base_hit] * 2) + (@return_hash[:three_base_hit] * 3) + (@return_hash[:home_run] * 4)
+    @slugging_percentage = (@return_hash[:at_bat] > 0) ? (@slugging_percentage.to_f / @return_hash[:at_bat]) : 0
+    @return_hash[:slugging_percentage] = "%.3f" % @slugging_percentage
+
+    @return_hash[:ops] = @return_hash[:slugging_percentage] + @return_hash[:on_base_percentage]
 
     @return_hash
   end
