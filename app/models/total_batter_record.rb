@@ -48,7 +48,7 @@ class TotalBatterRecord < ActiveRecord::Base
     @slugging_percentage = (@return_hash[:at_bat] > 0) ? (@slugging_percentage.to_f / @return_hash[:at_bat]) : 0
     @return_hash[:slugging_percentage] = "%.3f" % @slugging_percentage
 
-    @return_hash[:ops] = @return_hash[:slugging_percentage] + @return_hash[:on_base_percentage]
+    @return_hash[:ops] = "%.3f" % (@slugging_percentage + @on_base_percentage)
 
     @return_hash
   end
