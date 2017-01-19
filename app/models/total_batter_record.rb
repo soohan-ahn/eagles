@@ -21,7 +21,7 @@ class TotalBatterRecord < ActiveRecord::Base
     player = params[:player]
     season_batter_records = player.season_batter_records
     game_count = Game.all.count
-    is_regular_plate_appearance_satisfied = (200 <= season_batter_records.sum(:plate_appearence)) ? 1 : 0
+    is_regular_plate_appearance_satisfied = (200 <= season_batter_records.sum(:plate_appearence)) ? true : false
 
     @return_hash = { }
     @columns = TotalBatterRecord.column_names
