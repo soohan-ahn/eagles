@@ -5,7 +5,7 @@ table class="table table-condensed table-striped"
   tbody
     tr
       td = link_to "All", players_path
-      - (2014..current_year).to_a.each do |year|
+      - (2013..current_year).to_a.each do |year|
         td = link_to year, players_path(year: year)
 
 - if current_user
