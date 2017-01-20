@@ -43,20 +43,6 @@ table class="table table-condensed table-striped"
 
 br
 
-h2= "Fielding Records"
-table class="table table-condensed table-striped"
-  thead
-    tr
-      th = t("game_simple_fielder.Player Name")
-      th = t("game_simple_fielder.Field Error")
-  tbody
-    - @simple_field_records.each do |player, field_error|
-      tr
-        td = player
-        td = field_error
-
-br
-
 h2= "Pitching Records"
 table class="table table-condensed table-striped"
   thead
