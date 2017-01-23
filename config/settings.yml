@@ -12,12 +12,12 @@ on_base_codes:
   three_base_hit: [773,723,783,873,823,883,893,923,983,993]
   home_run: [774,784,874,884,894,984,994,4g]
   base_on_ball: [31,41]
-  hit_by_pitched_ball: 21
+  hit_by_pitched_ball: [21]
   strike_out: [10,20,11]
   sacrifies: [8b,118b,218b,318b,418b,518b,618b,338,438,538,638,738,838,938]
   sacrifice_bunts: [8b,118b,218b,318b,418b,518b,618b]
   sacrifice_flys: [338,438,538,638,738,838,938]
-  double_plays: 00
+  double_plays: [00]
   not_in_on_base: [51]
   on_base_by_error: [155,255,355,455,555,655,755,855,955]
 
