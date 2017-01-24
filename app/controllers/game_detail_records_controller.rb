@@ -10,6 +10,9 @@ class GameDetailRecordsController < ApplicationController
   # GET /games/new
   def new
     @game = Game.find(params[:game_id])
+
+    redirect_to games_path, notice: 'Game already exists.' if game_detail_records_exists?(@game.id)
+
     @score_boxes = @game.score_box.split "\t"
     @game_pitcher_record = GamePitcherRecord.new
     @action = "create"
@@ -33,17 +36,11 @@ class GameDetailRecordsController < ApplicationController
     game = Game.find(params[:game_id]['1']) or redirect_to :back, notice: 'Something wrong. Game not found.'
     year_of_game = game.game_start_time.year
 
+    redirect_to :back, notice: 'Game already exists.' if game_detail_records_exists?(game.id)
+
     @success = true
     begin
       ActiveRecord::Base.transaction do
-        if GamePitcherRecord.destroy_game_record(game.id) and
-          AtBatBatterRecord.destroy_game_record(game.id) and
-          GameBatterRecord.destroy_game_record(game.id) and
-          GameFielderSimpleRecord.destroy_game_record(game.id)
-        else
-          redirect_to :back, notice: 'Something wrong during the clearing'
-        end
-
         if GamePitcherRecord.new_game_record(params) and
           AtBatBatterRecord.new_game_record(params) and
           GameBatterRecord.new_game_record(params) and
@@ -70,11 +67,7 @@ class GameDetailRecordsController < ApplicationController
     @success = true
     begin
       ActiveRecord::Base.transaction do
-        if GamePitcherRecord.destroy_game_record(game.id) and
-          AtBatBatterRecord.destroy_game_record(game.id) and
-          GameBatterRecord.destroy_game_record(game.id) and
-          GameFielderSimpleRecord.destroy_game_record(game.id)
-        else
+        unless AtBatBatterRecord.destroy_game_record(game.id)
           redirect_to :back, notice: 'Something wrong during the clearing'
         end
 
@@ -130,6 +123,17 @@ class GameDetailRecordsController < ApplicationController
       redirect_to root_path, notice: 'Login required.' unless @current_user
 
       true
+    end
+
+    def game_detail_records_exists? (game_id)
+      if GamePitcherRecord.where(game_id: game_id).exists? or
+        AtBatBatterRecord.where(game_id: game_id).exists? or
+        GameBatterRecord.where(game_id: game_id).exists? or
+        GameFielderSimpleRecord.where(game_id: game_id).exists?
+        return true
+      end
+
+      false
     end
 
 end

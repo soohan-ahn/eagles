@@ -7,10 +7,22 @@ class GamePitcherRecord < ActiveRecord::Base
       if @pitcher_name.present?
         i = i + 1
         return false unless Player.where(name: @pitcher_name).exists?
+        @player = Player.where(name: @pitcher_name).first
+
+        pitcher_records_of_game = GamePitcherRecord.find_by(
+          game_id: params[:game_id][i.to_s], player_id: @player.id
+        )
+
         @params_for_save = GamePitcherRecord.params_for_save(params, i)
-        @game_pitcher_record = GamePitcherRecord.new(@params_for_save)
-        unless @game_pitcher_record.save
-          return false
+        if pitcher_records_of_game
+          # Update
+          #@params_for_save[:created_at] = pitcher_records_of_game[:created_at]
+          @params_for_save[:updated_at] = Time.now()
+          pitcher_records_of_game.update(@params_for_save)
+        else
+          @params_for_save = GamePitcherRecord.params_for_save(params, i)
+          @game_pitcher_record = GamePitcherRecord.new(@params_for_save)
+          return false unless @game_pitcher_record.save
         end
       end
     end
