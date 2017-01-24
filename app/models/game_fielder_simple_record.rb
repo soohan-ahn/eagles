@@ -4,11 +4,22 @@ class GameFielderSimpleRecord < ActiveRecord::Base
 
     for @batter_input_order in 1..25
       unless params[:batting_player_name][@batter_input_order.to_s].empty?
-        return false if !Player.where(name: params[:batting_player_name][@batter_input_order.to_s]).exists?
+        @player = Player.where(name: params[:batting_player_name][@batter_input_order.to_s])
+        return false unless @player.exists?
+
+        game_fielder_simple_record_of_game = GameFielderSimpleRecord.find_by(
+          player_id: @player.first.id, game_id: params[:game_id][@batter_input_order.to_s],
+        )
 
         @params_for_save = GameFielderSimpleRecord.params_for_save(params, @batter_input_order)
-        @game_field_simple_records = GameFielderSimpleRecord.new(@params_for_save)
-        return false unless @game_field_simple_records.save
+
+        if game_fielder_simple_record_of_game
+          @params_for_save[:updated_at] = Time.now()
+          game_fielder_simple_record_of_game.update(@params_for_save)
+        else
+          @game_field_simple_records = GameFielderSimpleRecord.new(@params_for_save)
+          return false unless @game_field_simple_records.save
+        end
       end
     end
 

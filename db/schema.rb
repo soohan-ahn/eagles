@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117141009) do
+ActiveRecord::Schema.define(version: 20170123124602) do
 
   create_table "at_bat_batter_records", force: :cascade do |t|
     t.integer  "player_id",      limit: 4,                 null: false
@@ -26,14 +26,27 @@ ActiveRecord::Schema.define(version: 20170117141009) do
   end
 
   create_table "game_batter_records", force: :cascade do |t|
-    t.integer  "player_id",    limit: 4,             null: false
-    t.integer  "game_id",      limit: 4,             null: false
-    t.integer  "rbi",          limit: 4, default: 0, null: false
-    t.integer  "run",          limit: 4, default: 0, null: false
-    t.integer  "steal",        limit: 4, default: 0, null: false
-    t.integer  "steal_caught", limit: 4, default: 0, null: false
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.integer  "player_id",           limit: 4,             null: false
+    t.integer  "game_id",             limit: 4,             null: false
+    t.integer  "plate_appearence",    limit: 4, default: 0, null: false
+    t.integer  "at_bat",              limit: 4, default: 0, null: false
+    t.integer  "total_hits",          limit: 4, default: 0, null: false
+    t.integer  "one_base_hit",        limit: 4, default: 0, null: false
+    t.integer  "two_base_hit",        limit: 4, default: 0, null: false
+    t.integer  "three_base_hit",      limit: 4, default: 0, null: false
+    t.integer  "home_run",            limit: 4, default: 0, null: false
+    t.integer  "strike_out",          limit: 4, default: 0, null: false
+    t.integer  "base_on_ball",        limit: 4, default: 0, null: false
+    t.integer  "hit_by_pitched_ball", limit: 4, default: 0, null: false
+    t.integer  "rbi",                 limit: 4, default: 0, null: false
+    t.integer  "run",                 limit: 4, default: 0, null: false
+    t.integer  "steal",               limit: 4, default: 0, null: false
+    t.integer  "steal_caught",        limit: 4, default: 0, null: false
+    t.integer  "sacrifice_hit",       limit: 4, default: 0, null: false
+    t.integer  "double_play",         limit: 4, default: 0, null: false
+    t.integer  "sacrifice_fly",       limit: 4, default: 0, null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
   create_table "game_fielder_simple_records", force: :cascade do |t|
