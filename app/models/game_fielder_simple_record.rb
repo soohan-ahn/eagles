@@ -8,7 +8,7 @@ class GameFielderSimpleRecord < ActiveRecord::Base
         return false unless @player.exists?
 
         game_fielder_simple_record_of_game = GameFielderSimpleRecord.find_by(
-          player_id: @player.first.id, game_id: params[:game_id][@batter_input_order.to_s],
+          player_id: @player.first.id, game_id: params[:batting_game_id][@batter_input_order.to_s],
         )
 
         @params_for_save = GameFielderSimpleRecord.params_for_save(params, @batter_input_order)
