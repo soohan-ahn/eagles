@@ -21,3 +21,21 @@
 
 en:
   hello: "Hello world"
+
+season_pitcher_record:
+  name: "Name"
+  team: "Team"
+  back_number: "Back number"
+  pitched_games: "G"
+  win: "W"
+  lose: "L"
+  era: "ERA"
+  inning_pitched: "IP"
+  hit: "H"
+  run: "R"
+  earned_run: "ER"
+  homerun: "HR"
+  walk: "BB"
+  strike_out: "SO"
+  hit_by_pitch: "HBP"
+  whip: "WHIP"
