@@ -63,34 +63,30 @@ class SeasonBatterRecord < ActiveRecord::Base
   def self.batter_records_of_player(params)
   	player = params[:player]
 
-
     game_id_of_the_years = (params[:year]) ? Game.by_year(params[:year]).pluck(:id) : Game.all.pluck(:id)
-    game_count = game_id_of_the_years.count
     player_game_batter_records = player.game_batter_records.where(game_id: game_id_of_the_years)
+
     @plate_appearence = player_game_batter_records.sum(:plate_appearence)
-    is_regular_plate_appearance_satisfied = (game_count * Settings.regular_plate_appearance_rate <= @plate_appearence)
+    regular_plate_appearance_rate = game_id_of_the_years.count * Settings.regular_plate_appearance_rate
+    is_regular_plate_appearance_satisfied = (regular_plate_appearance_rate <= @plate_appearence)
 
     @return_hash = {
       player_id: player.id,
       year: params[:year],
       played_game: player_game_batter_records.count,
       is_regular_plate_appearance_satisfied: is_regular_plate_appearance_satisfied,
+      plate_appearence: @plate_appearence,
     }
-    @columns = SeasonBatterRecord.column_names
     @non_update_columns_in_loop = [
       "id",
-      "player_id",
-      "year",
-      "played_game",
       "on_base_by_error",
       "batting_average",
-      "is_regular_plate_appearance_satisfied",
       "on_base_percentage",
       "slugging_percentage",
       "ops"
     ]
-    @columns.each do |column|
-      unless @non_update_columns_in_loop.include?(column)
+    SeasonBatterRecord.column_names.each do |column|
+      unless @non_update_columns_in_loop.include?(column) and @return_hash[column.to_sym].exists?
         @return_hash[column.to_sym] = player_game_batter_records.sum(column.to_sym)
       end
     end
