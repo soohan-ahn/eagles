@@ -29,7 +29,7 @@ class SeasonBatterRecord < ActiveRecord::Base
     end
   end
 
-	def self.batter_record_columns
+	def self.batter_record_columns # TODO: Move to the locales.yml
     {
       "Name" => "name",
       "Team" => "team",
