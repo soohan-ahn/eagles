@@ -13,17 +13,15 @@ class SeasonBatterRecord < ActiveRecord::Base
 
         refreshed_records = SeasonBatterRecord.batter_records_of_player(player: player, year: year)
 
-        ActiveRecord::Base.transaction do
-          if batter_records_of_season
-            # Update
-            refreshed_records[:created_at] = batter_records_of_season[:created_at]
-            refreshed_records[:updated_at] = Time.now()
-            batter_records_of_season.update!(refreshed_records)
-          elsif refreshed_records[:played_game] > 0
-            # New
-            new_batter_records = SeasonBatterRecord.new(refreshed_records)
-            return false unless new_batter_records.save
-          end
+        if batter_records_of_season
+          # Update
+          refreshed_records[:created_at] = batter_records_of_season[:created_at]
+          refreshed_records[:updated_at] = Time.now()
+          batter_records_of_season.update!(refreshed_records)
+        elsif refreshed_records[:played_game] > 0
+          # New
+          new_batter_records = SeasonBatterRecord.new(refreshed_records)
+          return false unless new_batter_records.save
         end
       end
     end

@@ -13,15 +13,13 @@ class SeasonPitcherRecord < ActiveRecord::Base
 
         refreshed_records = pitcher_records_of_player(player: player, year: year)
 
-        ActiveRecord::Base.transaction do
-          if pitcher_records_of_season
-            # Update
-            pitcher_records_of_season.update(refreshed_records)
-          elsif refreshed_records[:pitched_games] > 0
-            # New
-            new_pitcher_records = SeasonPitcherRecord.new(refreshed_records)
-            return false unless new_pitcher_records.save
-          end
+        if pitcher_records_of_season
+          # Update
+          pitcher_records_of_season.update(refreshed_records)
+        elsif refreshed_records[:pitched_games] > 0
+          # New
+          new_pitcher_records = SeasonPitcherRecord.new(refreshed_records)
+          return false unless new_pitcher_records.save
         end
       end
     end
