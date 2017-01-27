@@ -27,7 +27,7 @@ class SeasonPitcherRecord < ActiveRecord::Base
     end
   end
 
-	def self.pitcher_record_columns
+  def self.pitcher_record_columns # TODO: Move to the locale.yml
     {
       "Name" => "name",
       "Team" => "team",
