@@ -2,38 +2,46 @@ class TotalBatterRecord < ActiveRecord::Base
   belongs_to :player
 
   def self.summarize
-    players = Player.all
+    Player.all.each do |current_player|
+      @refreshed_records = TotalBatterRecord.batter_records_of_player(current_player)
 
-    players.each do |player|
-      refreshed_records = TotalBatterRecord.batter_records_of_player(player: player)
-
-      if refreshed_records[:played_game] > 0
-        # New
-        new_batter_records = TotalBatterRecord.new(refreshed_records)
-        return false unless new_batter_records.save!
+      if @refreshed_records[:played_game] > 0
+        @total_batter_record_of_player = current_player.total_batter_records.first
+        if @total_batter_record_of_player
+          @refreshed_records[:created_at] = @total_batter_record_of_player[:created_at]
+          @refreshed_records[:updated_at] = Time.now()
+          @total_batter_record.update(refreshed_records)
+        else
+          @new_batter_records = TotalBatterRecord.new(@refreshed_records)
+          return false unless @new_batter_records.save!
+        end
       end
     end
 
     true
   end
 
-  def self.batter_records_of_player(params)
-    player = params[:player]
-    season_batter_records = player.season_batter_records
-    game_count = Game.all.count
-    is_regular_plate_appearance_satisfied = (200 <= season_batter_records.sum(:plate_appearence)) ? true : false
+  def self.batter_records_of_player(current_player)
+    @season_batter_records = current_player.season_batter_records
+    is_regular_plate_appearance_satisfied = (200 <= @season_batter_records.sum(:plate_appearence)) ? true : false
 
-    @return_hash = { }
-    @columns = TotalBatterRecord.column_names
-    @columns.each do |column|
-      unless ["id", "batting_average", "on_base_percentage", "slugging_percentage", "ops"].include?(column)
-        if column == "player_id"
-          @return_hash[column.to_sym] = player.id
-        elsif column == "is_regular_plate_appearance_satisfied"
-          @return_hash[column.to_sym] = is_regular_plate_appearance_satisfied
-        else
-          @return_hash[column.to_sym] = season_batter_records.sum(column.to_sym)
-        end
+    @return_hash = {
+      player_id: current_player.id,
+      is_regular_plate_appearance_satisfied: is_regular_plate_appearance_satisfied,
+      played_game: @season_batter_records.count,
+    }
+    @non_update_columns_in_loop = [
+      "id",
+      "batting_average",
+      "on_base_percentage",
+      "slugging_percentage",
+      "ops",
+      "created_at",
+      "updated_at",
+    ]
+    TotalBatterRecord.column_names.each do |column|
+      if !@non_update_columns_in_loop.include?(column) and @return_hash[column.to_sym].nil?
+        @return_hash[column.to_sym] = @season_batter_records.sum(column.to_sym)
       end
     end
 

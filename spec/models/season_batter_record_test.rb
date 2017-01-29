@@ -29,6 +29,16 @@ RSpec.describe SeasonBatterRecord, :type => :model do
       rbi: 3,
       run: 2,
       steal: 1,
+      plate_appearence: 3,
+      at_bat: 3,
+      total_hits: 2,
+      one_base_hit: 1,
+      two_base_hit: 1,
+      three_base_hit: 0,
+      home_run: 0,
+      strike_out: 1,
+      base_on_ball: 0,
+      hit_by_pitched_ball: 0,
     )
 
     GameBatterRecord.create!(
@@ -37,6 +47,16 @@ RSpec.describe SeasonBatterRecord, :type => :model do
       rbi: 0,
       run: 0,
       steal: 2,
+      plate_appearence: 3,
+      at_bat: 2,
+      total_hits: 0,
+      one_base_hit: 0,
+      two_base_hit: 0,
+      three_base_hit: 0,
+      home_run: 0,
+      strike_out: 1,
+      base_on_ball: 1,
+      hit_by_pitched_ball: 0,
     )
 
     AtBatBatterRecord.create!(
@@ -105,6 +125,16 @@ RSpec.describe SeasonBatterRecord, :type => :model do
       rbi: 1,
       run: 2,
       steal: 3,
+      plate_appearence: 3,
+      at_bat: 1,
+      total_hits: 0,
+      one_base_hit: 0,
+      two_base_hit: 0,
+      three_base_hit: 0,
+      home_run: 0,
+      strike_out: 1,
+      base_on_ball: 2,
+      hit_by_pitched_ball: 0,
     )
 
     GameBatterRecord.create!(
@@ -113,6 +143,16 @@ RSpec.describe SeasonBatterRecord, :type => :model do
       rbi: 5,
       run: 3,
       steal: 1,
+      plate_appearence: 3,
+      at_bat: 2,
+      total_hits: 1,
+      one_base_hit: 0,
+      two_base_hit: 0,
+      three_base_hit: 0,
+      home_run: 1,
+      strike_out: 1,
+      base_on_ball: 1,
+      hit_by_pitched_ball: 0,
     )
 
     AtBatBatterRecord.create!(

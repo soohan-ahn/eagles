@@ -84,7 +84,7 @@ class SeasonBatterRecord < ActiveRecord::Base
       "ops"
     ]
     SeasonBatterRecord.column_names.each do |column|
-      unless @non_update_columns_in_loop.include?(column) and @return_hash[column.to_sym].exists?
+      if !@non_update_columns_in_loop.include?(column) and @return_hash[column.to_sym].nil?
         @return_hash[column.to_sym] = player_game_batter_records.sum(column.to_sym)
       end
     end

@@ -5,6 +5,8 @@ class Player < ActiveRecord::Base
   has_many :at_bat_batter_records
   has_many :season_batter_records
   has_many :season_pitcher_records
+  has_many :total_batter_records
+  has_many :total_pitcher_records
 
   def game_field_simple_record_of(game_id)
     self.game_fielder_simple_records.find_by(game_id: game_id)
