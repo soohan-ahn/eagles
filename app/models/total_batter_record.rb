@@ -23,12 +23,14 @@ class TotalBatterRecord < ActiveRecord::Base
 
   def self.batter_records_of_player(current_player)
     @season_batter_records = current_player.season_batter_records
-    is_regular_plate_appearance_satisfied = (200 <= @season_batter_records.sum(:plate_appearence)) ? true : false
+    @plate_appearence = @season_batter_records.sum(:plate_appearence)
+    is_regular_plate_appearance_satisfied = (200 <= @plate_appearence) ? true : false
 
     @return_hash = {
       player_id: current_player.id,
       is_regular_plate_appearance_satisfied: is_regular_plate_appearance_satisfied,
       played_game: @season_batter_records.count,
+      plate_appearence: @plate_appearence,
     }
     @non_update_columns_in_loop = [
       "id",

@@ -69,6 +69,7 @@ class GameBatterRecord < ActiveRecord::Base
       sacrifice_hit: self.retrieve_at_bat_batter_records("sacrifice_bunts", @record_codes),
       sacrifice_fly: self.retrieve_at_bat_batter_records("sacrifice_flys", @record_codes),
       double_play: self.retrieve_at_bat_batter_records("double_plays", @record_codes),
+      on_base_by_error: self.retrieve_at_bat_batter_records("on_base_by_error", @record_codes),
     }
     @new_params[:at_bat] = @new_params[:plate_appearence] - @new_params[:base_on_ball] - @new_params[:hit_by_pitched_ball] - self.retrieve_at_bat_batter_records("sacrifies", @record_codes) - self.retrieve_at_bat_batter_records("not_in_on_base", @record_codes)
     @new_params[:total_hits] = @new_params[:one_base_hit] + @new_params[:two_base_hit] + @new_params[:three_base_hit] + @new_params[:home_run]

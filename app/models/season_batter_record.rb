@@ -77,11 +77,12 @@ class SeasonBatterRecord < ActiveRecord::Base
     }
     @non_update_columns_in_loop = [
       "id",
-      "on_base_by_error",
       "batting_average",
       "on_base_percentage",
       "slugging_percentage",
-      "ops"
+      "ops",
+      "created_at",
+      "updated_at",
     ]
     SeasonBatterRecord.column_names.each do |column|
       if !@non_update_columns_in_loop.include?(column) and @return_hash[column.to_sym].nil?
