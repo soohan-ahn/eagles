@@ -1,6 +1,14 @@
 require "rails_helper"
 
 RSpec.describe SeasonPitcherRecord, :type => :model do
+  it "sums the pitched inning properly" do
+    expect(SeasonPitcherRecord.total_inning_pitched([1.66, 3.33])).to eq(5)
+  end
+
+  it "sums the pitched inning properly 0.66+0.66" do
+    expect(SeasonPitcherRecord.total_inning_pitched([1.66, 3.66])).to eq(5.33)
+  end
+
 	it "Create SeasonPitcherRecord properly" do
 		player1 = Player.create!(
       id: 1,

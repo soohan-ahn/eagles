@@ -1,5 +1,6 @@
 class SeasonPitcherRecord < ActiveRecord::Base
 	belongs_to :player
+  include PitcherCommonMethods
 
 	def self.refresh_season_records(year_to_update = nil)
     year_range = (year_to_update) ? year_to_update..year_to_update : Settings.start_year..Date.today.year
@@ -47,27 +48,25 @@ class SeasonPitcherRecord < ActiveRecord::Base
   end
 
   def self.pitcher_records_of_player(params)
-    player = params[:player]
+    current_player = params[:player]
+    game_pitcher_records = current_player.game_pitcher_records
+    innings = game_pitcher_records.pluck(:innings_pitched)
+    innings_sum = self.total_inning_pitched(innings)
     game_count = (params[:year]) ? Game.by_year(params[:year]).count : Game.all.count
-    is_regular_inning_satisfied = (game_count * Settings.regular_pitching_inning_rate <= player.inning_pitched(params[:year]))
-    {
-      player_id: player.id,
+    is_regular_inning_satisfied = (game_count * Settings.regular_pitching_inning_rate <= innings_sum)
+
+    return_hash = {
       year: params[:year],
-      pitched_games: player.retrieve_game_pitcher_records("pitcher_games", params[:year]),
-      win: player.retrieve_game_pitcher_records("win", params[:year]),
-      lose: player.retrieve_game_pitcher_records("lose", params[:year]),
-      era: player.era(params[:year]),
-      inning_pitched: player.inning_pitched(params[:year]),
-      hit: player.retrieve_game_pitcher_records("hit", params[:year]),
-      run: player.retrieve_game_pitcher_records("run", params[:year]),
-      earned_run: player.retrieve_game_pitcher_records("earned_run", params[:year]),
-      homerun: player.retrieve_game_pitcher_records("homerun", params[:year]),
-      walk: player.retrieve_game_pitcher_records("walk", params[:year]),
-      strike_out: player.retrieve_game_pitcher_records("strike_out", params[:year]),
-      hit_by_pitch: player.retrieve_game_pitcher_records("hit_by_pitch", params[:year]),
-      whip: player.pitcher_whip(params[:year]),
-      is_regular_inning_satisfied: (is_regular_inning_satisfied) ? 1 : 0
+      player_id: current_player.id,
+      is_regular_inning_satisfied: is_regular_inning_satisfied,
+      inning_pitched: innings_sum,
+      pitched_games: game_pitcher_records.count,
+      win: game_pitcher_records.where(win: true).count,
+      lose: game_pitcher_records.where(lose: true).count,
     }
+    summarize_from_records(return_hash, game_pitcher_records)
+
+    return_hash
   end
 
   def self.pitcher_records(params)
