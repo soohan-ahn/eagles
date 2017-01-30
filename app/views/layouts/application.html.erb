@@ -94,7 +94,16 @@
         <a class="navbar-brand" href="#">Eagles</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to "Players", players_path  %></li>
+            <li>
+              <div class="dropdown">
+                <button class="dropbtn">Players</button>
+                <div class="dropdown-content">
+                  <%= link_to "Batting", index_batting_path %>
+                  <%= link_to "Pitching", index_pitching_path %>
+                  <%= link_to "Fielding", index_fielding_path %>
+                </div>
+              </div>
+            </li>
             <li><%= link_to "Game Results", games_path  %></li>
             <% if current_user %>
               <li>

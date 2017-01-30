@@ -1,0 +1,28 @@
+h2= "Pitching Records"
+table class="table table-condensed table-striped"
+  thead
+    tr
+      - @pitcher_record_columns.each do |column, field_name|
+        - translated_column = "pitcher." + field_name
+        th = link_to t(translated_column), players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: column)
+      th colspan="3"
+
+  tbody
+    - @pitchers.each do |pitcher|
+        tr
+          - @pitcher_record_columns.each do |column, field_name|
+            - if field_name == "Name"
+              td = link_to pitcher.player.name, pitcher.player
+            - elsif field_name == "Team"
+              td = pitcher.player.team
+            - elsif field_name == "Back number"
+              td = pitcher.player.back_number
+            - else
+              - if pitcher[column].class == BigDecimal
+                - @decimal_value = sprintf "%.2f", pitcher[column]
+                td = @decimal_value
+              - else
+                td= pitcher[column]
+          - if current_user
+            td = link_to 'Edit', edit_player_path(pitcher.player)
+            td = link_to 'Destroy', pitcher.player, method: :delete, data: { confirm: 'Are you sure?' }
