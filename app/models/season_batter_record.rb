@@ -65,20 +65,20 @@ class SeasonBatterRecord < ActiveRecord::Base
     game_id_of_the_years = (params[:year]) ? Game.by_year(params[:year]).pluck(:id) : Game.all.pluck(:id)
     player_game_batter_records = player.game_batter_records.where(game_id: game_id_of_the_years)
 
-    @plate_appearence = player_game_batter_records.sum(:plate_appearence)
+    plate_appearence = player_game_batter_records.sum(:plate_appearence)
     regular_plate_appearance_rate = game_id_of_the_years.count * Settings.regular_plate_appearance_rate
-    is_regular_plate_appearance_satisfied = (regular_plate_appearance_rate <= @plate_appearence)
+    is_regular_plate_appearance_satisfied = (regular_plate_appearance_rate <= plate_appearence)
 
-    @return_hash = {
+    return_hash = {
       player_id: player.id,
       year: params[:year],
       played_game: player_game_batter_records.count,
       is_regular_plate_appearance_satisfied: is_regular_plate_appearance_satisfied,
-      plate_appearence: @plate_appearence,
+      plate_appearence: plate_appearence,
     }
 
-    summarize_from_records(@return_hash, player_game_batter_records)
-    @return_hash
+    summarize_from_records(return_hash, player_game_batter_records)
+    return_hash
   end
 
   def self.batter_records(params)
