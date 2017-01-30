@@ -28,37 +28,6 @@ class SeasonBatterRecord < ActiveRecord::Base
     end
   end
 
-	def self.batter_record_columns # TODO: Move to the locales.yml
-    {
-      "Name" => "name",
-      "Team" => "team",
-      "Back number" => "back_number",
-      "G" => "played_game",
-      "PA" => "plate_appearence",
-      "AB" => "at_bat",
-      "H" => "total_hits",
-      "1b" => "one_base_hit",
-      "2b" => "two_base_hit",
-      "3b" => "three_base_hit",
-      "HR" => "home_run",
-      "SO" => "strike_out",
-      "BB" => "base_on_ball",
-      "HBP" => "hit_by_pitched_ball",
-      "RBI" => "rbi",
-      "Run" => "run",
-      "Steal" => "steal",
-      "Steal Caught" => "steal_caught",
-      "Error" => "on_base_by_error",
-      "Sacrifice Hit" => "sacrifice_hit",
-      "Sacrifice Fly" => "sacrifice_fly",
-      "Double play" => "double_play",
-      "BA" => "batting_average",
-      "OBP" => "on_base_percentage",
-      "SLG" => "slugging_percentage",
-      "OPS" => "ops",
-    }
-  end
-
   def self.batter_records_of_player(params)
   	player = params[:player]
 
@@ -83,16 +52,16 @@ class SeasonBatterRecord < ActiveRecord::Base
 
   def self.batter_records(params)
     players = params[:id] ? Player.where(id: params[:id]) : Player.all
-    sort_by_rate = (params[:batter_sort] == "BA" or
-      params[:batter_sort] == "OBP" or
-      params[:batter_sort] == "SLG" or
-      params[:batter_sort] == "OPS"
+    sort_by_rate = (params[:batter_sort] == "batting_average" or
+      params[:batter_sort] == "on_base_percentage" or
+      params[:batter_sort] == "slugging_percentage" or
+      params[:batter_sort] == "ops"
     )
-    sort_by_player = (params[:batter_sort] == "Name" or
-      params[:batter_sort] == "Team" or
-      params[:batter_sort] == "Back number"
+    sort_by_player = (params[:batter_sort] == "name" or
+      params[:batter_sort] == "team" or
+      params[:batter_sort] == "back_number"
     )
-    batter_sort_param = SeasonBatterRecord.batter_record_columns[params[:batter_sort]].to_sym if params[:batter_sort]
+    batter_sort_param = params[:batter_sort].to_sym if params[:batter_sort]
 
     if params[:year]
       @batter_records = SeasonBatterRecord.where(player: players)
@@ -102,9 +71,9 @@ class SeasonBatterRecord < ActiveRecord::Base
     end
 
     if sort_by_player
-      if params[:batter_sort] == "Name"
+      if params[:batter_sort] == "name"
         @batter_records.sort { |a,b| a.player.name.to_s <=> b.player.name.to_s }
-      elsif params[:batter_sort] == "Team"
+      elsif params[:batter_sort] == "team"
         @batter_records.sort { |a,b| b.player.team.to_s <=> a.player.team.to_s }
       else
         @batter_records.sort do |a,b|

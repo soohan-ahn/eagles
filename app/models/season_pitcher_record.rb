@@ -26,27 +26,6 @@ class SeasonPitcherRecord < ActiveRecord::Base
     end
   end
 
-  def self.pitcher_record_columns # TODO: Move to the locale.yml
-    {
-      "Name" => "name",
-      "Team" => "team",
-      "Back number" => "back_number",
-      "G" => "pitched_games",
-      "W" => "win",
-      "L" => "lose",
-      "ERA" => "era",
-      "IP" => "inning_pitched",
-      "H" => "hit",
-      "R" => "run",
-      "ER" => "earned_run",
-      "HR" => "homerun",
-      "BB" => "walk",
-      "SO" => "strike_out",
-      "HBP" => "hit_by_pitch",
-      "WHIP" => "whip",
-    }
-  end
-
   def self.pitcher_records_of_player(params)
     current_player = params[:player]
     game_pitcher_records = current_player.game_pitcher_records
@@ -71,12 +50,12 @@ class SeasonPitcherRecord < ActiveRecord::Base
 
   def self.pitcher_records(params)
     players = params[:id] ? Player.where(id: params[:id]) : Player.all
-    sort_by_rate = (params[:pitcher_sort] == "ERA" or params[:pitcher_sort] == "WHIP")
-    sort_by_player = (params[:pitcher_sort] == "Name" or
-      params[:pitcher_sort] == "Team" or
-      params[:pitcher_sort] == "Back number"
+    sort_by_rate = (params[:pitcher_sort] == "era" or params[:pitcher_sort] == "whip")
+    sort_by_player = (params[:pitcher_sort] == "name" or
+      params[:pitcher_sort] == "team" or
+      params[:pitcher_sort] == "back_number"
     )
-    pitcher_sort_param = SeasonPitcherRecord.pitcher_record_columns[params[:pitcher_sort]].to_sym if params[:pitcher_sort]
+    pitcher_sort_param = params[:pitcher_sort] if params[:pitcher_sort]
 
     if params[:year]
       @pitcher_records = SeasonPitcherRecord.where(player: players)
@@ -86,9 +65,9 @@ class SeasonPitcherRecord < ActiveRecord::Base
     end
 
     if sort_by_player
-      if params[:pitcher_sort] == "Name"
+      if params[:pitcher_sort] == "name"
         @pitcher_records.sort { |a,b| b.player.name.to_s <=> a.player.name.to_s }
-      elsif params[:pitcher_sort] == "Team"
+      elsif params[:pitcher_sort] == "team"
         @pitcher_records.sort { |a,b| a.player.team.to_s <=> b.player.team.to_s }
       else
         @pitcher_records.sort do |a,b|

@@ -54,7 +54,8 @@ class PlayersController < ApplicationController
   end
 
   def show_pitching
-    @pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
+    #@pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
+    @pitcher_record_columns = GamePitcherRecord.column_names
     @game_pitcher_records = GamePitcherRecord.where(player_id: params[:id])
   end
 
@@ -121,8 +122,8 @@ class PlayersController < ApplicationController
     end
 
     def set_records
-      @batter_record_columns = SeasonBatterRecord.batter_record_columns
-      @pitcher_record_columns = SeasonPitcherRecord.pitcher_record_columns
+      @batter_record_columns = Settings.batter_record_displayed_column
+      @pitcher_record_columns = Settings.pitcher_record_displayed_column
 
       @simple_field_records = GameFielderSimpleRecord.to_hash(params)
 

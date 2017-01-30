@@ -16,7 +16,7 @@ table class="table table-condensed table-striped"
   thead
     tr
       - @batter_record_columns.each do |column, field_name|
-        - translated_column = "batter." + column
+        - translated_column = "batter." + field_name
         th = link_to t(translated_column), players_path(year: params[:year], batter_sort: column, pitcher_sort: params[:pitcher_sort])
       th colspan="3"
 
@@ -24,18 +24,18 @@ table class="table table-condensed table-striped"
     - @batters.each do |batter|
       tr
         - @batter_record_columns.each do |column, field_name|
-          - if column == "Name"
+          - if field_name == "Name"
             td = link_to batter.player.name, batter.player
-          - elsif column == "Team"
+          - elsif field_name == "Team"
             td = batter.player.team
-          - elsif column == "Back number"
+          - elsif field_name == "Back number"
             td = batter.player.back_number
           - else
-            - if batter[field_name].class == BigDecimal
-              - @decimal_value = sprintf "%.3f", batter[field_name]
+            - if batter[column].class == BigDecimal
+              - @decimal_value = sprintf "%.3f", batter[column]
               td = @decimal_value
             - else
-              td = batter[field_name]
+              td = batter[column]
 
         - if current_user
           td = link_to 'Edit', edit_player_path(batter.player)
@@ -48,7 +48,7 @@ table class="table table-condensed table-striped"
   thead
     tr
       - @pitcher_record_columns.each do |column, field_name|
-        - translated_column = "pitcher." + column
+        - translated_column = "pitcher." + field_name
         th = link_to t(translated_column), players_path(year: params[:year], batter_sort: params[:batter_sort], pitcher_sort: column)
       th colspan="3"
 
@@ -56,18 +56,18 @@ table class="table table-condensed table-striped"
     - @pitchers.each do |pitcher|
         tr
           - @pitcher_record_columns.each do |column, field_name|
-            - if column == "Name"
+            - if field_name == "Name"
               td = link_to pitcher.player.name, pitcher.player
-            - elsif column == "Team"
+            - elsif field_name == "Team"
               td = pitcher.player.team
-            - elsif column == "Back number"
+            - elsif field_name == "Back number"
               td = pitcher.player.back_number
             - else
-              - if pitcher[field_name].class == BigDecimal
-                - @decimal_value = sprintf "%.2f", pitcher[field_name]
+              - if pitcher[column].class == BigDecimal
+                - @decimal_value = sprintf "%.2f", pitcher[column]
                 td = @decimal_value
               - else
-                td= pitcher[field_name]
+                td= pitcher[column]
           - if current_user
             td = link_to 'Edit', edit_player_path(pitcher.player)
             td = link_to 'Destroy', pitcher.player, method: :delete, data: { confirm: 'Are you sure?' }
