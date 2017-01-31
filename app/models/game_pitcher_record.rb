@@ -1,5 +1,5 @@
 class GamePitcherRecord < ActiveRecord::Base
-  def self.new_game_record(params)
+  def self.summarize(params)
     i = 0
 
     params[:player_id].each do |pitcher_info|

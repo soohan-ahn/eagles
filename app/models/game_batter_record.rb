@@ -1,7 +1,7 @@
 class GameBatterRecord < ActiveRecord::Base
   belongs_to :player
 
-  def self.new_game_record(params)
+  def self.summarize(params)
     i = 0
 
     for @batter_input_order in 1..25

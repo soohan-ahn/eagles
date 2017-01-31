@@ -214,7 +214,7 @@ RSpec.describe SeasonBatterRecord, :type => :model do
       result_code: 774,
     )
 
-    SeasonBatterRecord.refresh_season_records(2016)
+    SeasonBatterRecord.summarize(2016)
     season_batter_record = player1.season_batter_records.find_by(year: 2016)
 
     expect(season_batter_record.rbi).to eq(4)

@@ -100,7 +100,7 @@ RSpec.describe SeasonPitcherRecord, :type => :model do
     )
 
 
-    SeasonPitcherRecord.refresh_season_records(2016)
+    SeasonPitcherRecord.summarize(2016)
     season_pitcher_record = player1.season_pitcher_records.find_by(year: 2016)
 
     expect(season_pitcher_record.inning_pitched).to eq(3.00)

@@ -41,12 +41,12 @@ class GameDetailRecordsController < ApplicationController
     @success = true
     begin
       ActiveRecord::Base.transaction do
-        if GamePitcherRecord.new_game_record(params) and
+        if GamePitcherRecord.summarize(params) and
           AtBatBatterRecord.new_game_record(params) and
-          GameBatterRecord.new_game_record(params) and
-          GameFielderSimpleRecord.new_game_record(params) and
-          SeasonBatterRecord.refresh_season_records(year_of_game) and
-          SeasonPitcherRecord.refresh_season_records(year_of_game)
+          GameBatterRecord.summarize(params) and
+          GameFielderSimpleRecord.summarize(params) and
+          SeasonBatterRecord.summarize(year_of_game) and
+          SeasonPitcherRecord.summarize(year_of_game)
           redirect_to games_path
         else
           @success = false
@@ -71,12 +71,12 @@ class GameDetailRecordsController < ApplicationController
           redirect_to :back, notice: 'Something wrong during the clearing'
         end
 
-        if GamePitcherRecord.new_game_record(params) and
+        if GamePitcherRecord.summarize(params) and
           AtBatBatterRecord.new_game_record(params) and
-          GameBatterRecord.new_game_record(params) and
-          GameFielderSimpleRecord.new_game_record(params) and
-          SeasonBatterRecord.refresh_season_records(year_of_game) and
-          SeasonPitcherRecord.refresh_season_records(year_of_game)
+          GameBatterRecord.summarize(params) and
+          GameFielderSimpleRecord.summarize(params) and
+          SeasonBatterRecord.summarize(year_of_game) and
+          SeasonPitcherRecord.summarize(year_of_game)
           redirect_to games_path
         else
           @success = false
