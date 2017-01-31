@@ -36,7 +36,7 @@ div
         tr
         - if @pitching_order == 0
             - @game_pitcher_record_columns.each do |column|
-              - next if column == "game_id"
+              - next if column == "game_id" or column == "created_at" or column == "updated_at"
               - if column == "player_id"
                 td
                   = "player"
@@ -47,7 +47,9 @@ div
           - @game_pitcher_record_columns.each do |column|
             - if column == "game_id"
               = hidden_field_tag "#{column}[#{@pitching_order}]", @game.id, size: 5
-            - elsif column == "pitched_order"
+            - elsif column == "created_at" or column == "updated_at"
+              - next
+            - elsif column == "id"
               td
                 = @pitching_order
                 = hidden_field_tag "#{column}[#{@pitching_order}]", @pitching_order, size: 5
@@ -86,11 +88,10 @@ div
               td= @inning
 
         - else
-          - @current_players = @game.player_of_at_bat(@batting_order)
-          - @current_players.each do |current_player|
+          - @current_players[@batting_order].each do |current_player|
             - @registered_order += 1
-            - @player_game_record = (current_player) ? current_player.game_batting_record_of(@game.id) : nil
-            - @player_game_field_simple_record = (current_player) ? current_player.game_field_simple_record_of(@game.id) : nil
+            - @player_game_record = @player_game_batter_records[current_player.id] if current_player
+            - @player_game_field_simple_record = @player_game_field_simple_records[current_player.id] if current_player
             tr
               td
                 = hidden_field_tag "batting_game_id[#{@registered_order}]", @game.id, size: 5

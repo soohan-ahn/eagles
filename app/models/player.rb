@@ -16,9 +16,4 @@ class Player < ActiveRecord::Base
   def game_batting_record_of(game_id)
     self.game_batter_records.find_by(game_id: game_id)
   end
-
-  # Methods for the pitchers.
-  def game_pitcher_records_this_year(year = nil)
-    (year) ? self.game_pitcher_records.where(game_id: Game.by_year(year).pluck(:id)) : self.game_pitcher_records
-  end
 end

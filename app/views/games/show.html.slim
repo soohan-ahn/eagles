@@ -34,7 +34,7 @@ div
 
 div
   table class="table table-condensed table-striped"
-    - for @batting_order in 0..15
+    - for @batting_order in 0..25
       tr
       - if @batting_order == 0
           td width="50px"
@@ -63,11 +63,10 @@ div
             td width="60px" 
               = @inning
       - else
-        - @current_players = @game.player_of_at_bat(@batting_order)
-        - @current_players.each do |current_player|
+        - @current_players[@batting_order].each do |current_player|
           - next if !current_player
-          - @player_game_batter_record = @game_batter_record.where(player: current_player).first
-          - @player_game_field_simple_record = current_player.game_field_simple_record_of(@game.id)
+          - @player_game_batter_record = @player_game_batter_records[current_player.id]
+          - @player_game_field_simple_record = @player_game_field_simple_records[current_player.id]
           tr
             td width="50px"
               = @batting_order
@@ -123,10 +122,11 @@ div
           - elsif column == "player_id"
             td width = "50px"
               = t("game_detail_pitcher.player")
-          - elsif column == "lose" or column == "save_point" or column == "hold" or column == "game_id" or column == "created_at" or column == "updated_at"
+          - elsif column == "lose" or column == "save_point" or column == "hold" or column == "game_id" or column == "created_at" or column == "updated_at" or column == "pitched_order"
             - next
           - elsif column == "id"
-            = t("game_detail_pitcher.pitched_order")
+            td width = "50px"
+              = t("game_detail_pitcher.pitched_order")
           - else
             td width = "50px"
               - translated_column = "game_detail_pitcher." + column
@@ -134,7 +134,7 @@ div
       - else
         - next unless @game_pitcher_records[@pitching_order]
         - @game_pitcher_record_columns.each do |column|
-          - next if column == "game_id" or column == "created_at" or column == "updated_at"
+          - next if column == "game_id" or column == "created_at" or column == "updated_at" or column == "pitched_order"
           - if column == "id"
             td width="50px"
               = @pitching_order

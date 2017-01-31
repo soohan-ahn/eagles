@@ -23,10 +23,28 @@ class GameDetailRecordsController < ApplicationController
     @game = Game.find(params[:game_id])
     @score_boxes = @game.score_box.split "\t"
     @game_pitcher_records = GamePitcherRecord.pitcher_results_of_game(params[:game_id])
-    @game_pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
+    @game_pitcher_record_columns = GamePitcherRecord.column_names
     @game_batter_record = GameBatterRecord.where(game_id: params[:game_id])
     @at_bat_batter_record = AtBatBatterRecord.batting_result_codes_of_games(@game.id)
     @player_positions = AtBatBatterRecord.player_position(@game.id)
+
+    @current_players = []
+    @player_game_batter_records = {}
+    @player_game_field_simple_records = {}
+    for @batting_order in 0..25
+      @current_players[@batting_order] = @game.player_of_at_bat(@batting_order)
+      if @current_players[@batting_order].empty?
+        @current_players[@batting_order] = [nil]
+        next
+      end
+      @current_players[@batting_order].each do |current_player|
+        @player_game_batter_records[current_player.id] = @game_batter_record.where(player: current_player).first
+        @player_game_field_simple_records[current_player.id] = current_player.game_field_simple_record_of(@game.id)
+      end
+    end
+    # @player_game_record = (current_player) ? current_player.game_batting_record_of(@game.id) : nil
+    # @player_game_field_simple_record = (current_player) ? current_player.game_field_simple_record_of(@game.id) : nil
+
     @action = "update"
   end
 
