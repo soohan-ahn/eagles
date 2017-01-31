@@ -18,7 +18,7 @@ class GamesController < ApplicationController
     @player_positions = AtBatBatterRecord.player_position(@game.id)
     @game_batter_record = GameBatterRecord.where(game_id: @game.id)
     @game_pitcher_records = GamePitcherRecord.pitcher_results_of_game(@game.id)
-    @game_pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
+    @game_pitcher_record_columns = GamePitcherRecord.column_names
   end
 
   # GET /games/new

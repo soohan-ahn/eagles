@@ -123,8 +123,10 @@ div
           - elsif column == "player_id"
             td width = "50px"
               = t("game_detail_pitcher.player")
-          - elsif column == "lose" or column == "save_point" or column == "hold" or column == "game_id"
+          - elsif column == "lose" or column == "save_point" or column == "hold" or column == "game_id" or column == "created_at" or column == "updated_at"
             - next
+          - elsif column == "id"
+            = t("game_detail_pitcher.pitched_order")
           - else
             td width = "50px"
               - translated_column = "game_detail_pitcher." + column
@@ -132,8 +134,8 @@ div
       - else
         - next unless @game_pitcher_records[@pitching_order]
         - @game_pitcher_record_columns.each do |column|
-          - next if column == "game_id"
-          - if column == "pitched_order"
+          - next if column == "game_id" or column == "created_at" or column == "updated_at"
+          - if column == "id"
             td width="50px"
               = @pitching_order
           - elsif column == "player_id"
