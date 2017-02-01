@@ -73,6 +73,7 @@ kr:
     Steal Caught: "도실"
     Field Error: "실책"
     Game Date: "날짜"
+    error_info_message: "아래 항목에서 실책은 실책으로 인한 출루수입니다."
   game_simple_fielder:
     Player Name: "선수"
     Field Error: "실책"

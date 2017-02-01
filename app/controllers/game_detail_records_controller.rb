@@ -42,9 +42,6 @@ class GameDetailRecordsController < ApplicationController
         @player_game_field_simple_records[current_player.id] = current_player.game_field_simple_record_of(@game.id)
       end
     end
-    # @player_game_record = (current_player) ? current_player.game_batting_record_of(@game.id) : nil
-    # @player_game_field_simple_record = (current_player) ? current_player.game_field_simple_record_of(@game.id) : nil
-
     @action = "update"
   end
 
