@@ -6,6 +6,8 @@ div
       td width="50px"
         = t("game_detail_batter.Game Date")
       td width="50px"
+        = t("game_detail_batter.VS")
+      td width="50px"
         = t("game_detail_batter.Batting_order")
       td width="50px"
         = t("game_detail_batter.Player_name")
@@ -26,9 +28,12 @@ div
     - @game_ids.each do |game_id|
       - @at_bat_batter_record = @batter_records[game_id][:at_bat_batter_records]
       - @game_batter_record = @batter_records[game_id][:game_batter_records]
+      - (date, vs_team) = date_and_team_of_game(game_id)
       tr
         td
-          = date_and_team_of_game(game_id)
+          = date
+        td
+          = vs_team
         td width="50px"
           = @at_bat_batter_record.first.batting_order
 
