@@ -26,10 +26,10 @@ module PitcherCommonMethods
         end
       end
 
-      era = (return_hash[:earned_run] * 7) / return_hash[:inning_pitched]
+      era = (return_hash[:inning_pitched] > 0) ? (return_hash[:earned_run] * 7) / return_hash[:inning_pitched] : 0
       return_hash[:era] = "%.2f" % era
 
-      whip = (return_hash[:run] + return_hash[:walk]) / return_hash[:inning_pitched]
+      whip = (return_hash[:inning_pitched] > 0) ? (return_hash[:run] + return_hash[:walk]) / return_hash[:inning_pitched] : 0
       return_hash[:whip] = "%.2f" % whip
     end
   end

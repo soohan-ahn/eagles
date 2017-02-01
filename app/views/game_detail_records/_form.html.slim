@@ -36,10 +36,13 @@ div
         tr
         - if @pitching_order == 0
             - @game_pitcher_record_columns.each do |column|
-              - next if column == "game_id" or column == "created_at" or column == "updated_at"
+              - next if column == "game_id" or column == "pitched_order" or column == "created_at" or column == "updated_at"
               - if column == "player_id"
                 td
                   = "player"
+              - elsif column == "id"
+                td
+                  = "pitched_order"
               - else
                 td
                   = column
@@ -47,12 +50,12 @@ div
           - @game_pitcher_record_columns.each do |column|
             - if column == "game_id"
               = hidden_field_tag "#{column}[#{@pitching_order}]", @game.id, size: 5
-            - elsif column == "created_at" or column == "updated_at"
+            - elsif column == "pitched_order" or column == "created_at" or column == "updated_at"
               - next
             - elsif column == "id"
               td
                 = @pitching_order
-                = hidden_field_tag "#{column}[#{@pitching_order}]", @pitching_order, size: 5
+                = hidden_field_tag "#{"pitched_order"}[#{@pitching_order}]", @pitching_order, size: 5
             - elsif column == "player_id"
               td
                 - pitcher_name = @game_pitcher_records[@pitching_order]["pitcher_name"] if @game_pitcher_records[@pitching_order]

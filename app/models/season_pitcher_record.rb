@@ -16,6 +16,8 @@ class SeasonPitcherRecord < ActiveRecord::Base
 
         if pitcher_records_of_season
           # Update
+          refreshed_records[:created_at] = pitcher_records_of_season[:created_at]
+          refreshed_records[:updated_at] = Time.now()
           pitcher_records_of_season.update(refreshed_records)
         elsif refreshed_records[:pitched_games] > 0
           # New
