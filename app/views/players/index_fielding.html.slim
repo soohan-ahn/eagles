@@ -1,18 +1,14 @@
-h1= "Listing Players"
+h1= "Players Fielding"
 
 h2= "Season"
 table class="table table-condensed table-striped"
   tbody
     tr
-      td = link_to "All", players_path
+      td = link_to "All", index_fielding_path
       - (2013..current_year).to_a.each do |year|
-        td = link_to year, players_path(year: year)
+        td = link_to year, index_fielding_path(year: year)
 
 - if current_user
   = link_to 'New Player', new_player_path
 
-= render "batting"
-
-br
-
-= render "pitching"
+= render "fielding"

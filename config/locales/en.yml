@@ -21,3 +21,6 @@
 
 en:
   hello: "Hello world"
+
+game_detail_batter:
+  error_info_message: "Error in here is on base by error, not fielding error of player."

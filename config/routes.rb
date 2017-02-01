@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   get "players/:id/batting" => "players#show_batting", as: :show_batting
   get "players/:id/pitching" => "players#show_pitching", as: :show_pitching
+
+  get "batting/players" => "players#index_batting", as: :index_batting
+  get "pitching/players" => "players#index_pitching", as: :index_pitching
+  get "fielding/players" => "players#index_fielding", as: :index_fielding
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

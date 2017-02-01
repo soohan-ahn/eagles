@@ -1,5 +1,5 @@
 class GamePitcherRecord < ActiveRecord::Base
-  def self.new_game_record(params)
+  def self.summarize(params)
     i = 0
 
     params[:player_id].each do |pitcher_info|
@@ -39,7 +39,7 @@ class GamePitcherRecord < ActiveRecord::Base
   end
 
   def self.params_for_save(params, pitched_order)
-    @indexes = GamePitcherRecord.index_of_game_pitcher_records
+    @indexes = GamePitcherRecord.column_names
     @new_params = { }
     @indexes.each do |index|
       @index_symbol = index.to_sym
@@ -77,33 +77,5 @@ class GamePitcherRecord < ActiveRecord::Base
     end
 
     @pitcher_results_in_hash
-  end
-
-  def self.index_of_game_pitcher_records
-    [
-      "pitched_order",
-      "player_id",
-      "game_id",
-      "win",
-      "lose",
-      "save_point",
-      "hold",
-      "innings_pitched",
-      "plate_appearance",
-      "at_bat",
-      "hit",
-      "homerun",
-      "sacrifice_bunt",
-      "sacrifice_fly",
-      "run",
-      "earned_run",
-      "strike_out",
-      "walk",
-      "intentional_walk",
-      "hit_by_pitch",
-      "wild_pitch",
-      "balk",
-      "number_of_pitches",
-    ]
   end
 end

@@ -12,6 +12,18 @@ class PlayersController < ApplicationController
     @players = Player.all
   end
 
+  def index_batting
+    set_batter_records
+  end
+
+  def index_pitching
+    set_pitcher_records
+  end
+
+  def index_fielding
+    set_field_records
+  end
+
   def update_total_records
     @success = true
     ActiveRecord::Base.transaction do
@@ -54,7 +66,8 @@ class PlayersController < ApplicationController
   end
 
   def show_pitching
-    @pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
+    #@pitcher_record_columns = GamePitcherRecord.index_of_game_pitcher_records
+    @pitcher_record_columns = GamePitcherRecord.column_names
     @game_pitcher_records = GamePitcherRecord.where(player_id: params[:id])
   end
 
@@ -121,13 +134,23 @@ class PlayersController < ApplicationController
     end
 
     def set_records
-      @batter_record_columns = SeasonBatterRecord.batter_record_columns
-      @pitcher_record_columns = SeasonPitcherRecord.pitcher_record_columns
+      set_batter_records
+      set_pitcher_records
+      set_field_records
+    end
 
-      @simple_field_records = GameFielderSimpleRecord.to_hash(params)
-
+    def set_batter_records
+      @batter_record_columns = Settings.batter_record_displayed_column
       @batters = SeasonBatterRecord.batter_records(params)
+    end
+
+    def set_pitcher_records
+      @pitcher_record_columns = Settings.pitcher_record_displayed_column
       @pitchers = SeasonPitcherRecord.pitcher_records(params)
+    end
+
+    def set_field_records
+      @simple_field_records = GameFielderSimpleRecord.to_hash(params)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

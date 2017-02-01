@@ -1,5 +1,5 @@
 class GameFielderSimpleRecord < ActiveRecord::Base
-  def self.new_game_record(params)
+  def self.summarize(params)
     i = 0
 
     for @batter_input_order in 1..25
@@ -45,9 +45,14 @@ class GameFielderSimpleRecord < ActiveRecord::Base
   def self.to_hash(params)
     @players = Player.all
     @new_hash = { }
+    game_ids = (params[:year]) ? Game.by_year(params[:year]).pluck(:id) : Game.all.pluck(:id)
     @players.each do |player|
+      records_of_year = (params[:year]) ? player.season_batter_records.where(year: params[:year]) : player.total_batter_records
+      next unless records_of_year.exists?
+      next unless records_of_year.first[:played_game] > 0
+
       records = self.where(player_id: player.id)
-      records = (params[:year]) ? records.where(game_id: Game.by_year(params[:year]).pluck(:id)) : records
+      records = records.where(game_id: game_ids) if params[:year]
       @new_hash[player.name.to_sym] = records.pluck(:field_error).sum
     end
 

@@ -7,7 +7,7 @@ div
         - if column == "game_id"
           td width="50px"
             = "VS"
-        - elsif column == "player_id"
+        - elsif column == "player_id" or column == "id" or column == "created_at" or column == "updated_at"
         - else
           td width="50px"
             - translated_column = "game_detail_pitcher." + column
@@ -19,7 +19,7 @@ div
             - if index == "game_id"
               td
                 = date_and_team_of_game(game_pitcher_record[index.to_sym])
-            - elsif index == "player_id"
+            - elsif index == "player_id" or index == "id" or index == "created_at" or index == "updated_at"
             - elsif index == "pitched_result"
               td
                 - if game_pitcher_record[:win]

@@ -1,65 +1,41 @@
 class TotalPitcherRecord < ActiveRecord::Base
   belongs_to :player
+  include PitcherCommonMethods
 
   def self.summarize
-    players = Player.all
+    Player.all.each do |current_player|
+      @refreshed_records = TotalPitcherRecord.pitcher_records_of_player(current_player)
 
-    players.each do |player|
-      refreshed_records = TotalPitcherRecord.pitcher_records_of_player(player: player)
-
-      if refreshed_records[:pitched_games] > 0
-        # New
-        new_pitcher_records = TotalPitcherRecord.new(refreshed_records)
-        return false unless new_pitcher_records.save!
+      if @refreshed_records[:pitched_games] > 0
+        @total_pitcher_record = current_player.total_pitcher_records.first
+        if @total_pitcher_record
+          @refreshed_records[:created_at] = @total_pitcher_record[:created_at]
+          @refreshed_records[:updated_at] = Time.now()
+          total_pitcher_record.update(@refreshed_records)
+        else
+          @new_pitcher_records = TotalPitcherRecord.new(@refreshed_records)
+          return false unless @new_pitcher_records.save!
+        end
       end
     end
 
     true
   end
 
-  def self.total_inning_pitched(innings)
-    inning_total_count = 0.0
-    innings.each do |inning|
-      inning_total_count += inning
-      inning_total_count = inning_total_count.round(2)
+  def self.pitcher_records_of_player(current_player)
+    season_pitcher_records = current_player.season_pitcher_records
+    innings = season_pitcher_records.pluck(:inning_pitched)
+    innings_sum = self.total_inning_pitched(innings)
+    is_regular_inning_satisfied = (100 <= innings_sum) ? true : false
 
-      current_fraction = inning_total_count.to_f.modulo(1).round(2)
+    return_hash = {
+      player_id: current_player.id,
+      is_regular_inning_satisfied: is_regular_inning_satisfied,
+      inning_pitched: innings_sum,
+      pitched_games: season_pitcher_records.count
+    }
+    summarize_from_records(return_hash, season_pitcher_records)
 
-      inning_total_count += 0.01 if current_fraction == 0.99 or current_fraction == 0.32
-    end
-
-    inning_total_count.round(2)
+    return_hash
   end
-
-  def self.pitcher_records_of_player(params)
-    player = params[:player]
-    season_pitcher_records = player.season_pitcher_records
-    is_regular_inning_satisfied = (100 <= season_pitcher_records.sum(:inning_pitched)) ? true : false
-
-    @return_hash = { }
-    @columns = TotalPitcherRecord.column_names
-    @columns.each do |column|
-      unless ["id", "era", "whip"].include?(column)
-        if column == "player_id"
-          @return_hash[column.to_sym] = player.id
-        elsif column == "is_regular_inning_satisfied"
-          @return_hash[column.to_sym] = is_regular_inning_satisfied
-        elsif column == "inning_pitched"
-          innings = season_pitcher_records.pluck(:inning_pitched)
-          @return_hash[column.to_sym] = self.total_inning_pitched(innings)
-        else
-          @return_hash[column.to_sym] = season_pitcher_records.sum(column.to_sym)
-        end
-      end
-    end
-
-    @era = (@return_hash[:earned_run] * 7) / @return_hash[:inning_pitched]
-    @return_hash[:era] = "%.2f" % @era
-
-    @whip = (@return_hash[:run] + @return_hash[:hit_by_pitch] + @return_hash[:walk]) / @return_hash[:inning_pitched]
-    @return_hash[:whip] = "%.2f" % @whip
-
-    @return_hash
-  end
-
 end
