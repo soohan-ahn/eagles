@@ -59,9 +59,8 @@ class GameDetailRecordsController < ApplicationController
         if GamePitcherRecord.summarize(params) and
           AtBatBatterRecord.new_game_record(params) and
           GameBatterRecord.summarize(params) and
-          GameFielderSimpleRecord.summarize(params) and
-          SeasonBatterRecord.summarize(year_of_game) and
-          SeasonPitcherRecord.summarize(year_of_game)
+          GameFielderSimpleRecord.summarize(params)
+          Game.delay.summarize_all(year_of_game)
           redirect_to games_path
         else
           @success = false
@@ -89,9 +88,8 @@ class GameDetailRecordsController < ApplicationController
         if GamePitcherRecord.summarize(params) and
           AtBatBatterRecord.new_game_record(params) and
           GameBatterRecord.summarize(params) and
-          GameFielderSimpleRecord.summarize(params) and
-          SeasonBatterRecord.summarize(year_of_game) and
-          SeasonPitcherRecord.summarize(year_of_game)
+          GameFielderSimpleRecord.summarize(params)
+          Game.delay.summarize_all(year_of_game)
           redirect_to games_path
         else
           @success = false

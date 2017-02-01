@@ -4,6 +4,21 @@ class Game < ActiveRecord::Base
   belongs_to :ground
   belongs_to :league
 
+  def self.summarize_all(year_of_game)
+    ActiveRecord::Base.transaction do
+      unless SeasonBatterRecord.summarize(year_of_game) and
+            SeasonPitcherRecord.summarize(year_of_game) and
+            TotalBatterRecord.summarize and TotalPitcherRecord.summarize
+        # Log the error
+        Delayed::Worker.logger.info "Summarize failed."
+        raise ActiveRecord::Rollback
+      else
+        # Log success
+        Delayed::Worker.logger.info "Summarize success!"
+      end
+    end
+  end
+
   def self.by_year(year)
     where('extract(year from game_start_time) = ?', year)
   end
