@@ -22,6 +22,12 @@ RSpec.describe SeasonBatterRecord, :type => :model do
       away_team: "Black",
       game_start_time: DateTime.new(2016,9,16,13,00,00,'+9')
     )
+    game = Game.create!(
+      id: 3,
+      home_team: "White",
+      away_team: "Black",
+      game_start_time: DateTime.new(2015,9,16,13,00,00,'+9')
+    )
 
     GameBatterRecord.create!(
 			player_id: 1,
@@ -214,8 +220,27 @@ RSpec.describe SeasonBatterRecord, :type => :model do
       result_code: 774,
     )
 
+    GameBatterRecord.create!(
+      player_id: 2,
+      game_id: 3,
+      rbi: 5,
+      run: 3,
+      steal: 1,
+      plate_appearence: 3,
+      at_bat: 2,
+      total_hits: 1,
+      one_base_hit: 0,
+      two_base_hit: 0,
+      three_base_hit: 0,
+      home_run: 1,
+      strike_out: 1,
+      base_on_ball: 1,
+      hit_by_pitched_ball: 0,
+    )
+
     SeasonBatterRecord.summarize(2016)
     season_batter_record = player1.season_batter_records.find_by(year: 2016)
+    player1_season_batter_record_id = season_batter_record.id
 
     expect(season_batter_record.rbi).to eq(4)
     expect(season_batter_record.run).to eq(4)
@@ -225,6 +250,27 @@ RSpec.describe SeasonBatterRecord, :type => :model do
     expect(season_batter_record.slugging_percentage).to eq(0.750)
 
     season_batter_record2 = player2.season_batter_records.find_by(year: 2016)
+    player2_season_batter_record_id = season_batter_record2.id
+    expect(season_batter_record2.rbi).to eq(5)
+    expect(season_batter_record2.run).to eq(3)
+    expect(season_batter_record2.steal).to eq(3)
+    expect(season_batter_record2.batting_average).to eq(0.250)
+    expect(season_batter_record2.on_base_percentage).to eq(0.500)
+    expect(season_batter_record2.slugging_percentage).to eq(1.000)
+
+    SeasonBatterRecord.summarize(2016)
+    season_batter_record = player1.season_batter_records.find_by(year: 2016)
+    expect(season_batter_record.id).to eq(player1_season_batter_record_id)
+
+    expect(season_batter_record.rbi).to eq(4)
+    expect(season_batter_record.run).to eq(4)
+    expect(season_batter_record.steal).to eq(4)
+    expect(season_batter_record.batting_average).to eq(0.500)
+    expect(season_batter_record.on_base_percentage).to eq(0.667)
+    expect(season_batter_record.slugging_percentage).to eq(0.750)
+
+    season_batter_record2 = player2.season_batter_records.find_by(year: 2016)
+    expect(season_batter_record2.id).to eq(player2_season_batter_record_id)
     expect(season_batter_record2.rbi).to eq(5)
     expect(season_batter_record2.run).to eq(3)
     expect(season_batter_record2.steal).to eq(3)

@@ -30,6 +30,12 @@ RSpec.describe SeasonPitcherRecord, :type => :model do
       away_team: "Black",
       game_start_time: DateTime.new(2016,9,16,13,00,00,'+9')
     )
+    game = Game.create!(
+      id: 3,
+      home_team: "White",
+      away_team: "Black",
+      game_start_time: DateTime.new(2015,9,16,13,00,00,'+9')
+    )
 
     GamePitcherRecord.create!(
       player_id: 1,
@@ -63,6 +69,23 @@ RSpec.describe SeasonPitcherRecord, :type => :model do
       walk: 3,
       hit_by_pitch: 1,
       number_of_pitches: 50,
+    )
+
+    GamePitcherRecord.create!(
+      player_id: 1,
+      game_id: 3,
+      pitched_order: 1,
+      win: 1,
+      innings_pitched: 1.33,
+      plate_appearance: 8,
+      at_bat: 6,
+      hit: 1,
+      run: 3,
+      earned_run: 2,
+      strike_out: 3,
+      walk: 1,
+      hit_by_pitch: 1,
+      number_of_pitches: 40,
     )
 
     GamePitcherRecord.create!(
@@ -102,6 +125,7 @@ RSpec.describe SeasonPitcherRecord, :type => :model do
 
     SeasonPitcherRecord.summarize(2016)
     season_pitcher_record = player1.season_pitcher_records.find_by(year: 2016)
+    player1_season_pitcher_record_id = season_pitcher_record.id
 
     expect(season_pitcher_record.inning_pitched).to eq(3.00)
     expect(season_pitcher_record.win).to eq(1)
@@ -112,6 +136,27 @@ RSpec.describe SeasonPitcherRecord, :type => :model do
     
 
     season_pitcher_record2 = player2.season_pitcher_records.find_by(year: 2016)
+    player2_season_pitcher_record_id = season_pitcher_record2.id
+    expect(season_pitcher_record2.inning_pitched).to eq(2.33)
+    expect(season_pitcher_record2.win).to eq(0)
+    expect(season_pitcher_record2.lose).to eq(0)
+    expect(season_pitcher_record2.walk).to eq(2)
+    expect(season_pitcher_record2.era).to eq(12.02)
+
+    SeasonPitcherRecord.summarize(2016)
+    season_pitcher_record = player1.season_pitcher_records.find_by(year: 2016)
+    expect(season_pitcher_record.id).to eq(player1_season_pitcher_record_id)
+
+    expect(season_pitcher_record.inning_pitched).to eq(3.00)
+    expect(season_pitcher_record.win).to eq(1)
+    expect(season_pitcher_record.lose).to eq(1)
+    expect(season_pitcher_record.walk).to eq(4)
+    expect(season_pitcher_record.hit_by_pitch).to eq(2)
+    expect(season_pitcher_record.era).to eq(7.00)
+    
+
+    season_pitcher_record2 = player2.season_pitcher_records.find_by(year: 2016)
+    expect(season_pitcher_record2.id).to eq(player2_season_pitcher_record_id)
     expect(season_pitcher_record2.inning_pitched).to eq(2.33)
     expect(season_pitcher_record2.win).to eq(0)
     expect(season_pitcher_record2.lose).to eq(0)

@@ -30,7 +30,10 @@ class SeasonPitcherRecord < ActiveRecord::Base
 
   def self.pitcher_records_of_player(params)
     current_player = params[:player]
-    game_pitcher_records = current_player.game_pitcher_records
+
+    game_id_of_the_years = (params[:year]) ? Game.by_year(params[:year]).pluck(:id) : Game.all.pluck(:id)
+    game_pitcher_records = current_player.game_pitcher_records.where(game_id: game_id_of_the_years)
+
     innings = game_pitcher_records.pluck(:innings_pitched)
     innings_sum = self.total_inning_pitched(innings)
     game_count = (params[:year]) ? Game.by_year(params[:year]).count : Game.all.count
