@@ -4,17 +4,45 @@ class Game < ActiveRecord::Base
   belongs_to :ground
   belongs_to :league
 
+  def self.send_mail(mail_subject, mail_body)
+    message = Mail.new do
+      from            'soohanboys@naver.com'
+      to              'soohanboys@gmail.com'
+      subject         mail_subject
+      body            mail_body
+
+      delivery_method Mail::Postmark, :api_token => '5bbe8025-a581-40a6-9330-6ad82a3aea52'
+    end
+
+    message.deliver
+  end
+
   def self.summarize_all(year_of_game)
     ActiveRecord::Base.transaction do
-      unless SeasonBatterRecord.summarize(year_of_game) and
-            SeasonPitcherRecord.summarize(year_of_game) and
-            TotalBatterRecord.summarize and TotalPitcherRecord.summarize
-        # Log the error
+      begin
+        unless SeasonBatterRecord.summarize(year_of_game) and
+              SeasonPitcherRecord.summarize(year_of_game) and
+              TotalBatterRecord.summarize and TotalPitcherRecord.summarize
+          # Log the error
+          mail_subject = "[tokyo-eagles.herokuapp.com] Summarize failed."
+          #mail_body = Delayed::Job.last.last_error
+          mail_body = "TEST"
+          send_mail(mail_subject, mail_body)
+          Delayed::Worker.logger.info "Summarize failed."
+          raise ActiveRecord::Rollback
+        else
+          # Log success
+          mail_subject = "[tokyo-eagles.herokuapp.com] Summarize success."
+          mail_body = "Success!"
+          send_mail(mail_subject, mail_body)
+          Delayed::Worker.logger.info "Summarize success!"
+        end
+      rescue => e
+        mail_subject = "[tokyo-eagles.herokuapp.com] Summarize failed - " + e.message
+        mail_body = e.backtrace.join("\n")
+        send_mail(mail_subject, mail_body)
         Delayed::Worker.logger.info "Summarize failed."
         raise ActiveRecord::Rollback
-      else
-        # Log success
-        Delayed::Worker.logger.info "Summarize success!"
       end
     end
   end
