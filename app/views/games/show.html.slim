@@ -1,6 +1,8 @@
 - if current_user
   = link_to 'Edit', edit_game_path(@game)
 
+= provide(:title, @game.game_start_time.strftime("%F_%k00"))
+
 div
   = "Home team:"
   strong
