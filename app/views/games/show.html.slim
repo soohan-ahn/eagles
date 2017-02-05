@@ -65,9 +65,10 @@ div
             td width="60px" 
               = @inning
       - else
-        - @current_players[@batting_order].each do |current_player|
+        - @current_players = @game.player_of_at_bat(@batting_order)
+        - @current_players.each do |current_player|
           - next if !current_player
-          - @player_game_record = current_player.game_batting_record_of(@game.id)
+          - @player_game_record = @game_batter_record.where(player: current_player).first
           - @player_game_field_simple_record = current_player.game_field_simple_record_of(@game.id)
           tr
             td width="50px"

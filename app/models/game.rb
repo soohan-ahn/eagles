@@ -38,7 +38,7 @@ class Game < ActiveRecord::Base
 
   def player_of_at_bat(batting_order)
     @players = self.at_bat_batter_records.where(batting_order: batting_order).pluck(:player_id)
-      if @players.count > 0     +    Player.where(id: @players)
+    if @players.count > 0
       return Player.where(id: @players)   
     else    
       return [nil]    
