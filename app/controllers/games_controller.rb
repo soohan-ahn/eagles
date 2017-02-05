@@ -19,6 +19,18 @@ class GamesController < ApplicationController
     @game_batter_record = GameBatterRecord.where(game_id: @game.id)
     @game_pitcher_records = GamePitcherRecord.pitcher_results_of_game(@game.id)
     @game_pitcher_record_columns = GamePitcherRecord.column_names
+
+    @current_players = []
+    @player_game_batter_records = {}
+    @player_game_field_simple_records = {}
+    for @batting_order in 0..25
+      @current_players[@batting_order] = @game.player_of_at_bat(@batting_order)
+      next if @current_players[@batting_order].empty?
+      @current_players[@batting_order].each do |current_player|
+        @player_game_batter_records[current_player.id] = @game_batter_record.where(player: current_player).first
+        @player_game_field_simple_records[current_player.id] = current_player.game_field_simple_record_of(@game.id)
+      end
+    end
   end
 
   # GET /games/new
