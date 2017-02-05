@@ -8,7 +8,8 @@ for game_id in game_ids:
     soup = BeautifulSoup(page, "html.parser")
     html = soup.prettify("utf-8")
 
-    filename = "html_backup/" + soup.title.string + ".html"
+    filename = "html_backup/" + soup.title.string + "_" + str(game_id) + ".html"
+    print filename
     fout = open(filename, "wb")
     fout.write(html)
     fout.close()
