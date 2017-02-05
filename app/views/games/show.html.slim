@@ -65,10 +65,11 @@ div
             td width="60px" 
               = @inning
       - else
-        - @current_players[@batting_order].each do |current_player|
+        - @current_players = @game.player_of_at_bat(@batting_order)
+        - @current_players.each do |current_player|
           - next if !current_player
-          - @player_game_batter_record = @player_game_batter_records[current_player.id]
-          - @player_game_field_simple_record = @player_game_field_simple_records[current_player.id]
+          - @player_game_record = @game_batter_record.where(player: current_player).first
+          - @player_game_field_simple_record = current_player.game_field_simple_record_of(@game.id)
           tr
             td width="50px"
               = @batting_order
@@ -80,25 +81,25 @@ div
               = @player_positions[current_player.name] if current_player
 
             td width="50px"
-              = @player_game_batter_record[:plate_appearence] if current_player
+              = @game.plate_appearence(current_player.id) if current_player
 
             td width="50px"
-              = @player_game_batter_record[:at_bat] if current_player
+              = @game.at_bat_of_player(current_player.id) if current_player
 
             td width="50px"
-              = @player_game_batter_record[:total_hits] if current_player
+              = @game.hits_of_player(current_player.id) if current_player
 
             td width="50px"
-              = @player_game_batter_record[:rbi] if current_player
+              = @player_game_record[:rbi] if current_player
 
             td width="50px"
-              = @player_game_batter_record[:run] if current_player
+              = @player_game_record[:run] if current_player
 
             td width="50px"
-              = @player_game_batter_record[:steal] if current_player
+              = @player_game_record[:steal] if current_player
 
             td width="50px"
-              = @player_game_batter_record[:steal_caught] if current_player
+              = @player_game_record[:steal_caught] if current_player
 
             td width="50px"
               = @player_game_field_simple_record[:field_error] if current_player and @player_game_field_simple_record
