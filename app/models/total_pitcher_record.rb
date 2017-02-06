@@ -4,17 +4,17 @@ class TotalPitcherRecord < ActiveRecord::Base
 
   def self.summarize
     Player.all.each do |current_player|
-      @refreshed_records = TotalPitcherRecord.pitcher_records_of_player(current_player)
+      refreshed_records = TotalPitcherRecord.pitcher_records_of_player(current_player)
 
-      if @refreshed_records[:pitched_games] > 0
-        @total_pitcher_record = current_player.total_pitcher_records.first
-        if @total_pitcher_record
-          @refreshed_records[:created_at] = @total_pitcher_record[:created_at]
-          @refreshed_records[:updated_at] = Time.now()
-          total_pitcher_record.update(@refreshed_records)
+      if refreshed_records[:pitched_games] > 0
+        total_pitcher_record = current_player.total_pitcher_records.first
+        if total_pitcher_record
+          refreshed_records[:created_at] = total_pitcher_record[:created_at]
+          refreshed_records[:updated_at] = Time.now()
+          total_pitcher_record.update(refreshed_records)
         else
-          @new_pitcher_records = TotalPitcherRecord.new(@refreshed_records)
-          return false unless @new_pitcher_records.save!
+          new_pitcher_records = TotalPitcherRecord.new(refreshed_records)
+          return false unless new_pitcher_records.save!
         end
       end
     end

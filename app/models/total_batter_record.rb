@@ -4,17 +4,17 @@ class TotalBatterRecord < ActiveRecord::Base
 
   def self.summarize
     Player.all.each do |current_player|
-      @refreshed_records = TotalBatterRecord.batter_records_of_player(current_player)
+      refreshed_records = TotalBatterRecord.batter_records_of_player(current_player)
 
-      if @refreshed_records[:played_game] > 0
-        @total_batter_record_of_player = current_player.total_batter_records.first
-        if @total_batter_record_of_player
-          @refreshed_records[:created_at] = @total_batter_record_of_player[:created_at]
-          @refreshed_records[:updated_at] = Time.now()
-          @total_batter_record.update(refreshed_records)
+      if refreshed_records[:played_game] > 0
+        total_batter_record_of_player = current_player.total_batter_records.first
+        if total_batter_record_of_player
+          refreshed_records[:created_at] = total_batter_record_of_player[:created_at]
+          refreshed_records[:updated_at] = Time.now()
+          total_batter_record_of_player.update(refreshed_records)
         else
-          @new_batter_records = TotalBatterRecord.new(@refreshed_records)
-          return false unless @new_batter_records.save!
+          new_batter_records = TotalBatterRecord.new(refreshed_records)
+          return false unless new_batter_records.save!
         end
       end
     end

@@ -25,6 +25,10 @@ gem "twitter-bootstrap-rails"
 gem "net-ssh"
 gem "unicorn"
 
+gem "delayed_job_active_record"
+gem "mail"
+gem "postmark"
+
 %w[rspec rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
   gem lib, :git => "git://github.com/rspec/#{lib}.git", branch: 'master'
 end
