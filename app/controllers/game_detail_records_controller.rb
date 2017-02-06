@@ -66,9 +66,13 @@ class GameDetailRecordsController < ApplicationController
           redirect_to games_path
         else
           @success = false
+          send_mail(e)
           raise ActiveRecord::Rollback
         end
       end
+    rescue => e
+      send_mail(e)
+      raise ActiveRecord::Rollback
     end
 
     redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name' unless @success
@@ -95,9 +99,13 @@ class GameDetailRecordsController < ApplicationController
           redirect_to games_path
         else
           @success = false
+          send_mail(e)
           raise ActiveRecord::Rollback
         end
       end
+    rescue => e
+      send_mail(e)
+      raise ActiveRecord::Rollback
     end
 
     redirect_to :back, notice: 'Something wrong with the input. Check the typeo of the player name' unless @success
@@ -138,6 +146,12 @@ class GameDetailRecordsController < ApplicationController
       redirect_to root_path, notice: 'Login required.' unless @current_user
 
       true
+    end
+
+    def send_mail(earned_error)
+      mail_subject = "[tokyo-eagles.herokuapp.com] Summarize failed - " + earned_error.message
+      mail_body = earned_error.backtrace.join("\n")
+      Game.send_mail(mail_subject, mail_body)
     end
 
     def game_detail_records_exists? (game_id)
