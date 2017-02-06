@@ -15,6 +15,8 @@ class GameDetailRecordsController < ApplicationController
 
     @score_boxes = @game.score_box.split "\t"
     @game_pitcher_record = GamePitcherRecord.new
+    @game_pitcher_record_columns = GamePitcherRecord.column_names
+
     @action = "create"
   end
 

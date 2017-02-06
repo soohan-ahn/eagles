@@ -25,8 +25,7 @@ class Game < ActiveRecord::Base
               TotalBatterRecord.summarize and TotalPitcherRecord.summarize
           # Log the error
           mail_subject = "[tokyo-eagles.herokuapp.com] Summarize failed."
-          #mail_body = Delayed::Job.last.last_error
-          mail_body = "TEST"
+          mail_body = "Update failed."
           send_mail(mail_subject, mail_body)
           Delayed::Worker.logger.info "Summarize failed."
           raise ActiveRecord::Rollback
