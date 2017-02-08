@@ -104,7 +104,18 @@
                 </div>
               </div>
             </li>
-            <li><%= link_to "Game Results", games_path  %></li>
+            <li>
+              <div class="dropdown">
+                <button class="dropbtn">Game Results</button>
+                <div class="dropdown-content">
+                  <% (2016..current_year).to_a.each do |year| %>
+                    <th>
+                      <%= link_to year, games_path(year: year) %>
+                    </th>
+                  <% end %>
+                </div>
+              </div>
+            </li>
             <% if current_user %>
               <li>
 

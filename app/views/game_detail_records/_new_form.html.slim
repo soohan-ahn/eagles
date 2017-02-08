@@ -72,7 +72,10 @@ div
                 = text_field_tag "#{index}[#{@pitching_order}]", nil, size: 10
             - elsif index == "innings_pitched"
               td width="5%"
-                = text_field_tag "#{index}[#{@pitching_order}]", nil, size: 5
+                = select_tag "#{index}[#{@pitching_order}]", options_for_select(@available_innings), prompt: 0
+            - elsif index == "win" or index == "lose" or index == "save_point" or index == "hold"
+              td
+                = check_box_tag "#{index}[#{@pitching_order}]", true, false
             -else
               td width="5%"
                 = text_field_tag "#{index}[#{@pitching_order}]", nil, size: 5
