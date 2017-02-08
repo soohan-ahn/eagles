@@ -64,6 +64,12 @@ div
               - value_for_column = @game_pitcher_records[@pitching_order]["details"][column.to_sym] if @game_pitcher_records[@pitching_order]
               td
                 = select_tag "#{column}[#{@pitching_order}]", options_for_select(@available_innings), prompt: value_for_column
+            - elsif column == "win" or column == "lose" or column == "save_point" or column == "hold"
+              - value_for_column = false
+              - if @game_pitcher_records[@pitching_order]
+                - value_for_column = @game_pitcher_records[@pitching_order]["details"][column.to_sym]
+              td
+                = check_box_tag "#{column}[#{@pitching_order}]", true, value_for_column
             -else
               - value_for_column = @game_pitcher_records[@pitching_order]["details"][column.to_sym] if @game_pitcher_records[@pitching_order]
               - value_for_column = 1 if value_for_column == true

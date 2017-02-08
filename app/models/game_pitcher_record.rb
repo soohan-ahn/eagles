@@ -46,12 +46,13 @@ class GamePitcherRecord < ActiveRecord::Base
       if index == "player_id"
         @player = Player.where(name: params[@index_symbol][pitched_order.to_s]).first
         @new_params[@index_symbol] = @player.id
+      elsif index == "win" or index == "lose" or index == "save_point" or index == "hold"
+        @new_params[@index_symbol] = false
+        next unless params[@index_symbol].present? and params[@index_symbol][pitched_order.to_s].present?
+        @new_params[@index_symbol] = (params[@index_symbol][pitched_order.to_s] == 1) ? true : params[@index_symbol][pitched_order.to_s]
       elsif params[@index_symbol].present? and params[@index_symbol][pitched_order.to_s].present?
         @new_params[@index_symbol] = params[@index_symbol][pitched_order.to_s]
         @new_params[@index_symbol] = "%.2f" % @new_params[@index_symbol] if index == "innings_pitched"
-        if index == "win" or index == "lose" or index == "save_point" or index == "hold"
-          @new_params[@index_symbol] = (params[@index_symbol][pitched_order.to_s] == 1) ? true : params[@index_symbol][pitched_order.to_s]
-        end
       end
     end
     @new_params
