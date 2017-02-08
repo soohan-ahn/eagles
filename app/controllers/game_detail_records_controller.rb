@@ -1,5 +1,6 @@
 class GameDetailRecordsController < ApplicationController
   before_action :is_admin?, only: [:new, :edit, :update, :destroy]
+  before_action :set_available_innings, only: [:new, :edit]
 
   # GET /games
   # GET /games.json
@@ -163,6 +164,10 @@ class GameDetailRecordsController < ApplicationController
       end
 
       false
+    end
+
+    def set_available_innings
+      @available_innings = [0, 0.33, 0.66, 1, 1.33, 1.66, 2, 2.33, 2.66, 3, 3.33, 3.66, 4, 4.33, 4.66, 5, 5.33, 5.66, 6, 6.33, 6.66, 7, 7.33, 7.66, 8, 8.33, 8.66, 9, 9.33, 9.66]
     end
 
 end
