@@ -13,6 +13,7 @@ RSpec.describe TotalBatterRecord, type: :model do
     SeasonBatterRecord.create!(
       player_id: 2,
       year: 2015,
+      played_game: 10,
       rbi: 5,
       run: 3,
       steal: 1,
@@ -30,6 +31,7 @@ RSpec.describe TotalBatterRecord, type: :model do
     SeasonBatterRecord.create!(
       player_id: 2,
       year: 2016,
+      played_game: 20,
       rbi: 0,
       run: 0,
       steal: 2,
@@ -48,6 +50,7 @@ RSpec.describe TotalBatterRecord, type: :model do
     TotalBatterRecord.summarize
 
     total_batter_record2 = player2.total_batter_records.first
+    expect(total_batter_record2.played_game).to eq(30)
     expect(total_batter_record2.rbi).to eq(5)
     expect(total_batter_record2.run).to eq(3)
     expect(total_batter_record2.steal).to eq(3)
