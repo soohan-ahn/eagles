@@ -13,6 +13,7 @@ RSpec.describe TotalPitcherRecord, type: :model do
     SeasonPitcherRecord.create!(
       player_id: 1,
       year: 2015,
+      pitched_games: 10,
       win: 1,
       inning_pitched: 1.33,
       hit: 1,
@@ -26,6 +27,7 @@ RSpec.describe TotalPitcherRecord, type: :model do
     SeasonPitcherRecord.create!(
       player_id: 1,
       year: 2016,
+      pitched_games: 5,
       lose: 1,
       inning_pitched: 1.66,
       hit: 0,
@@ -39,6 +41,7 @@ RSpec.describe TotalPitcherRecord, type: :model do
     SeasonPitcherRecord.create!(
       player_id: 2,
       year: 2015,
+      pitched_games: 3,
       inning_pitched: 2.33,
       hit: 1,
       homerun: 1,
@@ -52,6 +55,7 @@ RSpec.describe TotalPitcherRecord, type: :model do
     SeasonPitcherRecord.create!(
       player_id: 2,
       year: 2016,
+      pitched_games: 6,
       inning_pitched: 0.00,
       hit: 1,
       homerun: 1,
@@ -65,6 +69,7 @@ RSpec.describe TotalPitcherRecord, type: :model do
     TotalPitcherRecord.summarize
     total_pitcher_record = player1.total_pitcher_records.first
 
+    expect(total_pitcher_record.pitched_games).to eq(15)
     expect(total_pitcher_record.inning_pitched).to eq(3.00)
     expect(total_pitcher_record.win).to eq(1)
     expect(total_pitcher_record.lose).to eq(1)
@@ -74,6 +79,7 @@ RSpec.describe TotalPitcherRecord, type: :model do
     
 
     total_pitcher_record2 = player2.total_pitcher_records.first
+    expect(total_pitcher_record2.pitched_games).to eq(9)
     expect(total_pitcher_record2.inning_pitched).to eq(2.33)
     expect(total_pitcher_record2.win).to eq(0)
     expect(total_pitcher_record2.lose).to eq(0)

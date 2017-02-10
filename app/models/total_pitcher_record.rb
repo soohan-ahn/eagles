@@ -32,7 +32,7 @@ class TotalPitcherRecord < ActiveRecord::Base
       player_id: current_player.id,
       is_regular_inning_satisfied: is_regular_inning_satisfied,
       inning_pitched: innings_sum,
-      pitched_games: season_pitcher_records.count
+      pitched_games: season_pitcher_records.sum(:pitched_games)
     }
     summarize_from_records(return_hash, season_pitcher_records)
 
