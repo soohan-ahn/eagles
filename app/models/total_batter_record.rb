@@ -30,7 +30,7 @@ class TotalBatterRecord < ActiveRecord::Base
     @return_hash = {
       player_id: current_player.id,
       is_regular_plate_appearance_satisfied: is_regular_plate_appearance_satisfied,
-      played_game: season_batter_records.count,
+      played_game: season_batter_records.sum(:played_game),
       plate_appearence: plate_appearence,
     }
     summarize_from_records(@return_hash, season_batter_records)
