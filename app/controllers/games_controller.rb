@@ -8,6 +8,7 @@ class GamesController < ApplicationController
   def index
     @games_by_year = (params[:year]) ? Game.by_year(params[:year]) : Game.all
     @games = (params[:league_id]) ? @games_by_year.where(league_id: params[:league_id]) : @games_by_year
+    @games = @games.sort_by { |game| game.game_start_time }
   end
 
   # GET /games/1
