@@ -17,12 +17,12 @@ class Game < ActiveRecord::Base
     message.deliver
   end
 
-  def self.summarize_all(year_of_game)
+  def self.summarize_all(year_of_game, pitchers_to_update, batters_to_update)
     ActiveRecord::Base.transaction do
       begin
-        unless SeasonBatterRecord.summarize(year_of_game) and
-              SeasonPitcherRecord.summarize(year_of_game) and
-              TotalBatterRecord.summarize and TotalPitcherRecord.summarize
+        unless SeasonBatterRecord.summarize(year_of_game, batters_to_update) and
+              SeasonPitcherRecord.summarize(year_of_game, pitchers_to_update) and
+              TotalBatterRecord.summarize(batters_to_update) and TotalPitcherRecord.summarize(pitchers_to_update)
           # Log the error
           mail_subject = "[tokyo-eagles.herokuapp.com] Summarize failed."
           mail_body = "Update failed."

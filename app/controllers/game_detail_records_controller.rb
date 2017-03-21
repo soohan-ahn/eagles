@@ -63,7 +63,10 @@ class GameDetailRecordsController < ApplicationController
           AtBatBatterRecord.new_game_record(params) and
           GameBatterRecord.summarize(params) and
           GameFielderSimpleRecord.summarize(params)
-          Game.delay.summarize_all(year_of_game)
+
+          pitchers_to_update = GamePitcherRecord.pitchers_of_game(params)
+          batters_to_update = GameBatterRecord.batters_of_the_game(params)
+          Game.delay.summarize_all(year_of_game, pitchers_to_update, batters_to_update)
           redirect_to games_path
         else
           @success = false
@@ -96,7 +99,10 @@ class GameDetailRecordsController < ApplicationController
           AtBatBatterRecord.new_game_record(params) and
           GameBatterRecord.summarize(params) and
           GameFielderSimpleRecord.summarize(params)
-          Game.delay.summarize_all(year_of_game)
+
+          pitchers_to_update = GamePitcherRecord.pitchers_of_game(params)
+          batters_to_update = GameBatterRecord.batters_of_the_game(params)
+          Game.delay.summarize_all(year_of_game, pitchers_to_update, batters_to_update)
           redirect_to games_path
         else
           @success = false

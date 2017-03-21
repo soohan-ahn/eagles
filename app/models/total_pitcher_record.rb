@@ -2,8 +2,8 @@ class TotalPitcherRecord < ActiveRecord::Base
   belongs_to :player
   include PitcherCommonMethods
 
-  def self.summarize
-    Player.all.each do |current_player|
+  def self.summarize(pitchers_to_update)
+    pitchers_to_update.each do |current_player|
       refreshed_records = TotalPitcherRecord.pitcher_records_of_player(current_player)
 
       if refreshed_records[:pitched_games] > 0

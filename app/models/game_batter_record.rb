@@ -1,6 +1,18 @@
 class GameBatterRecord < ActiveRecord::Base
   belongs_to :player
 
+  def self.batters_of_the_game(params)
+    batters_to_return = []
+    for batter_input_order in 1..25
+      unless params[:batting_player_name][batter_input_order.to_s].empty?
+        @player = Player.where(name: params[:batting_player_name][batter_input_order.to_s])
+        batters_to_return.push(@player.first) if @player.exists?
+      end
+    end
+
+    batters_to_return
+  end
+
   def self.summarize(params)
     i = 0
 

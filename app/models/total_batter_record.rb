@@ -2,8 +2,8 @@ class TotalBatterRecord < ActiveRecord::Base
   belongs_to :player
   include BatterCommonMethods
 
-  def self.summarize
-    Player.all.each do |current_player|
+  def self.summarize(batters_to_update)
+    batters_to_update.each do |current_player|
       refreshed_records = TotalBatterRecord.batter_records_of_player(current_player)
 
       if refreshed_records[:played_game] > 0

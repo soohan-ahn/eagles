@@ -2,10 +2,10 @@ class SeasonBatterRecord < ActiveRecord::Base
   belongs_to :player
   include BatterCommonMethods
 
-  def self.summarize(year_to_update = nil)
+  def self.summarize(year_to_update = nil, batters_to_update)
     year_range = (year_to_update) ? year_to_update..year_to_update : Settings.start_year..Date.today.year
     year_range.each do |year|
-      players = Player.all
+      players = batters_to_update
 
       players.each do |player|
         batter_records_of_season = SeasonBatterRecord.find_by(
