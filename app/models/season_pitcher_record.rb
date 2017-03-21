@@ -2,10 +2,10 @@ class SeasonPitcherRecord < ActiveRecord::Base
 	belongs_to :player
   include PitcherCommonMethods
 
-	def self.summarize(year_to_update = nil)
+	def self.summarize(year_to_update = nil, pitchers_to_update)
     year_range = (year_to_update) ? year_to_update..year_to_update : Settings.start_year..Date.today.year
     year_range.each do |year|
-      players = Player.all
+      players = pitchers_to_update
 
       players.each do |player|
         pitcher_records_of_season = SeasonPitcherRecord.find_by(

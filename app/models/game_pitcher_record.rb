@@ -1,4 +1,19 @@
 class GamePitcherRecord < ActiveRecord::Base
+  def self.pitchers_of_game(params)
+    pitchers_to_return = []
+    params[:player_id].each do |pitcher_info|
+      (@pitching_order, @pitcher_name) = pitcher_info
+      if @pitcher_name.present?
+        if Player.where(name: @pitcher_name).exists?
+          @player = Player.where(name: @pitcher_name).first
+          pitchers_to_return.push(@player)
+        end
+      end
+    end
+
+    pitchers_to_return
+  end
+
   def self.summarize(params)
     i = 0
 
