@@ -1,26 +1,105 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  batter:
+    Name: "Name"
+    Team: "Team"
+    Back number: "Uniform number"
+    G: "Game"
+    PA: "Plate appearance"
+    AB: "At bat"
+    H: "Hit"
+    1b: "Single"
+    2b: "Double"
+    3b: "Triple"
+    HR: "Home run"
+    SO: "Strikeout"
+    BB: "Walk"
+    HBP: "Hit by pitch"
+    RBI: "Run batted in"
+    Run: "Run"
+    Steal: "Steal"
+    Steal Caught: "Caught stealing"
+    Sacrifice Hit: "Sacrifice hit"
+    Sacrifice Fly: "Sacrifice Fly"
+    Double play: "Double play"
+    Error: "Error"
+    BA: "Batting Average"
+    OBP: "On-base percentage"
+    SLG: "Slugging percentage"
+    OPS: "On-base plus slugging"
+  pitcher:
+    Name: "Name"
+    Team: "Team"
+    Back number: "Uniform Number"
+    G: "Game"
+    W: "Win"
+    L: "Loss"
+    ERA: "Earned run average"
+    IP: "Inning"
+    H: "Hit"
+    R: "Run"
+    ER: "Earned run"
+    HR: "Home run"
+    BB: "Walk"
+    SO: "Strikeout"
+    HBP: "Hit by pitch"
+    WHIP: "WHIP"
+  game_detail_pitcher:
+    pitched_order: "Pitched order"
+    player: "Player"
+    pitched_result: "Pitched result"
+    innings_pitched: "Innings pitched"
+    plate_appearance: "Plate appearance"
+    at_bat: "At bat"
+    hit: "Hit"
+    homerun: "Home run"
+    sacrifice_bunt: "Sacrifice bunt"
+    sacrifice_fly: "Sacrifice fly"
+    run: "Run"
+    earned_run: "Earned run"
+    strike_out: "Strikeout"
+    walk: "Walk"
+    intentional_walk: "Intentional walk"
+    hit_by_pitch: "Hit by pitch"
+    wild_pitch: "Wild pitch"
+    balk: "Balk"
+    number_of_pitches: "Number of pitches"
+  game_detail_batter:
+    Batting_order: "Batting order"
+    Player_name: "Player name"
+    Position: "Position"
+    RBI: "Run batted in"
+    Run: "Run"
+    Steal: "Steal"
+    Steal Caught: "Steal caught"
+    Field Error: "Error"
+    Game Date: "Date"
+    VS: "VS"
+      error_info_message: "Error in here is on base by error, not fielding error of player."
+  game_simple_fielder:
+    Player Name: "Player name"
+    Field Error: "Error"
 
-game_detail_batter:
-  error_info_message: "Error in here is on base by error, not fielding error of player."
+  date:
+    formats:
+      default: "%m/%d/%Y"
+      short: "%m/%d"
+      long: "%B %d, %Y"
+
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tues, Wed, Thurs, Fri, Sat]
+
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, June, July, Aug, Sept, Oct, Nov, Dec]
+
+    order:
+      - :year
+      - :month
+      - :day
+
+  time:
+    formats:
+      default: "%m/%d/%Y %H:%M:%S"
+      short: "%m/%d/%Y %H:%M"
+      long: "%B %d, %Y %H:%M:%S"
+    am: "AM"
+    pm: "PM"
